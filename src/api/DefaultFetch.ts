@@ -1,7 +1,7 @@
 import Configuration from "./Config";
 
 type Method = 'GET' | 'POST' | 'PUT' | 'DELETE';
-type Path = '/login';
+type Path = '/login' | '/product';
 
 function DefaultFetch<T>(method: Method, path: Path, body?: any, pathParam?: string): Promise<T> {
     return new Promise(async (resolve, reject) => {
@@ -13,24 +13,39 @@ function DefaultFetch<T>(method: Method, path: Path, body?: any, pathParam?: str
                 method: method,
             }
 
+            // const TOKEN: string | null = localStorage.getItem('token');
+            // if (TOKEN !== null) {
+            //     Configuration.headers.Authorization = `Bearer ${TOKEN}`;
+            // }
             RequestBody.headers = Configuration.headers;
+            RequestBody.mode = 'cors';
 
             if (body !== undefined && body !== null) {
                 RequestBody.body = JSON.stringify(body);
             }
 
             const FETCH = await fetch(Url,
-                RequestBody
+                RequestBody,
             );
 
             if (!FETCH.ok) {
                 if (FETCH.status >= 400) {
-                    return reject(await FETCH.json());
+                    if (FETCH.headers.get('content-type') !== null) {
+                        if (FETCH.headers.get('content-type') === 'application/json') {
+                            return reject(await FETCH.json());
+                        } else if (FETCH.headers.get('content-type') === 'text/plain') {
+                            return reject(await FETCH.text());
+                        }
+                    }
+                    return reject(null);
                 }
             }
 
-            return resolve(await FETCH.json() as T);
+            const RESPONSE = await FETCH.json() as T;
+
+            return resolve(RESPONSE);
         } catch (e) {
+            console.log('asudhsaudhu', e);
             return reject({ error: "internal_error", error_description: "Problema de conexão com o servidor ou internet." });
         }
     });

@@ -1,7 +1,7 @@
 import React, { FormEvent, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import {useNavigate } from "react-router-dom";
 import * as LoginMethod from '../api/login/login';
-//import axios from "axios";
+import Configuration from "../api/Config";
 
 type User = {
     userName: string;
@@ -9,73 +9,48 @@ type User = {
 }
 
 const Login = () => {
-    
+
+    const navigate = useNavigate();
+
     const [user, setUser] = useState<User>({
         userName: '',
         password: ''
     });
-    //const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-  const navigate = useNavigate();
-
 
     const handleUserChange = <T extends keyof User>(key: T, newValue: User[T]): void => {
         setUser((previous: User) => ({
-          ...previous,
-          [key]: newValue
+            ...previous,
+            [key]: newValue
         }));
-      }
-    const getUser = <T extends keyof User>(key: T) => {
-user.T;
     }
 
-    const handleSubmit = async (event: FormEvent, user: User) => {
+    const handleSubmit = async (event: FormEvent) => {
         event.preventDefault();
-        try {
-            const username = getUser()
-const password = getUser()
-            
-            LoginMethod.default({username, password})
-        .then((response: LoginMethod.LoginResponseBody) => 
-            { 
-                localStorage.setItem('token', response.token);
-                console.log('deu bom dms', localStorage.getItem('token')); 
-                if(localStorage.getItem('token') !== null || localStorage.getItem('token') !== undefined){
-                    console.log('token');
-                navigate("/listProds");
-                }else{
-                    setError("Credenciais inválidas")
-                }
-                console.log('deu bom dms', response); 
 
-            })
+        try {
+            const { userName, password } = user
+            const response = await LoginMethod.default({ username: userName, password })
+
+            Configuration.headers.Authorization = `Bearer ${response.token}`;
+            localStorage.setItem('token', response.token);
+            console.log('deu bom dms', localStorage.getItem('token'));
+            if (localStorage.getItem('token')) {
+                navigate("/listProds");
+            } else {
+                console.error("Credenciais inválidas")
+            }
         }
         catch (error) {
-            setError("Credenciais inválidas")
+            console.error("Credenciais inválidas", error)
         }
-        
+
     };
-
-
-    function handleButtonClick() {
-        LoginMethod.default({ username: 'admin', password: '12345' })
-        .then((response: LoginMethod.LoginResponseBody) => 
-            { 
-                localStorage.setItem('token', response.token);
-                console.log('deu bom dms', response); 
-            })
-        .catch((e) => console.log('deu ruim pra caralho', e))
-
-    }
-
-    const test = (): void => {
-    }
 
     return (
         <div>
             <div>
                 <h1>LOGIN</h1>
-                {/* <button onClick={test}>botão test</button> */}
+
             </div>
             <div>
                 <form onSubmit={handleSubmit}>
@@ -84,18 +59,17 @@ const password = getUser()
                     <input type="text"
                         id="user"
                         value={user.userName}
-                        onChange={(event: React.ChangeEvent<HTMLInputElement>) => 
-                           handleUserChange("userName", event.target.value.toString())}
+                        onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                            handleUserChange("userName", event.target.value)}
                     />
-
 
                     <label htmlFor="pass">Senha:</label>
 
-                    <input type="text"
+                    <input type="password"
                         id="pass"
                         value={user.password}
-                        onChange={(event: React.ChangeEvent<HTMLInputElement>) => 
-                           handleUserChange("password", event.target.value.toString())}
+                        onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                            handleUserChange("password", event.target.value)}
                     />
 
                     <input
@@ -103,8 +77,6 @@ const password = getUser()
                         value="submit"
                     />
                 </form>
-                 {/* <Link to="/listProds"><button onClick={handleButtonClick}>Ir para a lista</button></Link>  */}
-
             </div>
         </div>
     );
