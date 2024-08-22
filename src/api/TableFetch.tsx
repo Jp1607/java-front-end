@@ -1,15 +1,16 @@
 import DefaultFetch from './DefaultFetch';
 
 export type Product = {
+    id?: number,
     name: string,
     description: string,
     barCode: number,
     active: boolean
 }
 
-function getProducts(): Promise<Product[]> {
+function getProducts(id?: number): Promise<Product[]> {
     
-    return DefaultFetch<Product[]>('GET', '/product');
+    return DefaultFetch<Product[]>('GET', '/product', id);
     
 }   
 

@@ -3,6 +3,8 @@ import './App.css';
 import Login from "./pages/login";
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import ProductListRender from './pages/listProds';
+import PostNewProduct from './api/PostNewProduct';
+import CreateProds from './pages/createProds';
 
 function App() {
  
@@ -12,7 +14,8 @@ function App() {
       <Routes>
         <Route path='/'>
           <Route path='/login' element={<Login />} />
-          {/* <Route path='/createProds' element={<CadProds<T>(rows:T)/>}/> */}
+          <Route path='/createProd' element={<CreateProds />} />
+          <Route path='/editProd/:id?' element={<CreateProds />} />
           <Route path='/listProds'
             element={<ProductListRender/>}
           />

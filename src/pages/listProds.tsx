@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import getProducts, { Product } from "../api/TableFetch";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 const ProductListRender: React.FC = () => {
     const [products, setProducts] = useState<Product[]>([])
@@ -10,16 +11,16 @@ const ProductListRender: React.FC = () => {
         const fetchData = async () => {
 
             await getProducts().then((response: Product[]) => {
-                setProducts(response)   
-            }).catch(() => {})
+                setProducts(response)
+            }).catch(() => { })
         }
 
         fetchData()
 
-    },[] )
-   
-        return (
+    }, [])
 
+    return (
+        <div>
             <table>
                 <thead>
                     <tr>
@@ -53,6 +54,9 @@ const ProductListRender: React.FC = () => {
                     }
                 </tbody>
             </table>
-        )
-    }
+
+            <Link to={'/createProd'}><button>CRIAR PRODUTO</button></Link>
+        </div>
+    )
+}
 export default ProductListRender;

@@ -13,10 +13,11 @@ function DefaultFetch<T>(method: Method, path: Path, body?: any, pathParam?: str
                 method: method,
             }
 
-            // const TOKEN: string | null = localStorage.getItem('token');
-            // if (TOKEN !== null) {
-            //     Configuration.headers.Authorization = `Bearer ${TOKEN}`;
-            // }
+            const TOKEN: string | null = localStorage.getItem('token');
+            if (TOKEN !== null) {
+                Configuration.headers.Authorization = `Bearer ${TOKEN}`;
+            }
+
             RequestBody.headers = Configuration.headers;
             RequestBody.mode = 'cors';
 

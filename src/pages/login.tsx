@@ -31,7 +31,6 @@ const Login = () => {
             const { userName, password } = user
             const response = await LoginMethod.default({ username: userName, password })
 
-            Configuration.headers.Authorization = `Bearer ${response.token}`;
             localStorage.setItem('token', response.token);
             console.log('deu bom dms', localStorage.getItem('token'));
             if (localStorage.getItem('token')) {
