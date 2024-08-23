@@ -3,7 +3,7 @@ import Configuration from "./Config";
 type Method = 'GET' | 'POST' | 'PUT' | 'DELETE';
 type Path = '/login' | '/product';
 
-function DefaultFetch<T>(method: Method, path: Path, body?: any, pathParam?: string): Promise<T> {
+function DefaultFetch<T>(method: Method, path: Path, body?: any, pathParam?: string): Promise<T | void> {
     return new Promise(async (resolve, reject) => {
         try {
 
@@ -28,25 +28,31 @@ function DefaultFetch<T>(method: Method, path: Path, body?: any, pathParam?: str
             const FETCH = await fetch(Url,
                 RequestBody,
             );
-
+            console.log(method, path, FETCH.headers.get('content-type'), FETCH.headers.get('content-type')?.indexOf('text/plain'));
             if (!FETCH.ok) {
                 if (FETCH.status >= 400) {
                     if (FETCH.headers.get('content-type') !== null) {
                         if (FETCH.headers.get('content-type') === 'application/json') {
                             return reject(await FETCH.json());
-                        } else if (FETCH.headers.get('content-type') === 'text/plain') {
-                            return reject(await FETCH.text());
+                        } else if (FETCH.headers.get('content-type')?.indexOf('text/plain') !== -1) {
+                            return reject(await FETCH.text() as T);
                         }
                     }
-                    return reject(null);
+                    return reject();
                 }
             }
 
-            const RESPONSE = await FETCH.json() as T;
+            if (FETCH.headers.get('content-type') !== null) {
+                if (FETCH.headers.get('content-type') === 'application/json') {
+                    return resolve(await FETCH.json());
+                } else if (FETCH.headers.get('content-type')?.indexOf('text/plain') !== -1) {
+                    return resolve(await FETCH.text() as T);
+                }
+            }
 
-            return resolve(RESPONSE);
+            return resolve();
         } catch (e) {
-            console.log('asudhsaudhu', e);
+            console.log(method, path, e);
             return reject({ error: "internal_error", error_description: "Problema de conexão com o servidor ou internet." });
         }
     });

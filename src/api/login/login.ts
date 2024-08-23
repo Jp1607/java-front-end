@@ -12,5 +12,5 @@ export type LoginResponseBody = {
 }
 
 export default function Login(form: LoginForm): Promise<LoginResponseBody> {
-    return DefaultFetch<LoginResponseBody>('POST', '/login', form);
+    return DefaultFetch<LoginResponseBody>('POST', '/login', form) as Promise<LoginResponseBody>;
 }

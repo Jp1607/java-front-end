@@ -1,10 +1,10 @@
-import React from "react";
+
 import { Product } from "./TableFetch";
 import DefaultFetch from "./DefaultFetch";
 
-  function PostNewProduct(product: Product): void {
+function PostNewProduct(product: Product): Promise<string> {
 
-    DefaultFetch<Product>('POST', '/product', product);
+  return DefaultFetch<string>('POST', '/product', product) as Promise<string>;
 
 }
 export default PostNewProduct;

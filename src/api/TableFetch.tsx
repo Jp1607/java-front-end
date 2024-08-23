@@ -9,10 +9,10 @@ export type Product = {
 }
 
 function getProducts(id?: number): Promise<Product[]> {
-    
-    return DefaultFetch<Product[]>('GET', '/product', id);
-    
-}   
+
+    return DefaultFetch<Product[]>('GET', '/product', id) as Promise<Product[]>;
+
+}
 
 export default getProducts;
 
