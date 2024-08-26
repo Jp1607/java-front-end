@@ -7,16 +7,13 @@ import TableRender from "../components/tableRender";
 
 const ProductListRender: React.FC = () => {
 
-console.log('teste')
-
+    const [productId, setProductId] = React.useState<number>()
     const [products, setProducts] = useState<Product[]>([])
     const [product, setProduct] = useState<Product>({
-        //  id: 0,
         name: '',
         description: "",
         barCode: 0,
         active: false
-
     })
 
     useEffect(() => {
@@ -24,33 +21,26 @@ console.log('teste')
         const fetchData = async () => {
 
             await getProducts().then((response: Product[]) => {
+
                 setProducts(response)
             }).catch(() => { })
         }
 
         fetchData()
-
     }, [])
 
     const handleTableClickCity = (param: Product) => {
 
         setProduct(param);
-
     }
 
+    useEffect(() => {
 
-
-    const [productId, setProductId] = React.useState<number>()
-
-    React.useEffect(() => {
         if (product.id !== undefined) {
+
             setProductId(product.id)
         }
     }, [handleTableClickCity])
-
-    //console.log(productId)
-
-
 
     return (
 
@@ -62,7 +52,8 @@ console.log('teste')
             />
 
             <Link to={'/createProd'}><button>CRIAR PRODUTO</button></Link>
-            <Link to={`/editProd/:${productId}?`}><button>EDITAR PRODUTO</button></Link>
+            <Link to={`/editProd/${productId}?`}><button>EDITAR PRODUTO</button></Link>
+            <Link to={`/deleteProd/${productId}?`}><button>DELETAR PRODUTO</button></Link>
         </div>
 
     )
