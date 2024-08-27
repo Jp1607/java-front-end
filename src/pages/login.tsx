@@ -1,6 +1,7 @@
 import React, { FormEvent, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import * as LoginMethod from '../api/login/login';
+import { Alert } from "react-bootstrap";
 
 type User = {
     userName: string;
@@ -8,7 +9,8 @@ type User = {
 }
 
 const Login = () => {
-
+const { redirect } = useParams();
+console.log('redirect é true', redirect)
     const navigate = useNavigate();
     const [user, setUser] = useState<User>({
         userName: '',
@@ -51,6 +53,12 @@ const Login = () => {
         }
     };
 
+
+if(redirect){
+    console.log('redirect é true')
+    window.alert('Você deve estar autenticado para aceesar esta página!')
+}
+
     return (
 
         <div>
@@ -59,10 +67,12 @@ const Login = () => {
             </div>
 
             <div>
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit}
+                style={{textAlign: 'left'}}>
                     <label htmlFor="user">Usuário:</label>
 
                     <input type="text"
+                    style={{width: '40%'}}
                         id="user"
                         value={user.userName}
                         onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
@@ -72,6 +82,7 @@ const Login = () => {
                     <label htmlFor="pass">Senha:</label>
 
                     <input type="password"
+                    style={{width: '40%'}}
                         id="pass"
                         value={user.password}
                         onChange={(event: React.ChangeEvent<HTMLInputElement>) =>

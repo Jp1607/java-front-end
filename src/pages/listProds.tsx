@@ -3,6 +3,7 @@ import getProducts, { Product } from "../api/TableFetch";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import TableRender from "../components/tableRender";
+import LogoutButton from "../components/logoutButton";
 
 
 const ProductListRender: React.FC = () => {
@@ -18,6 +19,7 @@ const ProductListRender: React.FC = () => {
 
     useEffect(() => {
 
+        console.log(localStorage.getItem("token"))
         const fetchData = async () => {
 
             await getProducts().then((response: Product[]) => {
@@ -54,6 +56,8 @@ const ProductListRender: React.FC = () => {
             <Link to={'/createProd'}><button>CRIAR PRODUTO</button></Link>
             <Link to={`/editProd/${productId}?`}><button>EDITAR PRODUTO</button></Link>
             <Link to={`/deleteProd/${productId}?`}><button>DELETAR PRODUTO</button></Link>
+            {/* <Link to={`/login`}><button onClick={localStorage.removeItem('token')}>SAIR</button></Link> */}
+            <LogoutButton/>
         </div>
 
     )

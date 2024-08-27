@@ -3,7 +3,9 @@ import { Product } from "./TableFetch";
 
 const DeleteProds = (product: Product) => {
 
-    return DefaultFetch<string>('DELETE', '/product', product.id) as Promise<string>;
+
+    console.log("Produto a ser deletado: ", product.id)
+    return DefaultFetch<string>('DELETE', '/product', null, product.id) as Promise<string>;
 
 }
 

@@ -3,11 +3,11 @@ import Configuration from "./Config";
 type Method = 'GET' | 'POST' | 'PUT' | 'DELETE';
 type Path = '/login' | '/product';
 
-function DefaultFetch<T>(method: Method, path: Path, body?: any, pathParam?: string): Promise<T | void> {
+function DefaultFetch<T>(method: Method, path: Path, body?: any, pathParam?: string | number): Promise<T | void> {
     return new Promise(async (resolve, reject) => {
         try {
 
-            const Url: string = pathParam === undefined || pathParam === null ? `${Configuration.url}${path}` : `${Configuration.url}${path}${pathParam}`;
+            const Url: string = pathParam === undefined || pathParam === null ? `${Configuration.url}${path}` : `${Configuration.url}${path}/${pathParam}`;
 
             const RequestBody: RequestInit = {
                 method: method,

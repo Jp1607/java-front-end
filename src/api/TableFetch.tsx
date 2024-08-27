@@ -8,9 +8,13 @@ export type Product = {
     active: boolean
 }
 
-function getProducts(id?: number): Promise<Product[]> {
-
-    return DefaultFetch<Product[]>('GET', '/product', id) as Promise<Product[]>;
+function getProducts(): Promise<Product[]>
+function getProducts(id: number): Promise<Product>
+function getProducts(id?: number): Promise<Product[]> | Promise<Product> {
+    if (id === undefined) {
+        return DefaultFetch<Product[]>('GET', '/product') as Promise<Product[]>;
+    }
+    return DefaultFetch<Product>('GET', '/product', undefined, id) as Promise<Product>;
 
 }
 

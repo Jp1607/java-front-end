@@ -3,7 +3,8 @@ import { Link, useNavigate, useParams } from "react-router-dom"
 import getProducts, { Product } from "../api/TableFetch";
 import PostNewProduct from "../api/PostNewProduct";
 import EditProduct from "../api/EditProd";
-import HandleCancel from "../api/CancelMethod"
+import HandleCancel from "../components/CancelMethod"
+import CancelButton from "../components/CancelMethod";
 
 const CreateProds = () => {
 
@@ -120,11 +121,9 @@ const CreateProds = () => {
                 <option value='false'>NÃO ATIVO</option>
             </select>
 
-            <input type="submit" value="enviar" />
+            <input type="submit" value="ENVIAR" />
 
-            <button onClick={HandleCancel}>
-                Cancelar
-            </button>
+            <CancelButton/>
 
         </form>
     )
