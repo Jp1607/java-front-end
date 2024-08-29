@@ -1,14 +1,19 @@
+import React from "react";
 import { useNavigate } from "react-router-dom";
 const CancelButton = () => {
+
     const navigate = useNavigate()
- const HandleCancel = () => {
+    //const HandleCancel = (props: string) => {
+    const HandleCancel = () => {
 
-    navigate(-1);
+        //const[buttonText, setButtonText] = React.useState(props)
+        navigate(-1);
+    }
 
-}
+    return (
 
-return (
-    <button onClick={HandleCancel}>CANCELAR</button>
-)
+        // <button onClick={HandleCancel} value={'CANCELAR'}></button>
+        <button onClick={HandleCancel} className="button-abled-content">CANCELAR</button>
+    )
 }
 export default CancelButton;

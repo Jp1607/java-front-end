@@ -3,7 +3,6 @@ import { Link, useNavigate, useParams } from "react-router-dom"
 import getProducts, { Product } from "../api/TableFetch";
 import PostNewProduct from "../api/PostNewProduct";
 import EditProduct from "../api/EditProd";
-import HandleCancel from "../components/CancelMethod"
 import CancelButton from "../components/CancelMethod";
 
 const CreateProds = () => {
@@ -30,7 +29,6 @@ const CreateProds = () => {
         }
 
         fetchData()
-
     }, [])
 
     useEffect(() => {
@@ -43,16 +41,12 @@ const CreateProds = () => {
 
                 setProduct(prodById);
                 setWillEdit(true);
-
             }
         }
 
     }, [id, products]);
 
     const navigate = useNavigate()
-    // const HandleCancel = (): void => {
-    //     navigate(-1);
-    // }
 
     function HandleSubmit(event: React.FormEvent<HTMLFormElement>): void {
 
@@ -66,7 +60,6 @@ const CreateProds = () => {
 
         navigate('/listProds')
         window.location.reload();
-
     }
 
     const handleChange = <T extends keyof Product>(key: T, newValue: Product[T]): void => {
@@ -75,8 +68,6 @@ const CreateProds = () => {
             [key]: newValue
         }));
     }
-
-    console.log(product)
 
     return (
         <form onSubmit={HandleSubmit}>
@@ -121,14 +112,12 @@ const CreateProds = () => {
                 <option value='false'>NÃO ATIVO</option>
             </select>
 
-            <input type="submit" value="ENVIAR" />
+            <input type="submit" value="ENVIAR" className="content-abled-button" />
 
-            <CancelButton/>
-
+            <CancelButton />
         </form>
     )
 }
-
 
 export default CreateProds;
 

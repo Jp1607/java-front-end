@@ -9,8 +9,7 @@ type User = {
 }
 
 const Login = () => {
-const { redirect } = useParams();
-console.log('redirect é true', redirect)
+
     const navigate = useNavigate();
     const [user, setUser] = useState<User>({
         userName: '',
@@ -37,11 +36,9 @@ console.log('redirect é true', redirect)
 
             localStorage.setItem('token', response.token);
 
-            console.log('deu bom dms', localStorage.getItem('token'));
-
             if (localStorage.getItem('token')) {
 
-                navigate("/listProds");
+                navigate("/homePage");
             } else {
 
                 console.error("Credenciais inválidas")
@@ -53,26 +50,22 @@ console.log('redirect é true', redirect)
         }
     };
 
-
-if(redirect){
-    console.log('redirect é true')
-    window.alert('Você deve estar autenticado para aceesar esta página!')
-}
-
     return (
 
         <div>
+
             <div>
                 <h1>LOGIN</h1>
             </div>
 
             <div>
-                <form onSubmit={handleSubmit}
-                style={{textAlign: 'left'}}>
+
+                <form onSubmit={handleSubmit}>
+
                     <label htmlFor="user">Usuário:</label>
 
                     <input type="text"
-                    style={{width: '40%'}}
+                        style={{ width: '40%' }}
                         id="user"
                         value={user.userName}
                         onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
@@ -82,7 +75,7 @@ if(redirect){
                     <label htmlFor="pass">Senha:</label>
 
                     <input type="password"
-                    style={{width: '40%'}}
+                        style={{ width: '40%' }}
                         id="pass"
                         value={user.password}
                         onChange={(event: React.ChangeEvent<HTMLInputElement>) =>

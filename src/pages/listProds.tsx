@@ -3,11 +3,10 @@ import getProducts, { Product } from "../api/TableFetch";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import TableRender from "../components/tableRender";
-import LogoutButton from "../components/logoutButton";
-
 
 const ProductListRender: React.FC = () => {
 
+    const [buttonsDisabled, setButtonsDisabled] = React.useState<boolean>(true)
     const [productId, setProductId] = React.useState<number>()
     const [products, setProducts] = useState<Product[]>([])
     const [product, setProduct] = useState<Product>({
@@ -19,7 +18,6 @@ const ProductListRender: React.FC = () => {
 
     useEffect(() => {
 
-        console.log(localStorage.getItem("token"))
         const fetchData = async () => {
 
             await getProducts().then((response: Product[]) => {
@@ -34,6 +32,7 @@ const ProductListRender: React.FC = () => {
     const handleTableClickCity = (param: Product) => {
 
         setProduct(param);
+        setButtonsDisabled(false)
     }
 
     useEffect(() => {
@@ -47,19 +46,60 @@ const ProductListRender: React.FC = () => {
     return (
 
         <div>
+
+            <Link to={'/createProd'}>
+
+                <button
+                    className="content-abled-button">
+
+                    CRIAR PRODUTO
+                </button>
+            </Link>
+
+            <Link to={'/homePage'}>
+
+                <button className="content-abled-button">
+
+                    VOLTAR
+                </button>
+            </Link>
+
             <TableRender
                 products={products}
                 selectedRow={product}
                 onTableClick={handleTableClickCity}
             />
 
-            <Link to={'/createProd'}><button>CRIAR PRODUTO</button></Link>
-            <Link to={`/editProd/${productId}?`}><button>EDITAR PRODUTO</button></Link>
-            <Link to={`/deleteProd/${productId}?`}><button>DELETAR PRODUTO</button></Link>
-            {/* <Link to={`/login`}><button onClick={localStorage.removeItem('token')}>SAIR</button></Link> */}
-            <LogoutButton/>
-        </div>
+            {/* <Modal 
+        show={show} 
+        backdrop="static"
+        keyboard={false}>
 
+            <ModalHeader closeButton>
+
+                <ModalTitle> Atenção! </ModalTitle>
+
+            </ModalHeader>
+
+            <ModalBody>
+
+                <ModalDialog>
+
+                    <p> Você tem certeza de que deseja deletar este produto? </p>
+
+                </ModalDialog>
+
+            </ModalBody>
+
+            <ModalFooter>
+
+                <button onClick={handleDelete}>DELETAR</button>
+                <button onClick={handleClose}>CANCELAR</button>
+
+            </ModalFooter>
+
+        </Modal> */}
+        </div>
     )
 }
 export default ProductListRender;
