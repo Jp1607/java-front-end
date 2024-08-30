@@ -3,6 +3,8 @@ import getProducts, { Product } from "../api/TableFetch";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import TableRender from "../components/tableRender";
+import DeleteProds from "../api/DeleteProducts";
+import Modal from "../components/modal";
 
 const ProductListRender: React.FC = () => {
 
@@ -46,59 +48,30 @@ const ProductListRender: React.FC = () => {
     return (
 
         <div>
-
             <Link to={'/createProd'}>
-
                 <button
-                    className="content-abled-button">
 
+                    className="content-abled-button">
                     CRIAR PRODUTO
+
                 </button>
             </Link>
 
             <Link to={'/homePage'}>
+                <button
 
-                <button className="content-abled-button">
-
+                    className="content-abled-button">
                     VOLTAR
+
                 </button>
             </Link>
-
             <TableRender
+
                 products={products}
                 selectedRow={product}
                 onTableClick={handleTableClickCity}
+
             />
-
-            {/* <Modal 
-        show={show} 
-        backdrop="static"
-        keyboard={false}>
-
-            <ModalHeader closeButton>
-
-                <ModalTitle> Atenção! </ModalTitle>
-
-            </ModalHeader>
-
-            <ModalBody>
-
-                <ModalDialog>
-
-                    <p> Você tem certeza de que deseja deletar este produto? </p>
-
-                </ModalDialog>
-
-            </ModalBody>
-
-            <ModalFooter>
-
-                <button onClick={handleDelete}>DELETAR</button>
-                <button onClick={handleClose}>CANCELAR</button>
-
-            </ModalFooter>
-
-        </Modal> */}
         </div>
     )
 }

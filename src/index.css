@@ -50,6 +50,44 @@ background-color: #8cd6a7 ;
 
 }
 
+.pop-up-container {
+
+
+  /* position: relative; */
+  display: grid;
+  place-items: center;
+
+}
+
+.pop-up{
+
+  height: 10cm;
+  width: 15cm;
+  z-index: 9999;
+  margin-left: 2cm;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  border: solid black 2px;
+  background-color: #006421;
+  color: white;
+  font-family: Arial, Helvetica, sans-serif;
+
+}
+.pop-up-head{
+  padding-left: 10px;
+  font-size: large;
+}
+
+.pop-up-body{
+  padding-left: 10px;
+  font-size: medium;
+}
+
+.pop-up-footer{
+  
+}
+
 /* .content-abled-button {
   margin-left: 25px;
   margin-right: 5px;
@@ -75,9 +113,11 @@ background-color: #8cd6a7 ;
   border: none;
   border-radius: 4px;
   cursor: pointer;
+ 
 }
 
 .content-disabled-button {
+  display: none;
   opacity: 0.5;
   cursor: not-allowed;
   margin-left: 25px;

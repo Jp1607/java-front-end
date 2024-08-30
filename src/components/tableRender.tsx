@@ -1,8 +1,9 @@
 import React from "react";
 import { Product } from "../api/TableFetch";
-import { Modal, ModalHeader, ModalTitle, ModalBody, ModalDialog, ModalFooter, Alert } from "react-bootstrap";
+// import { Modal, ModalHeader, ModalTitle, ModalBody, ModalDialog, ModalFooter, Alert } from "react-bootstrap";
 import DeleteProds from "../api/DeleteProducts";
 import { Link } from "react-router-dom";
+import Modal from "./modal";
 
 type tableRender<T> = {
     products: Product[],
@@ -15,6 +16,7 @@ const TableRender = <T,>({ products, selectedRow, onTableClick }: tableRender<T>
     const [show, setShow] = React.useState<boolean>(false);
     const [indexRow, setIndexRow] = React.useState<number>(-1);
     const [product, setProduct] = React.useState<Product>(null);
+    const [showState, setShowState] = React.useState<boolean>(false);
     const [indexProduct, setIndexProduct] = React.useState<number>(null);
 
     const handleTableClick = (event: React.MouseEvent<HTMLTableRowElement, MouseEvent>, row: Product, index: number): void => {
@@ -40,59 +42,47 @@ const TableRender = <T,>({ products, selectedRow, onTableClick }: tableRender<T>
         setIndexRow(-1);
     }
 
-    const handleConfirmation = () => {
-        setShow(true)
-    }
-
     const handleDelete = () => {
 
         DeleteProds(product).then((response: string) => { console.log(response) }).catch((e) => console.log('Error ao deletar produto', e));
-        setShow(false)
-        window.location.reload()
+        window.location.reload();
+        setShowState(false)
     }
 
     const handleClose = () => {
 
-        setShow(false)
+        setShowState(false)
+    }
+    const handleOpen = () => {
+
+        setShowState(true)
     }
 
     return (
 
         <div>
+            <div
+                className="pop-up-container">
+                <Modal isOpen={showState}>
+                    <div>
 
-            <Modal
+                        <h1
+                            className="pop-up-header">
+                            Atenção!
+                        </h1>
+                        <p
+                            className="pop-up-body">
+                            Você tem certeza de que deseja excluir este produto?
+                        </p>
 
-                show={show}
-                backdrop="static"
-                keyboard={false}
-                style={{
-
-                    alignContent: "center",
-                    alignItems: "center",
-                    alignSelf: "center",
-                    zIndex: 999,
-                    border: 'solid, 1px'
-                }}>
-
-                <ModalHeader closeButton>
-
-                    <ModalTitle> Atenção! </ModalTitle>
-                </ModalHeader>
-
-                <ModalBody>
-
-                    <ModalDialog>
-
-                        <p> Você tem certeza de que deseja deletar este produto? </p>
-                    </ModalDialog>
-                </ModalBody>
-
-                <ModalFooter>
-
-                    <button onClick={handleDelete}>DELETAR</button>
-                    <button onClick={handleClose}>CANCELAR</button>
-                </ModalFooter>
-            </Modal>
+                        <div
+                            className="pop-up-footer">
+                            <button onClick={handleDelete}> EXCLUIR</button>
+                            <button onClick={handleClose}> CANCELAR</button>
+                        </div>
+                    </div>
+                </Modal>
+            </div>
 
             <table className="content-table">
 
@@ -151,9 +141,7 @@ const TableRender = <T,>({ products, selectedRow, onTableClick }: tableRender<T>
 
                                         <button
 
-                                            style={{
-                                            }}
-                                            disabled={indexProduct === index}
+                                            disabled={indexProduct !== index}
                                             className={indexProduct === index ? 'content-abled-button' : "content-disabled-button"}>
 
                                             EDITAR PRODUTO
@@ -162,9 +150,10 @@ const TableRender = <T,>({ products, selectedRow, onTableClick }: tableRender<T>
 
                                     <button
 
-                                        disabled={indexProduct === index}
-                                        onClick={handleConfirmation}
+                                        disabled={indexProduct !== index}
+                                        onClick={handleOpen}
                                         className={indexProduct === index ? 'content-abled-button' : "content-disabled-button"}>
+
                                         DELETAR PRODUTO
                                     </button>
                                 </td>
