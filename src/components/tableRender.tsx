@@ -58,6 +58,21 @@ const TableRender = <T,>({ products, selectedRow, onTableClick }: tableRender<T>
         setShowState(true)
     }
 
+    const handleValue = (value: any): string => {  
+
+            if (value === true) {
+
+                return "ATIVO"
+            }else if (value === false) {
+
+                return "NÃO ATIVO"
+            } else if (value == undefined || value == "") {
+
+                return "INDEFINIDO"
+            }
+            return (value)
+    }
+
     return (
 
         <div>
@@ -130,7 +145,7 @@ const TableRender = <T,>({ products, selectedRow, onTableClick }: tableRender<T>
                                             <td
                                                 key={`table-row-cell-${idx}`}
                                             >
-                                                {value as any}
+                                                {handleValue(value)}
                                             </td>
                                         )) : null
                                 }
