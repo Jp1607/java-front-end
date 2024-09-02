@@ -1,15 +1,15 @@
 import Alert from 'react-bootstrap/Alert';
 import { Navigate } from 'react-router-dom';
+import ReturnButton from './returnButton';
 
 
 const AuthWrapper = () => {
 
-    const redirect: Boolean = true
-    console.log('redirect', redirect)
     return(
         <>
     <Alert>"Você deve estar autenticado para entrar nesta página!" </Alert>
-    <Navigate to={`/login/${redirect}?`}/>
+    <ReturnButton action = 'login'>RETORNAR</ReturnButton>
+   
     </>
     )
 }

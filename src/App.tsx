@@ -19,8 +19,8 @@ function App() {
           <Route path='/editProd/:id?' element={localStorage.getItem('token') !== null ? <CreateProds /> : <AuthWrapper />} />
           {/* <Route path='/deleteProd2/:id?' element={localStorage.getItem('token') !== null ? <DeleteProduct2 /> : <AuthWrapper />} /> */}
           <Route path='/deleteProd/:id?' element={localStorage.getItem('token') !== null ? <DeleteProduct /> : <AuthWrapper />} />
-          <Route path='/listProds' element={localStorage.getItem('token') !== null ? <ProductListRender /> : <AuthWrapper />} />
-          <Route path='/homePage' element={localStorage.getItem('token') !== null ? <HomePage /> : <AuthWrapper />} />
+          <Route path='/listProds' element={localStorage.getItem('token') !== null ?  <AuthWrapper /> :<ProductListRender /> } />
+          <Route path='/homePage' element={ <HomePage />} />
           <Route path='/login' element={<Login />} />
           <Route path='/' element={<Login />} />
           <Route path='/*' element={<Login />} />

@@ -1,31 +1,26 @@
-import { Link, useNavigate } from "react-router-dom"
-import LogoutButton from "../components/logoutButton"
+import { Link,  } from "react-router-dom"
+
+import ReturnButton from "../components/returnButton";
 
 const HomePage = () => {
-    const navigate = useNavigate();
-    const handleClick = () => {
-
-        navigate('/login')
-    }
-
+console.log('entrou aqui')
     return (
-        <div>
+        <div className="default-page">
             <h1>INÍCIO</h1>
 
             <Link to={'/listProds'}>
-                <button>
+                <button className = "content-abled-button">
                     LISTA DE PRODUTOS
                 </button>
             </Link>
 
             <Link to={'/listProds'}>
-                <button>
+                <button className = "content-abled-button">
                     LISTA DE USUÁRIOS
                 </button>
             </Link>
-
-            <button onClick={handleClick} className="content-abled-button">SAIR</button>
-            {/* <LogoutButton/> */}
+           
+            <ReturnButton action = "login">SAIR</ReturnButton>
         </div>
     )
 }
