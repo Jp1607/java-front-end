@@ -52,7 +52,7 @@ function DefaultFetch<T>(method: Method, path: Path, body?: any, pathParam?: str
 
             return resolve();
         } catch (e) {
-            console.log(method, path, e);
+          
             return reject({ error: "internal_error", error_description: "Problema de conexão com o servidor ou internet." });
         }
     });

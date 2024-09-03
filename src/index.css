@@ -1,5 +1,6 @@
 body {
   
+  min-height: 100vh;
   background-color: #8bff8b;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
@@ -49,7 +50,7 @@ background-color: #8cd6a7 ;
 
 
 .pop-up{
-
+  position: absolute;
   height: 10cm;
   width: 15cm;
   margin: auto;
@@ -104,20 +105,29 @@ background-color: #8cd6a7 ;
 }
 
 .default-page {
+
 background-color: #4CAF50;
-width:  85%;
-height: 80%;
+min-height: 20cm;
+max-width: 20cm;
 margin: auto;
-box-sizing: border-box;
-padding: 20px;
+padding: 30px;
+
 }
 
 .default-content {
-
+  font-size: 4rem;
   
 }
+
 .default-content h1{
   text-align: center;
+  font-size: 8rem;
+}
+
+.page-not-found {
+  background-color: red;
+  margin: 0;
+  
 }
 
 code {

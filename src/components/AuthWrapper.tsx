@@ -5,6 +5,8 @@ import ReturnButton from './returnButton';
 
 const AuthWrapper = () => {
 
+
+    console.log(localStorage.getItem('token'));
     return(
         <>
     <Alert>"Você deve estar autenticado para entrar nesta página!" </Alert>
