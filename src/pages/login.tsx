@@ -56,7 +56,7 @@ const Login = () => {
     return (
 
 
-        <div className="default-page">
+        <div className="login-page-container" >
 
             <Modal isOpen={show}>
                 <div>
@@ -69,7 +69,7 @@ const Login = () => {
             </Modal>
 
 
-            <div className="default-content">
+            <div className="login-page-content">
                 <div>
                     <h1>LOGIN</h1>
                 </div>
@@ -78,29 +78,33 @@ const Login = () => {
 
                 <form onSubmit={handleSubmit}>
 
-                    <label htmlFor="user">Usuário:</label>
+                    <div className = "form-line">
+                        <label htmlFor="user">Usuário:</label>
 
-                    <input type="text"
-                        style={{ width: '40%' }}
-                        id="user"
-                        value={user.userName}
-                        onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                            handleUserChange("userName", event.target.value)}
-                    />
+                        <input type="text"
+                            style={{ width: '40%' }}
+                            id="user"
+                            value={user.userName}
+                            onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                                handleUserChange("userName", event.target.value)}
+                        />
+                    </div>
 
-                    <label htmlFor="pass">Senha:</label>
+                    <div className = "form-line">
+                        <label htmlFor="pass">Senha:</label>
 
-                    <input type="password"
-                        style={{ width: '40%' }}
-                        id="pass"
-                        value={user.password}
-                        onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                            handleUserChange("password", event.target.value)}
-                    />
-
+                        <input type="password"
+                            style={{ width: '40%' }}
+                            id="pass"
+                            value={user.password}
+                            onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                                handleUserChange("password", event.target.value)}
+                        />
+                    </div>
                     <input
+                    className="login-button"
                         type="submit"
-                        value="submit"
+                        value="Entrar"
                     />
 
                 </form>

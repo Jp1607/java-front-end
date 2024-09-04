@@ -3,13 +3,9 @@ import getProducts, { Product } from "../api/TableFetch";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import TableRender from "../components/tableRender";
-import DeleteProds from "../api/DeleteProducts";
-import Modal from "../components/modal";
 
 const ProductListRender: React.FC = () => {
 
-    const [buttonsDisabled, setButtonsDisabled] = React.useState<boolean>(true)
-    const [productId, setProductId] = React.useState<number>()
     const [products, setProducts] = useState<Product[]>([])
     const [product, setProduct] = useState<Product>({
         name: '',
@@ -34,20 +30,13 @@ const ProductListRender: React.FC = () => {
     const handleTableClickCity = (param: Product) => {
 
         setProduct(param);
-        setButtonsDisabled(false)
+     
     }
-
-    useEffect(() => {
-
-        if (product.id !== undefined) {
-
-            setProductId(product.id)
-        }
-    }, [handleTableClickCity])
 
     return (
 
-        <div>
+        <div className="default-page">
+            <div className="default-content">
             <Link to={'/createProd'}>
                 <button
 
@@ -72,6 +61,7 @@ const ProductListRender: React.FC = () => {
                 onTableClick={handleTableClickCity}
 
             />
+        </div>
         </div>
     )
 }
