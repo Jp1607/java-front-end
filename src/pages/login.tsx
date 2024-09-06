@@ -43,6 +43,7 @@ const Login = () => {
             console.log(localStorage.getItem('token'))
             auth.setAuthenticated(true);
         }).catch(() => {
+            setShow(true)
             console.log('error')
         })
 
@@ -55,8 +56,7 @@ const Login = () => {
 
     return (
 
-
-        <div className="login-page-container" >
+        <div id="login-page" >
 
             <Modal isOpen={show}>
                 <div>
@@ -68,17 +68,14 @@ const Login = () => {
                 </div>
             </Modal>
 
+            <div id="login-page-container">
 
-            <div className="login-page-content">
-                <div>
-                    <h1>LOGIN</h1>
-                </div>
+                <h1 id="login-title">LOGIN</h1>
 
+                <form onSubmit={handleSubmit} id="login-form">
 
+                    <div>
 
-                <form onSubmit={handleSubmit}>
-
-                    <div className = "form-line">
                         <label htmlFor="user">Usuário:</label>
 
                         <input type="text"
@@ -90,7 +87,7 @@ const Login = () => {
                         />
                     </div>
 
-                    <div className = "form-line">
+                    <div>
                         <label htmlFor="pass">Senha:</label>
 
                         <input type="password"
@@ -100,14 +97,16 @@ const Login = () => {
                             onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                                 handleUserChange("password", event.target.value)}
                         />
-                    </div>
-                    <input
-                    className="login-button"
-                        type="submit"
-                        value="Entrar"
-                    />
+</div>
+
+                        <input
+                            className="login-button"
+                            type="submit"
+                            value="Entrar"
+                        />
 
                 </form>
+
             </div>
         </div>
 
