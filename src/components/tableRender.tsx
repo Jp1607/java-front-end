@@ -99,7 +99,7 @@ const TableRender = <T,>({ products, selectedRow, onTableClick }: tableRender<T>
                 </Modal>
             </div>
 
-            <table className="content-table">
+            <table className="content-table" id="table">
 
                 <thead>
 
@@ -157,7 +157,7 @@ const TableRender = <T,>({ products, selectedRow, onTableClick }: tableRender<T>
                                         <button
 
                                             disabled={indexProduct !== index}
-                                            className={indexProduct === index ? 'content-abled-button' : "content-disabled-button"}>
+                                            className={indexProduct === index ? 'content-abled-button-list' : "content-disabled-button-list"}>
 
                                             EDITAR PRODUTO
                                         </button>
@@ -167,7 +167,7 @@ const TableRender = <T,>({ products, selectedRow, onTableClick }: tableRender<T>
 
                                         disabled={indexProduct !== index}
                                         onClick={handleOpen}
-                                        className={indexProduct === index ? 'content-abled-button' : "content-disabled-button"}>
+                                        className={indexProduct === index ? 'content-abled-button-list' : "content-disabled-button-list"}>
 
                                         DELETAR PRODUTO
                                     </button>

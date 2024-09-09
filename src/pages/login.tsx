@@ -39,7 +39,7 @@ const Login = () => {
         const { userName, password } = user
         LoginMethod.default({ username: userName, password }).then((response: LoginMethod.LoginResponseBody) => {
             localStorage.setItem('token', response.token);
-            navigate("/homePage");
+            navigate("/");
             console.log(localStorage.getItem('token'))
             auth.setAuthenticated(true);
         }).catch(() => {

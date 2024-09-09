@@ -21,7 +21,7 @@ const Routers = () => {
                         <Route path='/createProd' element={<CreateProds />} />
                         <Route path='/editProd/:id?' element={<CreateProds />} />
                         <Route path='/listProds' element={<ProductListRender />} />
-                        <Route path='/homePage' element={<HomePage />} />
+                        <Route path='/' element={<HomePage />} />
                         <Route path="/*" element={<PageNotFound/>}/>
                     </Route>
                 ) : (

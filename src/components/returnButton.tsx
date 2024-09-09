@@ -20,7 +20,7 @@ const ReturnButton: React.FC<buttonProps> = ({ action, children }): JSX.Element 
         } else if (action = 'return') {
             navigate(-1)
         } else if (action = 'menu') {
-            navigate('/homePage')
+            navigate("/")
         }
     }
 

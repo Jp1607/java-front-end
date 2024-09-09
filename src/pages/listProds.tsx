@@ -3,6 +3,7 @@ import getProducts, { Product } from "../api/TableFetch";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import TableRender from "../components/tableRender";
+import ReturnButton from "../components/returnButton";
 
 const ProductListRender: React.FC = () => {
 
@@ -40,20 +41,20 @@ const ProductListRender: React.FC = () => {
             <Link to={'/createProd'}>
                 <button
 
-                    className="content-abled-button">
+                    className="content-abled-button-list">
                     CRIAR PRODUTO
 
                 </button>
             </Link>
 
-            <Link to={'/homePage'}>
-                <button
-
-                    className="content-abled-button">
-                    VOLTAR
-
-                </button>
-            </Link>
+<Link to = {'/'}>
+<button
+className = "content-abled-button-list" >
+    VOLTAR
+</button>
+</Link>
+        {/* <ReturnButton action = "menu"> VOLTAR </ReturnButton> */}
+           
             <TableRender
 
                 products={products}
