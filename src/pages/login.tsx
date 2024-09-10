@@ -1,6 +1,7 @@
 import React, { FormEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import * as LoginMethod from '../api/login/login';
+import '../css/login.css';
 
 import Modal from "../components/modal";
 import { useAuthContext } from "../api/context/AuthContext";
@@ -13,7 +14,6 @@ type User = {
 
 const Login = () => {
 
-    const navigate = useNavigate();
     const auth = useAuthContext();
     const [show, setShow] = useState<boolean>(false)
     const [user, setUser] = useState<User>({
@@ -39,7 +39,6 @@ const Login = () => {
         const { userName, password } = user
         LoginMethod.default({ username: userName, password }).then((response: LoginMethod.LoginResponseBody) => {
             localStorage.setItem('token', response.token);
-            navigate("/");
             console.log(localStorage.getItem('token'))
             auth.setAuthenticated(true);
         }).catch(() => {
@@ -74,35 +73,31 @@ const Login = () => {
 
                 <form onSubmit={handleSubmit} id="login-form">
 
-                    <div>
-
                         <label htmlFor="user">Usuário:</label>
 
                         <input type="text"
-                            style={{ width: '40%' }}
+                           
                             id="user"
                             value={user.userName}
                             onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                                 handleUserChange("userName", event.target.value)}
                         />
-                    </div>
-
-                    <div>
+                    
                         <label htmlFor="pass">Senha:</label>
 
                         <input type="password"
-                            style={{ width: '40%' }}
+                            
                             id="pass"
                             value={user.password}
                             onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                                 handleUserChange("password", event.target.value)}
                         />
-</div>
+
 
                         <input
-                            className="login-button"
+                           id = "content-abled-button-login"
                             type="submit"
-                            value="Entrar"
+                            value="ENTRAR"
                         />
 
                 </form>

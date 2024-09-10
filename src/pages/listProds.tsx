@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import TableRender from "../components/tableRender";
 import ReturnButton from "../components/returnButton";
+import '../css/table.css';
 
 const ProductListRender: React.FC = () => {
 
@@ -41,18 +42,18 @@ const ProductListRender: React.FC = () => {
             <Link to={'/createProd'}>
                 <button
 
-                    className="content-abled-button-list">
+                    id="content-abled-button-list">
                     CRIAR PRODUTO
 
                 </button>
             </Link>
 
-<Link to = {'/'}>
+{/* <Link to = {'/'}>
 <button
 className = "content-abled-button-list" >
     VOLTAR
 </button>
-</Link>
+</Link> */}
         {/* <ReturnButton action = "menu"> VOLTAR </ReturnButton> */}
            
             <TableRender

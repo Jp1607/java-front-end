@@ -1,0 +1,68 @@
+#login-page {
+    border-radius: 10%;
+    width: 50vw;
+    height: 90vh;
+    margin: auto;
+    margin-top: 2%;
+    border: solid rgb(50, 50, 50) 2px;
+    background-color: #495057;
+  
+  }
+  
+  #login-page-container {
+    width: 90%;
+    margin: 10px auto;
+  }
+  
+  #login-form {
+    /* border: solid rgb(80, 80, 80) 1px; */
+    height: 100%;
+    padding: 2%;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  
+  #login-title {
+    width: max-content;
+    margin: 5% auto 10%;
+    font-size: 4rem;
+    color: rgba(200, 255, 195, 0.807);
+  }
+  
+  #login-form label {
+    font-size: 2rem;
+    font-weight: 600;
+    min-width: 100%;
+    margin-right: 100%;
+   
+    color: rgba(200, 255, 195, 0.807);
+  }
+
+  #login-form input[type=text], input[type=password]{
+    margin-top: 5px;
+    height: 0.5%;
+    margin-right: 100%;
+    min-width: 50%;
+    
+  }
+  
+  #content-abled-button-login {
+    background-color: rgb(25, 25, 25);
+    color: rgba(200, 255, 195, 0.807);
+    margin-right: 10px;
+    margin-top: 2%;
+    width: 150px;
+    height: 40px;
+    border-radius: 4px;
+    border: none;
+    font-size: 1.2rem;
+    font-weight: 500;
+    cursor: pointer;
+  }
+  
+  #content-abled-button-create:hover {
+  
+    opacity: 0.7;
+    ;
+  }

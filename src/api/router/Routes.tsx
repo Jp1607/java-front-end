@@ -1,5 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom"
-import CreateProds from "../../pages/createProds"
+import CreateProds from "../../pages/products/createProds"
 import DeleteProduct from "../../pages/deleteProds"
 import ProductListRender from "../../pages/listProds"
 import HomePage from "../../pages/homePage"
@@ -14,21 +14,17 @@ const Routers = () => {
     console.log('ROTAS REREDERIZADAS', auth);
 
     return (
-        <BrowserRouter>
-            <Routes>
-                {auth.isAuthenticated ? (
-                    <Route path='/'>
-                        <Route path='/createProd' element={<CreateProds />} />
-                        <Route path='/editProd/:id?' element={<CreateProds />} />
-                        <Route path='/listProds' element={<ProductListRender />} />
-                        <Route path='/' element={<HomePage />} />
-                        <Route path="/*" element={<PageNotFound/>}/>
-                    </Route>
-                ) : (
-                    <Route path='/*' element={<Login />} />
-                )}
-            </Routes>
-        </BrowserRouter>
+
+        <Routes>
+            <Route>
+                <Route index path='/' element={<HomePage />} />
+                <Route path='/createProd' element={<CreateProds />} />
+                <Route path='/editProd/:id?' element={<CreateProds />} />
+                <Route path='/listProds' element={<ProductListRender />} />
+                <Route path="/*" element={<PageNotFound />} />
+            </Route>
+        </Routes>
+
     )
 }
 

@@ -1,10 +1,11 @@
 import React, { useEffect } from "react"
 import { Link, useNavigate, useParams } from "react-router-dom"
-import getProducts, { Product } from "../api/TableFetch";
-import PostNewProduct from "../api/PostNewProduct";
-import EditProduct from "../api/EditProd";
-import CancelButton from "../components/CancelMethod";
-import ReturnButton from "../components/returnButton";
+import getProducts, { Product } from "../../api/TableFetch";
+import PostNewProduct from "../../api/PostNewProduct";
+import EditProduct from "../../api/EditProd";
+import CancelButton from "../../components/CancelMethod";
+import ReturnButton from "../../components/returnButton";
+import '../../css/createForm.css';
 
 const CreateProds = () => {
 
@@ -101,7 +102,7 @@ const CreateProds = () => {
     }
 
     return (
-        <form onSubmit={HandleSubmit}>
+        <form onSubmit={HandleSubmit} id = "create-form">
 
             <h1>{id}</h1>
 
@@ -143,9 +144,12 @@ const CreateProds = () => {
                 <option value='false'>NÃO ATIVO</option>
             </select>
 
-            <input type="submit" value="ENVIAR" className="content-abled-button" />
+            <input type="submit" value="ENVIAR" id="content-abled-button-create" />
 
-            <ReturnButton action = {'return'}> CANCELAR </ReturnButton>
+<Link to = {'/listProds'}>
+<button id = "content-abled-button-create">CANCELAR</button>
+</Link>
+           
         </form>
     )
 }
