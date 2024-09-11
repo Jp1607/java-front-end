@@ -38,7 +38,7 @@ body {
   color: white;
   border: none;
   border-radius: 4px;
-  pointer-events: none;
+  
 
 }
 
@@ -79,27 +79,7 @@ body {
   font-size: 8rem;
 } */
 
-.menu-page {
-  border-radius: 10%;
-  background-color: #e9ecef;
-  width: 90vw;
-  height: 90vh;
-  padding: 0.1%;
-}
 
-.menu-content {
-  width: max-content;
-  margin: auto;
-  padding: auto;
-  ;
-}
-
-.header {
-  width: max-content;
-  margin: 5% auto;
-  font-size: 4rem;
-  color: #212529;
-}
 
 .page-not-found {
   background-color: red;

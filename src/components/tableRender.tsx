@@ -4,6 +4,7 @@ import { Product } from "../api/TableFetch";
 import DeleteProds from "../api/DeleteProducts";
 import { Link } from "react-router-dom";
 import Modal from "./modal";
+import '../css/delete-pop-up.css';
 
 type tableRender<T> = {
     products: Product[],
@@ -20,6 +21,8 @@ const TableRender = <T,>({ products, selectedRow, onTableClick }: tableRender<T>
     const [indexProduct, setIndexProduct] = React.useState<number>(null);
 
     const handleTableClick = (event: React.MouseEvent<HTMLTableRowElement, MouseEvent>, row: Product, index: number): void => {
+
+
 
         setIndexProduct(index);
         event.preventDefault();
@@ -58,46 +61,55 @@ const TableRender = <T,>({ products, selectedRow, onTableClick }: tableRender<T>
         setShowState(true)
     }
 
-    const handleValue = (value: any): string => {  
+    const handleValue = (value: any): string => {
 
-            if (value === true) {
+        if (value === true) {
 
-                return "ATIVO"
-            }else if (value === false) {
+            return "ATIVO"
+        } else if (value === false) {
 
-                return "NÃO ATIVO"
-            } else if (value == undefined || value == "") {
+            return "NÃO ATIVO"
+        } else if (value == undefined || value == "") {
 
-                return "INDEFINIDO"
-            }
-            return (value)
+            return "INDEFINIDO"
+        }
+        return (value)
     }
 
     return (
 
         <div>
-            <div
-                className="pop-up-container">
+           
                 <Modal isOpen={showState}>
-                    <div>
+                    <div className="pop-up">
+                        <div
+                            className="pop-up-header"
+                        >
 
-                        <h1
-                            className="pop-up-header">
-                            Atenção!
-                        </h1>
+                            <h1
+                            className="pop-up-head">
+                                Atenção!
+                            </h1>
+                        </div>
+
+                        <div
+                            className="pop-up-body"
+                        >
+
                         <p
-                            className="pop-up-body">
+                           className="pop-up-content" >
                             Você tem certeza de que deseja excluir este produto?
                         </p>
+                                </div>
 
                         <div
                             className="pop-up-footer">
-                            <button onClick={handleDelete}> EXCLUIR</button>
-                            <button onClick={handleClose}> CANCELAR</button>
+                            <button className={'content-abled-button'} onClick={handleDelete}> EXCLUIR</button>
+                            <button className={'content-abled-button'} onClick={handleClose}> CANCELAR</button>
                         </div>
                     </div>
                 </Modal>
-            </div>
+            
 
             <table className="content-table" id="table">
 

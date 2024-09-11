@@ -5,20 +5,20 @@ import ProductListRender from './pages/listProds';
 import CreateProds from './pages/products/createProds';
 import DeleteProduct from './pages/deleteProds';
 import AuthWrapper from './components/AuthWrapper';
-import HomePage from './pages/homePage';
+import HomePage from './pages/greetings';
 import DeleteProduct2 from './pages/deleteProds2';
-import AuthContextProvider, { useAuthContext } from './api/context/AuthContext';
+import AuthContextProvider, { AC, AuthContext, useAuthContext } from './api/context/AuthContext';
 import Routers from './api/router/Routes';
-import Controler from './pages/Controler';
 import MainApp from './pages/MainApp';
 
 function App() {
 
   return (
-    // <AuthContextProvider>
-    //   <Controler />
-    // </AuthContextProvider>
-<MainApp/>
+    <AuthContextProvider>
+      <AC.Consumer>
+        {(auth: AuthContext) => auth.isAuthenticated ? (<MainApp />) : (<Login />)}
+      </AC.Consumer>
+    </AuthContextProvider>
   );
 }
 

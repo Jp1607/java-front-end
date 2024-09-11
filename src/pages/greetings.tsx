@@ -1,32 +1,35 @@
 import { Link,  } from "react-router-dom"
-
+import '../css/greetingsPage.css';
 import ReturnButton from "../components/returnButton";
 
-const HomePage = () => {
+const GreetingsPage = () => {
 console.log('entrou aqui')
     return (
-        <div className="menu-page">
+        <div className="greetings-page">
 
             <div className="header">
-            <h1>INÍCIO</h1>
+            <h1>GREETINGS!</h1>
             </div>
 
-            <div className="menu-content">
+            <div className="greetings-content">
 
 
-            <Link to={'/listProds'}>
+            {/* <Link to={'/listProds'}>
                 <button className = "content-abled-button">
                     LISTA DE PRODUTOS
                 </button>
-            </Link>
-
-            <Link to={'/listProds'}>
+            </Link> */}
+<div>
+            
                 <button className = "content-abled-button">
-                    LISTA DE USUÁRIOS
+                    SOBRE
                 </button>
-            </Link>
+            
+</div>
+<div>
            
-            <ReturnButton action = "login">SAIR</ReturnButton>
+            <button className = "content-abled-button">APRENDA A USAR!</button>
+</div>
 
         </div>
         </div>
@@ -34,4 +37,4 @@ console.log('entrou aqui')
     )
 }
 
-export default HomePage;
+export default GreetingsPage;

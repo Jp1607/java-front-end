@@ -1,3 +1,5 @@
+
+
 #top-bar {
     display: inline-flex;
     border-bottom: solid #e9ecef 1.5px;
@@ -8,33 +10,40 @@
 }
 
 #logout {
+   
     display: flex;
-    align-items: end;
-    align-self: flex-end;
-    
     align-items: center;
+    justify-content: flex-end;
     width: 90%;
     height: 100%;
     background-color: #495057;
 }
 
-/* #logout-button-container {
-    height: 100%;
-    width: 8.07%; 
-} */
+#logout-symbol {
+ 
+    font-size: 1.5rem;
+color: red;
+}
 
 #logout-button {
+    box-sizing: border-box;
+    background-color: black;
+    float: right;
     height: 50px;
     width: 50px;
     border-radius: 50%;
+    margin-right: 10px;
 }
 
 #logo-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 10%;
     height: 100%;
     background-color: #495057;
     color: white;
-    text-align: center;
+  
     border-right: solid #e9ecef 1.5px;
 }
 
@@ -45,7 +54,9 @@
 }
 
 #content-container {
-
+    
+    padding-top: 1%;
+    padding-bottom: 20px;
     width: 90%;
     height: 100%;
     background-color: rgb(25, 25, 25);

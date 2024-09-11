@@ -10,9 +10,8 @@ import '../../css/createForm.css';
 const CreateProds = () => {
 
     const { id } = useParams();
-    const [willEdit, setWillEdit] = React.useState<Boolean>(false)
-    const [products, setProducts] = React.useState<Product[]>([])
-    const [emptyParams, setEmptyParams] = React.useState<number>(0)
+    const [willEdit, setWillEdit] = React.useState<Boolean>(false);
+    const [emptyParams, setEmptyParams] = React.useState<number>(0);
     const [product, setProduct] = React.useState<Product>(
         {
             name: '',
@@ -21,6 +20,8 @@ const CreateProds = () => {
             active: false
         }
     )
+
+
 
     // const verifyEmpty = (product: Product): boolean => {
 
@@ -34,7 +35,7 @@ const CreateProds = () => {
     //             console.log(emptyParams)
     //         }
     //     })
-        
+
     //     if (emptyParams > 0) {
     //         return true;
     //     } else {
@@ -45,46 +46,50 @@ const CreateProds = () => {
 
     useEffect(() => {
 
-        const fetchData = async () => {
-
-            await getProducts().then((response: Product[]) => {
-                setProducts(response)
-            }).catch(() => { })
-        }
-
-        fetchData()
 
         if (id !== undefined) {
+        
 
-            const prodById = products.find(prod => prod.id === parseInt(id));
+            const fetchProd = async () => {
 
-            if (prodById) {
-
-                setProduct(prodById);
-                setWillEdit(true);
+                const prodById = await getProducts(parseInt(id))
+                
+                if (prodById) {
+                    
+                    setProduct(prodById);
+                    setWillEdit(true);
+                  
+                    
+                }
             }
+
+            fetchProd()
         }
+
+        
+        console.log('produto 3', product)
 
     }, []);
 
     const navigate = useNavigate()
 
     function HandleSubmit(event: React.FormEvent<HTMLFormElement>): void {
-      
+
         event.preventDefault();
 
         if (willEdit === true) {
             EditProduct(product).then((response: string) => console.log('sucesso!', response)).catch((e) => console.log(e));
         } else {
             // if (verifyEmpty(product) === false) {
-                PostNewProduct(product).then((response: string) => console.log('sucesso!', response)).catch((e) => console.log(e));
-                 navigate('/listProds')
-                 window.location.reload();
+            PostNewProduct(product).then((response: string) => console.log('sucesso!', response)).catch((e) => console.log(e));
+            console.log('entrou')
             // } else if (verifyEmpty(product) === true) {
             //     window.alert('Você deve preencher todos os campos ')
             // }
         }
 
+        navigate('/listProds')
+        window.location.reload();
     }
 
     const handleChange = <T extends keyof Product>(key: T, newValue: Product[T]): void => {
@@ -102,7 +107,7 @@ const CreateProds = () => {
     }
 
     return (
-        <form onSubmit={HandleSubmit} id = "create-form">
+        <form onSubmit={HandleSubmit} id="create-form">
 
             <h1>{id}</h1>
 
@@ -146,10 +151,10 @@ const CreateProds = () => {
 
             <input type="submit" value="ENVIAR" id="content-abled-button-create" />
 
-<Link to = {'/listProds'}>
-<button id = "content-abled-button-create">CANCELAR</button>
-</Link>
-           
+            <Link to={'/listProds'}>
+                <button id="content-abled-button-create">CANCELAR</button>
+            </Link>
+
         </form>
     )
 }

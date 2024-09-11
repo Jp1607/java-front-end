@@ -50,6 +50,7 @@
   #content-abled-button-login {
     background-color: rgb(25, 25, 25);
     color: rgba(200, 255, 195, 0.807);
+  
     margin-right: 10px;
     margin-top: 2%;
     width: 150px;
@@ -64,5 +65,5 @@
   #content-abled-button-create:hover {
   
     opacity: 0.7;
-    ;
+    
   }

@@ -1,23 +1,28 @@
 #create-form {
-   background-color: rgb(25, 25, 25);
+   width: 90%;
+   height: 90%;
+   margin: auto;
+   background-color: #495057;
    padding: 1%;
 }
 
 #create-form label{
+    font-size: 2rem;
     min-width: 100%;
     margin-right: 100%;
     color: rgba(200, 255, 195, 0.807);
 }
 
 #create-form input[type=text], input[type=number], select {
+    font-size: 2rem;
     margin-top: 5px;
-    height: 0.5%;
+    /* height: 0.5%; */
     margin-right: 100%;
     width: 50%;
 }
 
 #content-abled-button-create {
-    background-color: #495057;
+    background-color: #212529;
     color: rgba(200, 255, 195, 0.807);
     margin-right: 10px;
     margin-top: 2%;

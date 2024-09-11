@@ -11,6 +11,8 @@ const AC = React.createContext<AuthContext>({
     setAuthenticated: null
 });
 
+export { AC }
+
 type AuthContextProviderProps = {
     children: React.ReactElement[] | React.ReactElement
 }
@@ -26,7 +28,7 @@ const AuthContextProvider: React.FC<AuthContextProviderProps> = ({ children }) =
 
     const value: AuthContext = {
         isAuthenticated: isAuthenticated,
-        setAuthenticated: setIsAuthenticated
+        setAuthenticated: (param: boolean) => setIsAuthenticated(param)
     }
 
     return (

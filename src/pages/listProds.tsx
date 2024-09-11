@@ -42,7 +42,7 @@ const ProductListRender: React.FC = () => {
             <Link to={'/createProd'}>
                 <button
 
-                    id="content-abled-button-list">
+                    className="content-abled-button-list">
                     CRIAR PRODUTO
 
                 </button>

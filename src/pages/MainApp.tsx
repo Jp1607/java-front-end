@@ -2,14 +2,20 @@ import { BrowserRouter, Link } from "react-router-dom";
 import Routers from "../api/router/Routes";
 import '../css/mainApp.css';
 import { useAuthContext } from "../api/context/AuthContext";
+import { IoIosLogOut } from "react-icons/io";
+import ReturnButton from "../components/returnButton";
+
 
 const MainApp = (): JSX.Element => {
 
     const auth = useAuthContext();
 
     const handleLogOut = () => {
+        window.history.replaceState(null, null, '')
+        window.history.pushState(null, null, '')
         localStorage.clear();
         auth.setAuthenticated(false);
+
     }
 
     return (
@@ -33,11 +39,14 @@ const MainApp = (): JSX.Element => {
                     </div>
 
                     <div id="logout">
-{/* <div id = "logout-button-container">
+                        {/* <div id = "logout-button-container">
 </div> */}
-                        <button onClick={handleLogOut} id="logout-button">SAIR</button>
+                        <button onClick={handleLogOut} id="logout-button">
+                            <IoIosLogOut id = "logout-symbol"/>   
+                        </button>
+
                     </div>
-                    
+
                 </div>
 
                 <div id="main-container">

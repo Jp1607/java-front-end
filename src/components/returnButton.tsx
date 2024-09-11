@@ -5,7 +5,7 @@ import { useAuthContext } from "../api/context/AuthContext";
 
 type buttonProps = {
     action: string;
-    children: string
+    children: string | JSX.Element | ReactElement
 }
 
 const ReturnButton: React.FC<buttonProps> = ({ action, children }): JSX.Element => {
