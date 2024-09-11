@@ -33,9 +33,9 @@ const MainApp = (): JSX.Element => {
                     </div>
 
                     <div id="logout">
-
-                        <button onClick={handleLogOut}>SAIR</button>
-
+{/* <div id = "logout-button-container">
+</div> */}
+                        <button onClick={handleLogOut} id="logout-button">SAIR</button>
                     </div>
                     
                 </div>

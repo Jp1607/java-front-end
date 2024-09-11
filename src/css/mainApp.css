@@ -8,11 +8,25 @@
 }
 
 #logout {
+    display: flex;
+    align-items: end;
+    align-self: flex-end;
     
     align-items: center;
     width: 90%;
     height: 100%;
     background-color: #495057;
+}
+
+/* #logout-button-container {
+    height: 100%;
+    width: 8.07%; 
+} */
+
+#logout-button {
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
 }
 
 #logo-container {

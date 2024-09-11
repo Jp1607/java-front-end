@@ -10,14 +10,15 @@ import DeleteProduct2 from './pages/deleteProds2';
 import AuthContextProvider, { useAuthContext } from './api/context/AuthContext';
 import Routers from './api/router/Routes';
 import Controler from './pages/Controler';
+import MainApp from './pages/MainApp';
 
 function App() {
 
   return (
-    <AuthContextProvider>
-      <Controler />
-    </AuthContextProvider>
-
+    // <AuthContextProvider>
+    //   <Controler />
+    // </AuthContextProvider>
+<MainApp/>
   );
 }
 
