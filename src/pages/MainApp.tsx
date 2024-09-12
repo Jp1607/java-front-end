@@ -42,7 +42,7 @@ const MainApp = (): JSX.Element => {
                         {/* <div id = "logout-button-container">
 </div> */}
                         <button onClick={handleLogOut} id="logout-button">
-                            <IoIosLogOut id = "logout-symbol"/>   
+                        <IoIosLogOut id = "logout-symbol"/>   
                         </button>
 
                     </div>

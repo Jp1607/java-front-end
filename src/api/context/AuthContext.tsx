@@ -1,20 +1,54 @@
 import React from "react";
+import ReturnButton from "../../components/returnButton";
 
 export type AuthContext = {
     isAuthenticated: boolean;
     setAuthenticated: (param: boolean) => void;
 }
 
+export type themeContextType = {
+    currentTheme: string
+    toggleTheme: () => void
+}
 
-const AC = React.createContext<AuthContext>({
+export const AC = React.createContext<AuthContext>({
     isAuthenticated: false,
     setAuthenticated: null
 });
 
-export { AC }
+export const ThemeContext = React.createContext<themeContextType>({
+    currentTheme: 'light',
+    toggleTheme: null
+})
+// export { AC }
 
 type AuthContextProviderProps = {
     children: React.ReactElement[] | React.ReactElement
+}
+
+type themeContextProviderProps = {
+    children: React.ReactElement[] | React.ReactElement
+}
+
+const themeContextProvider: React.FC<themeContextProviderProps> = ({ children }) => {
+    const [currentTheme, setTheme] = React.useState<string>('light')
+
+    React.useEffect(() => {
+
+        setTheme((currentTheme) => (currentTheme = localStorage.getItem('theme') === 'light' ? 'light' : 'dark'))
+    }, [])
+
+    const toggleTheme = () => {
+        setTheme((currentTheme) => (currentTheme = 'light' ? 'dark' : 'light'))
+        localStorage.setItem('theme', currentTheme)
+    }
+
+    return (
+        <ThemeContext.Provider value={{ currentTheme, toggleTheme }}>
+            {children}
+        </ThemeContext.Provider>
+    )
+
 }
 
 const AuthContextProvider: React.FC<AuthContextProviderProps> = ({ children }) => {
