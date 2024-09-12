@@ -15,19 +15,19 @@ type User = {
 
 const Login = () => {
 
-window.history.pushState(null, null, 'http://localhost:3000/')
+    window.history.pushState(null, null, window.location.origin)
     const auth = useAuthContext();
     const [show, setShow] = useState<boolean>(false)
-    const [user, setUser] = useState<User>({
-        userName: '',
+    const [user, setUser] = useState<LoginMethod.LoginForm>({
+        username: '',
         password: ''
     });
 
     console.log('estou autenticado', auth.isAuthenticated);
 
-    const handleUserChange = <T extends keyof User>(key: T, newValue: User[T]): void => {
+    const handleUserChange = <T extends keyof LoginMethod.LoginForm>(key: T, newValue: LoginMethod.LoginForm[T]): void => {
 
-        setUser((previous: User) => ({
+        setUser((previous: LoginMethod.LoginForm) => ({
 
             ...previous,
             [key]: newValue
@@ -36,19 +36,16 @@ window.history.pushState(null, null, 'http://localhost:3000/')
     const handleSubmit = (event: FormEvent) => {
 
         event.preventDefault();
-
-        const { userName, password } = user
-        LoginMethod.default({ username: userName, password }).then((response: LoginMethod.LoginResponseBody) => {
+        LoginMethod.default(user).then((response: LoginMethod.LoginResponseBody) => {
 
             localStorage.setItem('token', response.token);
             console.log(localStorage.getItem('token'))
             auth.setAuthenticated(true);
         }).catch(() => {
+
             setShow(true)
             console.log('error')
         })
-
-
     };
 
     const handleClick = () => {
@@ -56,71 +53,91 @@ window.history.pushState(null, null, 'http://localhost:3000/')
     }
 
     return (
+
         <>
-<Modal isOpen={show}>
-                    <div className="pop-up">
-                        <div className="pop-up-header">
-                            <h1 className="pop-up-head ">Atenção!</h1>
-                        </div>
-                        <div className="pop-up-body">
+            <Modal isOpen={show}>
+                <div className="pop-up">
+                    <div className="pop-up-header">
 
-                            <p className="pop-up-content">Credenciais inválidas!</p>
-                            <p className="pop-up-content">Esperado: </p>
-                            <p className="pop-up-content">Usuário: admin</p>
-                            <p className="pop-up-content">Senha: 12345 </p>
-                        </div>
-                        <div className="pop-up-footer">
+                        <h1 className="pop-up-head ">
+                            Atenção!
+                        </h1>
 
-                            <button className={'content-abled-button'}onClick={handleClick}>OK</button>
-                        </div>
                     </div>
 
-                </Modal>
+                    <div className="pop-up-body">
 
-        <div id="login-page" >
-            
+                        <p className="pop-up-content">
+                            Credenciais inválidas!
+                        </p>
+                        <p className="pop-up-content">
+                            Esperado:
+                        </p>
+                        <p className="pop-up-content">
+                            Usuário: admin
+                        </p>
+                        <p className="pop-up-content">
+                            Senha: 12345
+                        </p>
 
-                
-          
-            <div id="login-page-container">
+                    </div>
 
-                <h1 id="login-title">LOGIN</h1>
+                    <div className="pop-up-footer">
 
-                <form onSubmit={handleSubmit} id="login-form">
+                        <button
+                            className={'content-abled-button'}
+                            onClick={handleClick}>
+                            OK
+                        </button>
+                    </div>
+                </div>
+            </Modal>
 
-                    <label htmlFor="user">Usuário:</label>
+            <div id="login-page">
+                <div id="login-page-container">
 
-                    <input type="text"
+                    <h1 id="login-title">
+                        LOGIN
+                    </h1>
 
-                        id="user"
-                        value={user.userName}
-                        onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                            handleUserChange("userName", event.target.value)}
-                    />
+                    <form onSubmit={handleSubmit} id="login-form">
 
-                    <label htmlFor="pass">Senha:</label>
+                        <label htmlFor="user">
+                            Usuário:
+                        </label>
 
-                    <input type="password"
-
-                        id="pass"
-                        value={user.password}
-                        onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                            handleUserChange("password", event.target.value)}
-                            />
-
-
-                    <input
-                        id="content-abled-button-login"
-                        type="submit"
-                        value="ENTRAR"
+                        <input
+                            type="text"
+                            id="user"
+                            value={user.username}
+                            onChange={
+                                (event: React.ChangeEvent<HTMLInputElement>) =>
+                                    handleUserChange("username", event.target.value)}
                         />
 
-                </form>
+                        <label htmlFor="pass">
+                            Senha:
+                        </label>
 
+                        <input
+                            type="password"
+                            id="pass"
+                            value={user.password}
+                            onChange={
+                                (event: React.ChangeEvent<HTMLInputElement>) =>
+                                    handleUserChange("password", event.target.value)}
+                        />
+
+                        <input
+                            id="content-abled-button-login"
+                            type="submit"
+                            value="ENTRAR"
+                        />
+
+                    </form>
+                </div>
             </div>
-        </div>
-
-                        </>
+        </>
     );
 };
 

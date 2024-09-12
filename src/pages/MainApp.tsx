@@ -3,50 +3,42 @@ import Routers from "../api/router/Routes";
 import '../css/mainApp.css';
 import { useAuthContext } from "../api/context/AuthContext";
 import { IoIosLogOut } from "react-icons/io";
-import ReturnButton from "../components/returnButton";
-
+import { useThemeContext } from "../api/context/ThemeContext";
 
 const MainApp = (): JSX.Element => {
 
+    const { currentTheme, toggleTheme } = useThemeContext();
     const auth = useAuthContext();
 
+    
     const handleLogOut = () => {
-        window.history.replaceState(null, null, '')
-        window.history.pushState(null, null, '')
+
         localStorage.clear();
         auth.setAuthenticated(false);
-
     }
 
     return (
+
         <BrowserRouter>
-
-            <div
-                style={{
-                    width: '100vw',
-                    height: '100vh',
-                    margin: 0,
-                    padding: 0,
-                    overflow: 'hidden',
-                    backgroundColor: 'red'
-                }}
-            >
+            <div id="main-page">
                 <div id="top-bar">
-
 
                     <div id="logo-container">
                         BIRULAIBE
                     </div>
 
+                      
                     <div id="logout">
-                        {/* <div id = "logout-button-container">
-</div> */}
+                   
+                    <button className = "theme-toggle"
+                    onClick = {toggleTheme}>
+                     TEMA
+                    </button>
+
                         <button onClick={handleLogOut} id="logout-button">
-                            <IoIosLogOut id = "logout-symbol"/>   
+                            <IoIosLogOut id="logout-symbol" />
                         </button>
-
                     </div>
-
                 </div>
 
                 <div id="main-container">

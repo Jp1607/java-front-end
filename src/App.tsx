@@ -1,23 +1,19 @@
-import './App.css';
-import Login from "./pages/login";
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import ProductListRender from './pages/listProds';
-import CreateProds from './pages/products/createProds';
-import DeleteProduct from './pages/deleteProds';
-import AuthWrapper from './components/AuthWrapper';
-import HomePage from './pages/greetings';
-import DeleteProduct2 from './pages/deleteProds2';
-import AuthContextProvider, { AC, AuthContext, useAuthContext } from './api/context/AuthContext';
-import Routers from './api/router/Routes';
+import AuthContextProvider, { AC, AuthContext } from './api/context/AuthContext';
 import MainApp from './pages/MainApp';
+import Login from "./pages/login";
+import './App.css';
+import ThemeContextProvider from './api/context/ThemeContext';
 
 function App() {
 
   return (
+
     <AuthContextProvider>
-      <AC.Consumer>
-        {(auth: AuthContext) => auth.isAuthenticated ? (<MainApp />) : (<Login />)}
-      </AC.Consumer>
+      <ThemeContextProvider>
+        <AC.Consumer>
+          {(auth: AuthContext) => auth.isAuthenticated ? (<MainApp />) : (<Login />)}
+        </AC.Consumer>
+      </ThemeContextProvider>
     </AuthContextProvider>
   );
 }

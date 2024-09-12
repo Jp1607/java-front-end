@@ -1,12 +1,12 @@
 import React from "react";
 import { Product } from "../api/TableFetch";
-// import { Modal, ModalHeader, ModalTitle, ModalBody, ModalDialog, ModalFooter, Alert } from "react-bootstrap";
 import DeleteProds from "../api/DeleteProducts";
 import { Link } from "react-router-dom";
 import Modal from "./modal";
 import '../css/delete-pop-up.css';
 
 type tableRender<T> = {
+
     products: Product[],
     selectedRow?: T | null,
     onTableClick?: (param: Product) => void
@@ -14,15 +14,12 @@ type tableRender<T> = {
 
 const TableRender = <T,>({ products, selectedRow, onTableClick }: tableRender<T>): JSX.Element => {
 
-    const [show, setShow] = React.useState<boolean>(false);
     const [indexRow, setIndexRow] = React.useState<number>(-1);
     const [product, setProduct] = React.useState<Product>(null);
     const [showState, setShowState] = React.useState<boolean>(false);
     const [indexProduct, setIndexProduct] = React.useState<number>(null);
 
     const handleTableClick = (event: React.MouseEvent<HTMLTableRowElement, MouseEvent>, row: Product, index: number): void => {
-
-
 
         setIndexProduct(index);
         event.preventDefault();
@@ -79,42 +76,34 @@ const TableRender = <T,>({ products, selectedRow, onTableClick }: tableRender<T>
     return (
 
         <div>
-           
-                <Modal isOpen={showState}>
-                    <div className="pop-up">
-                        <div
-                            className="pop-up-header"
-                        >
+            <Modal isOpen={showState}>
+                <div className="pop-up">
+                    <div className="pop-up-header">
 
-                            <h1
+                        <h1
                             className="pop-up-head">
-                                Atenção!
-                            </h1>
-                        </div>
+                            Atenção!
+                        </h1>
+                    </div>
 
-                        <div
-                            className="pop-up-body"
-                        >
+                    <div className="pop-up-body">
 
-                        <p
-                           className="pop-up-content" >
+                        <p className="pop-up-content" >
                             Você tem certeza de que deseja excluir este produto?
                         </p>
-                                </div>
-
-                        <div
-                            className="pop-up-footer">
-                            <button className={'content-abled-button'} onClick={handleDelete}> EXCLUIR</button>
-                            <button className={'content-abled-button'} onClick={handleClose}> CANCELAR</button>
-                        </div>
                     </div>
-                </Modal>
-            
+
+                    <div
+                        className="pop-up-footer">
+                        <button className={'content-abled-button'} onClick={handleDelete}> EXCLUIR</button>
+                        <button className={'content-abled-button'} onClick={handleClose}> CANCELAR</button>
+                    </div>
+                </div>
+            </Modal>
+
 
             <table className="content-table" id="table">
-
                 <thead>
-
                     <tr>
 
                         <th> ID </th>
@@ -127,12 +116,12 @@ const TableRender = <T,>({ products, selectedRow, onTableClick }: tableRender<T>
                 </thead>
 
                 <tbody>
-
                     {
                         products.map((r: Product, index: number) => (
 
                             <tr
-                                onClick={(event: React.MouseEvent<HTMLTableRowElement, MouseEvent>) => handleTableClick(event, r, index)}
+                                onClick={(event: React.MouseEvent<HTMLTableRowElement, MouseEvent>) =>
+                                    handleTableClick(event, r, index)}
 
                                 key={`table-row-${index}`}
 
@@ -141,36 +130,35 @@ const TableRender = <T,>({ products, selectedRow, onTableClick }: tableRender<T>
 
                                 className={
 
-                                    index === selectedRow
-                                        ? 'selected-row'
-                                        : index === indexRow
-                                            ? 'hovered-row'
-                                            : index % 2 === 0
-                                                ? 'even-row'
-                                                : 'odd-row'
-                                }
-                            >
+                                    index === selectedRow ?
+                                        'selected-row' :
+                                        index === indexRow ?
+                                            'hovered-row' :
+                                            index % 2 === 0 ?
+                                                'even-row' :
+                                                'odd-row'
+                                }>
+
                                 {
                                     typeof r === 'object' && r !== null ?
                                         Object.entries(r).map(([key, value], idx: number) => (
 
                                             <td
-                                                key={`table-row-cell-${idx}`}
-                                            >
+                                                key={`table-row-cell-${idx}`}>
                                                 {handleValue(value)}
                                             </td>
+
                                         )) : null
                                 }
 
                                 <td>
-
                                     <Link to={indexProduct === index ? `/editProd/${product.id}?` : '#'}>
 
                                         <button
-
                                             disabled={indexProduct !== index}
-                                            className={indexProduct === index ? 'content-abled-button-list' : "content-disabled-button-list"}>
-
+                                            className={indexProduct === index ?
+                                                'content-abled-button-list' :
+                                                "content-disabled-button-list"}>
                                             EDITAR PRODUTO
                                         </button>
                                     </Link>
@@ -179,8 +167,9 @@ const TableRender = <T,>({ products, selectedRow, onTableClick }: tableRender<T>
 
                                         disabled={indexProduct !== index}
                                         onClick={handleOpen}
-                                        className={indexProduct === index ? 'content-abled-button-list' : "content-disabled-button-list"}>
-
+                                        className={indexProduct === index ?
+                                            'content-abled-button-list' :
+                                            "content-disabled-button-list"}>
                                         DELETAR PRODUTO
                                     </button>
                                 </td>

@@ -1,16 +1,23 @@
+#main-page {
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
 
+}
 
 #top-bar {
+    
     display: inline-flex;
     border-bottom: solid #e9ecef 1.5px;
     width: 100%;
     height: 10%;
     background-color: green
-
 }
 
 #logout {
-   
+
     display: flex;
     align-items: center;
     justify-content: flex-end;
@@ -20,9 +27,9 @@
 }
 
 #logout-symbol {
- 
+
     font-size: 1.5rem;
-color: red;
+    color: red;
 }
 
 #logout-button {
@@ -43,7 +50,7 @@ color: red;
     height: 100%;
     background-color: #495057;
     color: white;
-  
+
     border-right: solid #e9ecef 1.5px;
 }
 
@@ -54,7 +61,7 @@ color: red;
 }
 
 #content-container {
-    
+
     padding-top: 1%;
     padding-bottom: 20px;
     width: 90%;

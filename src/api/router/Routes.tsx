@@ -1,17 +1,10 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom"
+import { Route, Routes } from "react-router-dom"
 import CreateProds from "../../pages/products/createProds"
-import DeleteProduct from "../../pages/deleteProds"
 import ProductListRender from "../../pages/listProds"
-import HomePage from "../../pages/greetings"
-import { useAuthContext } from "../context/AuthContext"
-import Login from "../../pages/login"
 import PageNotFound from "../../pages/notFound"
+import HomePage from "../../pages/greetings"
 
 const Routers = () => {
-
-    const auth = useAuthContext();
-
-    console.log('ROTAS REREDERIZADAS', auth);
 
     return (
 

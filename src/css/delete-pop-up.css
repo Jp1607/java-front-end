@@ -7,11 +7,12 @@
 }
 
 .pop-up {
-   display: flex;
-    width: 50%;
-    height: 50%;
-    margin: auto;
 
+   display: flex;
+   flex-direction: column;
+    width: 35%;
+    min-height: 50%;
+    margin: auto;
     z-index: 9999;
     border: solid black 2px;
     background-color: #343a40;
@@ -22,6 +23,7 @@
     width: 100%;
     height: 10%;
     padding-left: 10px;
+    margin-bottom: 5%;
    
 }
 
@@ -33,17 +35,20 @@
 
 .pop-up-body {
     display: flex;
+    flex-direction: column;
     width: 100%;
     height: 80%;
     padding-left: 10px;
 }
 
 .pop-up-content{
+    margin: 0;
 font-size: 2rem;
 font-weight: 600;
 }
 
 .pop-up-footer {
+    margin-top: 20%;
     width: 100%;
     height: 10%;
 }

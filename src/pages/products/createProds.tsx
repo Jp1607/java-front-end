@@ -3,8 +3,6 @@ import { Link, useNavigate, useParams } from "react-router-dom"
 import getProducts, { Product } from "../../api/TableFetch";
 import PostNewProduct from "../../api/PostNewProduct";
 import EditProduct from "../../api/EditProd";
-import CancelButton from "../../components/CancelMethod";
-import ReturnButton from "../../components/returnButton";
 import '../../css/createForm.css';
 
 const CreateProds = () => {
@@ -20,8 +18,6 @@ const CreateProds = () => {
             active: false
         }
     )
-
-
 
     // const verifyEmpty = (product: Product): boolean => {
 
@@ -46,29 +42,21 @@ const CreateProds = () => {
 
     useEffect(() => {
 
-
         if (id !== undefined) {
-        
 
             const fetchProd = async () => {
 
                 const prodById = await getProducts(parseInt(id))
-                
+
                 if (prodById) {
-                    
+
                     setProduct(prodById);
                     setWillEdit(true);
-                  
-                    
                 }
             }
 
             fetchProd()
         }
-
-        
-        console.log('produto 3', product)
-
     }, []);
 
     const navigate = useNavigate()
@@ -78,11 +66,14 @@ const CreateProds = () => {
         event.preventDefault();
 
         if (willEdit === true) {
+
             EditProduct(product).then((response: string) => console.log('sucesso!', response)).catch((e) => console.log(e));
         } else {
+
             // if (verifyEmpty(product) === false) {
-            PostNewProduct(product).then((response: string) => console.log('sucesso!', response)).catch((e) => console.log(e));
-            console.log('entrou')
+            PostNewProduct(product).then((response: string) =>
+                console.log('sucesso!', response)).catch((e) =>
+                    console.log(e));
             // } else if (verifyEmpty(product) === true) {
             //     window.alert('Você deve preencher todos os campos ')
             // }
@@ -93,13 +84,18 @@ const CreateProds = () => {
     }
 
     const handleChange = <T extends keyof Product>(key: T, newValue: Product[T]): void => {
+
         if (newValue !== undefined || newValue !== null) {
+
             setProduct((previous: Product) => ({
+
                 ...previous,
                 [key]: newValue
             }));
         } else {
+
             setProduct((previous: Product) => ({
+
                 ...previous,
                 [key]: null
             }));
@@ -107,11 +103,15 @@ const CreateProds = () => {
     }
 
     return (
+
         <form onSubmit={HandleSubmit} id="create-form">
 
             <h1>{id}</h1>
 
-            <label htmlFor="prodName">NOME:</label>
+            <label htmlFor="prodName">
+                NOME:
+            </label>
+
             <input
                 id="prodName"
                 type="text"
@@ -120,7 +120,10 @@ const CreateProds = () => {
                     handleChange('name', event.target.value.toString())}
             />
 
-            <label htmlFor="prodDesc">DESCRIÇÃO:</label>
+            <label htmlFor="prodDesc">
+                DESCRIÇÃO:
+            </label>
+
             <input
                 id="prodDesc"
                 type="text"
@@ -129,7 +132,10 @@ const CreateProds = () => {
                     handleChange('description', event.target.value.toString())}
             />
 
-            <label htmlFor="prodBarCode">CÓDIGO DE BARRAS:</label>
+            <label htmlFor="prodBarCode">
+                CÓDIGO DE BARRAS:
+            </label>
+
             <input
                 id="prodBarCode"
                 type="number"
@@ -138,7 +144,10 @@ const CreateProds = () => {
                     handleChange('barCode', parseInt(event.target.value.toString()))}
             />
 
-            <label htmlFor="prodActive">ATIVO:</label>
+            <label htmlFor="prodActive">
+                ATIVO:
+            </label>
+
             <select
                 id="prodActive"
                 // value={product !== undefined ? "True" : 'False'}
@@ -154,7 +163,6 @@ const CreateProds = () => {
             <Link to={'/listProds'}>
                 <button id="content-abled-button-create">CANCELAR</button>
             </Link>
-
         </form>
     )
 }
