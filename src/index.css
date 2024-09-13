@@ -25,8 +25,8 @@ body {
 
 
 .content-abled-button {
-  background-color: #495057;
-  color: rgba(200, 255, 195, 0.807);
+  background-color: var(--button-bg-color);
+  color: var(--button-txt-color);
   margin-left: 25px;
   margin-right: 5px;
   margin-top: 1%;

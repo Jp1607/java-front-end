@@ -1,3 +1,18 @@
+[theme="light-theme"] {
+  --table-head-bg: #dee2e6;
+  --table-fonts: #064E00;
+  --even-row: #ced4da;
+  --odd-row: #adb5bd;
+  --button-bg: #dee2e6;
+}
+
+[theme="dark-theme"] {
+  --table-head-bg: #343a40;
+  --table-fonts: rgba(200, 255, 195, 0.807);
+  --even-row: #495057;
+  --odd-row: #6c757d;
+  --button-bg: #343a40;
+}
 
 .content-table {
     border-collapse: collapse;
@@ -11,8 +26,8 @@
   }
   
   .content-table thead th {
-    background-color: #343a40;
-    color: rgba(200, 255, 195, 0.807);
+    background-color: var(--table-head-bg);
+    color: var(--table-fonts);
     font-weight: 500;
   }
   
@@ -30,17 +45,17 @@
   }
   
   .content-table tbody tr td {
-    color: rgba(200, 255, 195, 0.807);
+    color:var(--table-fonts);
     font-weight: 500;
   }
   
   .content-table tbody tr.even-row {
     border-collapse: collapse;
-    background-color: #495057;
+    background-color: var(--even-row);
   }
   
   .content-table tbody tr.odd-row {
-    background-color: #6c757d;
+    background-color: var(--odd-row);
     border-collapse: collapse;
   }
   
@@ -61,8 +76,8 @@
   }
   
   .content-abled-button-list {
-    background-color: #343a40;
-    color: rgba(200, 255, 195, 0.807);
+    background-color: var(--button-bg);
+    color: var(--table-fonts);
     margin-left: 25px;
     margin-right: 5px;
     margin-top: 1.5%;

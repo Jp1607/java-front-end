@@ -1,8 +1,21 @@
+[theme="light-theme"] {
+    --form-bg: #dee2e6;
+    --label: #064E00;
+    --button-bg: black;
+}
+
+[theme="dark-theme"] {
+    --form-bg: #495057;
+    --label: rgba(200, 255, 195, 0.807);
+    --button-bg: white;
+}
+
+
 #create-form {
    width: 90%;
    height: 90%;
    margin: auto;
-   background-color: #495057;
+   background-color: var(--form-bg);
    padding: 1%;
 }
 
@@ -10,7 +23,7 @@
     font-size: 2rem;
     min-width: 100%;
     margin-right: 100%;
-    color: rgba(200, 255, 195, 0.807);
+    color: var(--label);
 }
 
 #create-form input[type=text], input[type=number], select {
@@ -22,8 +35,9 @@
 }
 
 #content-abled-button-create {
-    background-color: #212529;
-    color: rgba(200, 255, 195, 0.807);
+    /* background-color: #212529; */
+    background-color: var(--button-bg);
+    color: var(--label);
     margin-right: 10px;
     margin-top: 2%;
     width: 150px;
