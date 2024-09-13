@@ -1,3 +1,19 @@
+[theme="light-theme"] {
+
+  --login-bg: #ced4da;
+  --login-fonts: #064E00;
+  --login-button-bg: white;
+  --login-button-font: #064E00;
+}
+
+[theme="dark-theme"] {
+  
+  --login-bg: #495057;
+  --login-fonts: rgba(200, 255, 195, 0.807);
+  --login-button-bg: rgb(25, 25, 25);
+  --login-button-font: rgba(200, 255, 195, 0.807);
+}
+
 #login-page {
     border-radius: 10%;
     width: 50vw;
@@ -5,7 +21,7 @@
     margin: auto;
     margin-top: 2%;
     border: solid rgb(50, 50, 50) 2px;
-    background-color: #495057;
+    background-color: var(--login-bg);
   
   }
   
@@ -27,7 +43,7 @@
     width: max-content;
     margin: 5% auto 10%;
     font-size: 4rem;
-    color: rgba(200, 255, 195, 0.807);
+    color: var(--login-fonts);
   }
   
   #login-form label {
@@ -36,7 +52,7 @@
     min-width: 100%;
     margin-right: 100%;
    
-    color: rgba(200, 255, 195, 0.807);
+    color: var(--login-fonts);
   }
 
   #login-form input[type=text], input[type=password]{
@@ -48,8 +64,8 @@
   }
   
   #content-abled-button-login {
-    background-color: rgb(25, 25, 25);
-    color: rgba(200, 255, 195, 0.807);
+    background-color:var(--login-button-bg);
+    color: var(--login-button-font);
   
     margin-right: 10px;
     margin-top: 2%;

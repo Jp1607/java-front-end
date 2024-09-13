@@ -6,6 +6,7 @@ import '../css/delete-pop-up.css';
 
 import Modal from "../components/modal";
 import { useAuthContext } from "../api/context/AuthContext";
+import { useThemeContext } from "../api/context/ThemeContext";
 
 
 type User = {
@@ -14,7 +15,7 @@ type User = {
 }
 
 const Login = () => {
-
+    const {  toggleTheme } = useThemeContext()
     window.history.pushState(null, null, window.location.origin)
     const auth = useAuthContext();
     const [show, setShow] = useState<boolean>(false)
@@ -99,6 +100,11 @@ const Login = () => {
                     <h1 id="login-title">
                         LOGIN
                     </h1>
+
+                    <button className="theme-toggle"
+                        onClick={toggleTheme}>
+                        TEMA
+                    </button>
 
                     <form onSubmit={handleSubmit} id="login-form">
 

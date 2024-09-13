@@ -1,3 +1,25 @@
+[theme="light-theme"] {
+    --side-bg: white;
+    --side-button: #dee2e6;
+    --top-bg: #ced4da;
+ --content-bg: rgb(200, 200, 200);
+    --logout-bg: white;
+    --logout: darkred;
+    --logo: black;
+    --side-button-txt: #064E00;
+}
+
+[theme="dark-theme"] {
+    --side-bg: black;
+    --side-button: rgb(64, 70, 76);
+    --top-bg: #495057;
+   --content-bg:  rgb(25, 25, 25);
+    --logout-bg: black;
+    --logout: red;
+    --logo: white;
+    --side-button-txt: rgba(200, 255, 195, 0.807);
+}
+
 #main-page {
     width: 100vw;
     height: 100vh;
@@ -13,7 +35,7 @@
     border-bottom: solid #e9ecef 1.5px;
     width: 100%;
     height: 10%;
-    background-color: green
+    background-color: var(--top-bg)
 }
 
 #logout {
@@ -23,18 +45,18 @@
     justify-content: flex-end;
     width: 90%;
     height: 100%;
-    background-color: #495057;
+    background-color: var(--top-bg);
 }
 
 #logout-symbol {
 
     font-size: 1.5rem;
-    color: red;
+    color: var(--logout);
 }
 
 #logout-button {
     box-sizing: border-box;
-    background-color: black;
+    background-color: var(--logout-bg);
     float: right;
     height: 50px;
     width: 50px;
@@ -48,9 +70,8 @@
     justify-content: center;
     width: 10%;
     height: 100%;
-    background-color: #495057;
-    color: white;
-
+    background-color: var(--top-bg);
+    color: var(--logo);
     border-right: solid #e9ecef 1.5px;
 }
 
@@ -66,14 +87,14 @@
     padding-bottom: 20px;
     width: 90%;
     height: 100%;
-    background-color: rgb(25, 25, 25);
+    background-color: var(--content-bg);
     overflow-y: scroll;
 }
 
 #content-abled-button-main {
 
-    background-color: rgb(64, 70, 76);
-    color: rgba(200, 255, 195, 0.807);
+    background-color: var(--side-button);
+    color: var(--side-button-txt);
     width: 100%;
     height: 10%;
     border: none;
@@ -87,7 +108,7 @@
 #side-bar {
     width: 10%;
     height: 100%;
-    background-color: rgb(0, 0, 0);
+    background-color: var(--side-bg);
     border-top: solid black 1px;
     border-right: solid #e9ecef 1.5px;
 

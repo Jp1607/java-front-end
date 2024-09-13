@@ -1,3 +1,13 @@
+[theme="light-theme"] {
+    --pop-bg-color: white;
+    --pop-txt: #064E00;
+}
+
+[theme="dark-theme"] {
+    --pop-bg-color: #343a40;
+    --pop-txt:  rgba(200, 255, 195, 0.807);
+}
+
 .pop-up-container {
     display: flex;
     position: absolute;
@@ -15,8 +25,8 @@
     margin: auto;
     z-index: 9999;
     border: solid black 2px;
-    background-color: #343a40;
-    color: rgba(200, 255, 195, 0.807);
+    background-color: var(--pop-bg-color);
+    color: var(--pop-txt);
 }
 
 .pop-up-header {
