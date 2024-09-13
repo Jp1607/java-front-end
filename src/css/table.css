@@ -4,6 +4,7 @@
   --even-row: #ced4da;
   --odd-row: #adb5bd;
   --button-bg: #dee2e6;
+  --tr-hovered: rgb(220, 220, 220);
 }
 
 [theme="dark-theme"] {
@@ -12,6 +13,7 @@
   --even-row: #495057;
   --odd-row: #6c757d;
   --button-bg: #343a40;
+  --tr-hovered: rgb(30, 30, 30);
 }
 
 .content-table {
@@ -60,7 +62,7 @@
   }
   
   .content-table tbody tr.hovered-row {
-    background-color: rgb(35, 35, 35);
+    background-color: var(--tr-hovered);
   }
   
   .content-table tbody tr.selected-row {

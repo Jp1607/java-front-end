@@ -158,10 +158,10 @@ const CreateProds = () => {
                 <option value='false'>NÃO ATIVO</option>
             </select>
 
-            <input type="submit" value="ENVIAR" id="content-abled-button-create" />
+            <input type="submit" value="ENVIAR" className="content-abled-button-create" />
 
             <Link to={'/listProds'}>
-                <button id="content-abled-button-create">CANCELAR</button>
+                <button className="content-abled-button-create">CANCELAR</button>
             </Link>
         </form>
     )

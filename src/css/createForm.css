@@ -1,13 +1,13 @@
 [theme="light-theme"] {
     --form-bg: #dee2e6;
     --label: #064E00;
-    --button-bg: black;
+    --button-bg: white;
 }
 
 [theme="dark-theme"] {
     --form-bg: #495057;
     --label: rgba(200, 255, 195, 0.807);
-    --button-bg: white;
+    --button-bg: black;
 }
 
 
@@ -34,7 +34,7 @@
     width: 50%;
 }
 
-#content-abled-button-create {
+.content-abled-button-create {
     /* background-color: #212529; */
     background-color: var(--button-bg);
     color: var(--label);
@@ -43,7 +43,7 @@
     width: 150px;
     height: 40px;
     border-radius: 4px;
-    border: none;
+    border: solid black 1px;
     font-size: 1rem;
     font-weight: 600;
     cursor: pointer;
