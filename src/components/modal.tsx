@@ -1,4 +1,3 @@
-import { ReactElement } from "react";
 import '../css/delete-pop-up.css';
 
 type modalProps = {
@@ -10,13 +9,10 @@ type modalProps = {
 const Modal: React.FC<modalProps> = ({ isOpen, children }): JSX.Element => {
 
     return isOpen ?
-
-        <div
-        className="pop-up-container"
-        >
-
+        <div className="pop-up-container">
             {children}
-        </div> : null
+        </div> :
+        null
 }
 
 export default Modal

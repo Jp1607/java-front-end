@@ -1,5 +1,5 @@
 import React from "react";
-import { Product } from "../api/TableFetch";
+import { Product, User } from "../api/TableFetch";
 import DeleteProds from "../api/DeleteProducts";
 import { Link } from "react-router-dom";
 import Modal from "./modal";
@@ -7,22 +7,24 @@ import '../css/delete-pop-up.css';
 
 type tableRender<T> = {
 
-    products: Product[],
+    values: Product[] | User[],
     selectedRow?: T | null,
-    onTableClick?: (param: Product) => void
+    onTableClick?: (param: Product | User) => void
 }
 
-const TableRender = <T,>({ products, selectedRow, onTableClick }: tableRender<T>): JSX.Element => {
+const TableRender = <T,>({ values, selectedRow, onTableClick }: tableRender<T>): JSX.Element => {
 
     const [indexRow, setIndexRow] = React.useState<number>(-1);
     const [product, setProduct] = React.useState<Product>(null);
+    const [user, setUser] = React.useState<User>(null);
     const [showState, setShowState] = React.useState<boolean>(false);
     const [indexProduct, setIndexProduct] = React.useState<number>(null);
 
-    const handleTableClick = (event: React.MouseEvent<HTMLTableRowElement, MouseEvent>, row: Product, index: number): void => {
+    const handleTableClick = (event: React.MouseEvent<HTMLTableRowElement, MouseEvent>, row: Product | User, index: number): void => {
 
         setIndexProduct(index);
         event.preventDefault();
+        if()
         setProduct(row);
 
         if (onTableClick !== undefined && onTableClick !== null) {
@@ -117,7 +119,7 @@ const TableRender = <T,>({ products, selectedRow, onTableClick }: tableRender<T>
 
                 <tbody>
                     {
-                        products.map((r: Product, index: number) => (
+                        values.map((r: Product | User, index: number) => (
 
                             <tr
                                 onClick={(event: React.MouseEvent<HTMLTableRowElement, MouseEvent>) =>
