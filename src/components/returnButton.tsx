@@ -19,7 +19,7 @@
 //             auth.setAuthenticated(false);
 //         } else if (action = 'return') {
 //             navigate(-1)
-//         } else if (action = 'menu') {
+//         } else if (act   ion = 'menu') {
 //             navigate("/")
 //         }
 //     }
@@ -34,3 +34,4 @@
 // }
 
 // export default ReturnButton;
+export {};

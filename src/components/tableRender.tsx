@@ -1,7 +1,7 @@
 import React from "react";
 import { Product, User } from "../api/TableFetch";
 import DeleteProds from "../api/DeleteProducts";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import Modal from "./modal";
 import '../css/delete-pop-up.css';
 
@@ -14,23 +14,33 @@ type tableRender<T> = {
 
 const TableRender = <T,>({ values, selectedRow, onTableClick }: tableRender<T>): JSX.Element => {
 
+
+    const path = useLocation().pathname;
     const [indexRow, setIndexRow] = React.useState<number>(-1);
     const [product, setProduct] = React.useState<Product>(null);
     const [user, setUser] = React.useState<User>(null);
     const [showState, setShowState] = React.useState<boolean>(false);
-    const [indexProduct, setIndexProduct] = React.useState<number>(null);
+    const [indexValue, setIndexValue] = React.useState<number>(null);
 
     const handleTableClick = (event: React.MouseEvent<HTMLTableRowElement, MouseEvent>, row: Product | User, index: number): void => {
 
-        setIndexProduct(index);
+        setIndexValue(index);
         event.preventDefault();
-        if()
-        setProduct(row);
+        if (row as Product) {
+            setProduct(row as Product);
+        } else {
+            setUser(row as User)
+        }
 
         if (onTableClick !== undefined && onTableClick !== null) {
 
             onTableClick(row);
-            setProduct(row)
+
+            if (row as Product) {
+                setProduct(row as Product);
+            } else {
+                setUser(row as User)
+            }
         }
     }
 
@@ -106,21 +116,47 @@ const TableRender = <T,>({ values, selectedRow, onTableClick }: tableRender<T>):
 
             <table className="content-table" id="table">
                 <thead>
-                    <tr>
-
+                    {/* <tr>
                         <th> ID </th>
                         <th> NOME </th>
                         <th> DESCRIÇÃO </th>
                         <th> CÓDIGO DE BARRAS </th>
                         <th> ATIVO </th>
                         <th> </th>
+                    </tr> */}
+                {
+                    
+                    (path == "/listProds") ? (
+
+                        <tr>
+                        <th> ID </th>
+                        <th> NOME </th>
+                        <th> DESCRIÇÃO </th>
+                        <th> CÓDIGO DE BARRAS </th>
+                        <th> ATIVO </th>
+                        <th> </th>
+                    </tr> 
+                      
+
+                   ) : (
+                    <tr>
+                    <th> ID </th>
+                    <th> NOME </th>
+                    <th> ATIVO </th>
+                    <th> </th>
                     </tr>
+                   )
+                   
+                    
+                }
+
                 </thead>
 
                 <tbody>
                     {
                         values.map((r: Product | User, index: number) => (
 
+                           
                             <tr
                                 onClick={(event: React.MouseEvent<HTMLTableRowElement, MouseEvent>) =>
                                     handleTableClick(event, r, index)}
@@ -154,11 +190,11 @@ const TableRender = <T,>({ values, selectedRow, onTableClick }: tableRender<T>):
                                 }
 
                                 <td>
-                                    <Link to={indexProduct === index ? `/editProd/${product.id}?` : '#'}>
+                                    <Link to={indexValue === index ? `/editProd/${product.id}?` : '#'}>
 
                                         <button
-                                            disabled={indexProduct !== index}
-                                            className={indexProduct === index ?
+                                            disabled={indexValue !== index}
+                                            className={indexValue === index ?
                                                 'content-abled-button-list' :
                                                 "content-disabled-button-list"}>
                                             EDITAR PRODUTO
@@ -167,9 +203,9 @@ const TableRender = <T,>({ values, selectedRow, onTableClick }: tableRender<T>):
 
                                     <button
 
-                                        disabled={indexProduct !== index}
+                                        disabled={indexValue !== index}
                                         onClick={handleOpen}
-                                        className={indexProduct === index ?
+                                        className={indexValue === index ?
                                             'content-abled-button-list' :
                                             "content-disabled-button-list"}>
                                         DELETAR PRODUTO

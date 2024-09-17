@@ -1,5 +1,5 @@
 import React, { useEffect } from "react"
-import { Link, useNavigate, useParams } from "react-router-dom"
+import { Link, useHref, useNavigate, useParams } from "react-router-dom"
 import getProducts, { Product } from "../../api/TableFetch";
 import PostNewProduct from "../../api/PostNewProduct";
 import EditProduct from "../../api/EditProd";
@@ -46,11 +46,11 @@ const CreateProds = () => {
 
             const fetchProd = async () => {
 
-                const prodById = await getProducts(parseInt(id))
+                const prodById = await getProducts('/product', parseInt(id))
 
                 if (prodById) {
 
-                    setProduct(prodById);
+                    setProduct(prodById as Product);
                     setWillEdit(true);
                 }
             }

@@ -9,23 +9,26 @@ export type Product = {
     active: boolean
 }
 
+export type Path = '/product' | '/users';
+
 export type User = {
 
     id?: number,
     name: string,
-    password: number,
+    // password: number,
     active: boolean
 }
 
-function getFunction(): Promise<Product[] | User[]>
-function getFunction(id: number): Promise<Product | User>
-function getFunction(id?: number): Promise<Product[] | User[]> | Promise<Product | User> {
+function getFunction(path: Path): Promise<Product[] | User[]>
+function getFunction(path: Path, id: number): Promise<Product | User>
+function getFunction(path: Path, id?: number): Promise<Product[] | User[]> | Promise<Product | User> {
 
-    if (id === undefined) {
 
-        return DefaultFetch<Product[] | User[]>('GET', '/product') as Promise<Product[] | User[]>;
+    if (id == undefined) {
+
+        return DefaultFetch<Product[] | User[]>('GET', path) as Promise<Product[] | User[]>;
     }
-    return DefaultFetch<Product | User>('GET', '/product', undefined, id) as Promise<Product | User>;
+    return DefaultFetch<Product | User>('GET', path, undefined, id) as Promise<Product | User>;
 }
 
 export default getFunction;

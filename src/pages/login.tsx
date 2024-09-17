@@ -38,6 +38,7 @@ const Login = () => {
 
         event.preventDefault();
         LoginMethod.default(user).then((response: LoginMethod.LoginResponseBody) => {
+            console.log(response.token)
 
             localStorage.setItem('token', response.token);
             console.log(localStorage.getItem('token'))

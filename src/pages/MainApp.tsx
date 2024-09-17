@@ -50,9 +50,11 @@ const MainApp = (): JSX.Element => {
                             </button>
                         </Link>
 
+<Link to={'/listUsers'}>
                         <button id="content-abled-button-main">
                             LISTA DE USUÁRIOS
                         </button>
+</Link>
                     </div>
 
                     <div id="content-container">

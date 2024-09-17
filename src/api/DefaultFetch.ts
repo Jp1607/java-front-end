@@ -1,7 +1,7 @@
 import Configuration from "./Config";
 
 type Method = 'GET' | 'POST' | 'PUT' | 'DELETE';
-type Path = '/login' | '/product';
+type Path = '/login' | '/product' | '/users';
 
 function DefaultFetch<T>(method: Method, path: Path, body?: any, pathParam?: string | number): Promise<T | void> {
 
@@ -9,19 +9,20 @@ function DefaultFetch<T>(method: Method, path: Path, body?: any, pathParam?: str
 
         try {
 
-            const Url: string = 
-            pathParam === undefined || 
-            pathParam === null ? 
-            `${Configuration.url}${path}` : 
-            `${Configuration.url}${path}/${pathParam}`;
+
+            const Url: string =
+                pathParam === undefined ||
+                    pathParam === null ?
+                    `${Configuration.url}${path}` :
+                    `${Configuration.url}${path}/${pathParam}`;
 
             const RequestBody: RequestInit = {
-                
+
                 method: method,
             }
 
-            const TOKEN: string | null = 
-            localStorage.getItem('token');
+            const TOKEN: string | null =
+                localStorage.getItem('token');
 
             if (TOKEN !== null) {
 
@@ -60,17 +61,19 @@ function DefaultFetch<T>(method: Method, path: Path, body?: any, pathParam?: str
             if (FETCH.headers.get('content-type') !== null) {
 
                 if (FETCH.headers.get('content-type') === 'application/json') {
-
+                    console.log(FETCH)
                     return resolve(await FETCH.json());
                 } else if (FETCH.headers.get('content-type')?.indexOf('text/plain') !== -1) {
 
+                    console.log(FETCH)
                     return resolve(await FETCH.text() as T);
                 }
             }
 
+            console.log(FETCH)
             return resolve();
         } catch (e) {
-          
+
             return reject({ error: "internal_error", error_description: "Problema de conexão com o servidor ou internet." });
         }
     });

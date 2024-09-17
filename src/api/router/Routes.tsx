@@ -11,9 +11,10 @@ const Routers = () => {
         <Routes>
             <Route>
                 <Route index path='/' element={<HomePage />} />
-                <Route path='/createProd' element={<CreateProds />} />
+                <Route path='/createProd' element={<CreateProds /> } />
                 <Route path='/editProd/:id?' element={<CreateProds />} />
                 <Route path='/listProds' element={<ProductListRender />} />
+                <Route path='/listUsers' element={<ProductListRender />} />
                 <Route path="/*" element={<PageNotFound />} />
             </Route>
         </Routes>
