@@ -1,5 +1,5 @@
 import DefaultFetch from "./DefaultFetch";
-import { Product } from "./TableFetch";
+import { Product } from "./GET";
 
 const DeleteProds = (product: Product) => {
 

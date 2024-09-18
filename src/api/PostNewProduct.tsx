@@ -1,4 +1,4 @@
-import { Product } from "./TableFetch";
+import { Product } from "./GET";
 import DefaultFetch from "./DefaultFetch";
 
 function PostNewProduct(product: Product): Promise<string> {

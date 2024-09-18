@@ -1,79 +1,63 @@
 import React from "react";
-import { Product, User } from "../api/TableFetch";
+import { Product, User } from "../api/GET";
 import DeleteProds from "../api/DeleteProducts";
 import { Link, useLocation } from "react-router-dom";
 import Modal from "./modal";
 import '../css/delete-pop-up.css';
 
-type tableRender<T> = {
-
-    values: Product[] | User[],
-    selectedRow?: T | null,
-    onTableClick?: (param: Product | User) => void
+type EventButtons = {
+    label: string;
+    cb: (event?: React.MouseEvent<HTMLButtonElement, MouseEvent>, param?: any) => void;
 }
 
-const TableRender = <T,>({ values, selectedRow, onTableClick }: tableRender<T>): JSX.Element => {
+type Headers<T> = {
+    attributeName: keyof T;
+    label: string;
+    gridType: "PX" | "FLEX";
+    width: string | number;
+}
+
+type tableRender<T> = {
+    values: T[];
+    selectedRow?: T | null;
+    headers?: Headers<T>[];
+    onTableClick?: (param: T) => void;
+    eventButtons?: EventButtons[];
+}
+
+const TableRender = <T,>({ values, selectedRow, onTableClick, eventButtons, headers }: tableRender<T>): JSX.Element => {
 
 
     const path = useLocation().pathname;
     const [indexRow, setIndexRow] = React.useState<number>(-1);
-    const [product, setProduct] = React.useState<Product>(null);
-    const [user, setUser] = React.useState<User>(null);
     const [showState, setShowState] = React.useState<boolean>(false);
-    const [indexValue, setIndexValue] = React.useState<number>(null);
 
-    const handleTableClick = (event: React.MouseEvent<HTMLTableRowElement, MouseEvent>, row: Product | User, index: number): void => {
-
-        setIndexValue(index);
-        event.preventDefault();
-        if (row as Product) {
-            setProduct(row as Product);
-        } else {
-            setUser(row as User)
-        }
-
+    const handleTableClick = (event: React.MouseEvent<HTMLTableRowElement, MouseEvent>, row: T, index: number): void => {
         if (onTableClick !== undefined && onTableClick !== null) {
 
             onTableClick(row);
 
-            if (row as Product) {
-                setProduct(row as Product);
-            } else {
-                setUser(row as User)
-            }
         }
     }
 
     const handleMouseEnter = (index: number): void => {
-
         setIndexRow(index);
     }
 
     const handleMouseLeave = () => {
-
         setIndexRow(-1);
     }
 
-    const handleDelete = () => {
-
-        DeleteProds(product).then((response: string) => { console.log(response) }).catch((e) => console.log('Error ao deletar produto', e));
-        window.location.reload();
-        setShowState(false)
-    }
-
     const handleClose = () => {
-
         setShowState(false)
     }
-    const handleOpen = () => {
 
+    const handleOpen = () => {
         setShowState(true)
     }
 
     const handleValue = (value: any): string => {
-
         if (value === true) {
-
             return "ATIVO"
         } else if (value === false) {
 
@@ -85,6 +69,7 @@ const TableRender = <T,>({ values, selectedRow, onTableClick }: tableRender<T>):
         return (value)
     }
 
+
     return (
 
         <div>
@@ -94,20 +79,24 @@ const TableRender = <T,>({ values, selectedRow, onTableClick }: tableRender<T>):
 
                         <h1
                             className="pop-up-head">
-                            Atenção!
+                            ACTIONS
                         </h1>
                     </div>
 
                     <div className="pop-up-body">
-
                         <p className="pop-up-content" >
-                            Você tem certeza de que deseja excluir este produto?
+                            {/* Você tem certeza de que deseja excluir este {path == "/product" ? "produto" : "usuário"}? */}
                         </p>
                     </div>
 
                     <div
                         className="pop-up-footer">
-                        <button className={'content-abled-button'} onClick={handleDelete}> EXCLUIR</button>
+
+                        {
+                            eventButtons !== undefined && eventButtons.map((b: EventButtons) => (
+                                <button className="content-abled-button" onClick={b.cb}>{b.label}</button>
+                            ))
+                        }
                         <button className={'content-abled-button'} onClick={handleClose}> CANCELAR</button>
                     </div>
                 </div>
@@ -116,58 +105,46 @@ const TableRender = <T,>({ values, selectedRow, onTableClick }: tableRender<T>):
 
             <table className="content-table" id="table">
                 <thead>
-                    {/* <tr>
-                        <th> ID </th>
-                        <th> NOME </th>
-                        <th> DESCRIÇÃO </th>
-                        <th> CÓDIGO DE BARRAS </th>
-                        <th> ATIVO </th>
-                        <th> </th>
-                    </tr> */}
-                {
-                    
-                    (path == "/listProds") ? (
-
-                        <tr>
-                        <th> ID </th>
-                        <th> NOME </th>
-                        <th> DESCRIÇÃO </th>
-                        <th> CÓDIGO DE BARRAS </th>
-                        <th> ATIVO </th>
-                        <th> </th>
-                    </tr> 
-                      
-
-                   ) : (
                     <tr>
-                    <th> ID </th>
-                    <th> NOME </th>
-                    <th> ATIVO </th>
-                    <th> </th>
-                    </tr>
-                   )
-                   
-                    
-                }
+                        {
+                            headers !== undefined ?
+                                (
+                                    headers.map((h: Headers<T>) => (
+                                        <th style={h.gridType === 'FLEX' ? { flex: h.width } : { width: h.width }}>
+                                            {h.label}
+                                        </th>
+                                    ))
+                                )
+                                :
+                                ((values && values.length > 0 && typeof values[0] === "object" && values[0]) ?
+                                    (
+                                        Object.keys(values[0]).map((key: any, idx: number) => (
 
+                                            <th style={{ textTransform: "capitalize" }}
+                                                key={`${key}`}>
+                                                {key}
+                                            </th>
+                                        ))
+                                    ) : (null)
+                                )
+                        }
+                        {eventButtons !== undefined &&
+                            <th> Actions </th>
+                        }
+                    </tr>
                 </thead>
 
                 <tbody>
                     {
-                        values.map((r: Product | User, index: number) => (
-
-                           
+                        values.map((r: T, index: number) => (
                             <tr
-                                onClick={(event: React.MouseEvent<HTMLTableRowElement, MouseEvent>) =>
-                                    handleTableClick(event, r, index)}
-
+                                onClick={(event: React.MouseEvent<HTMLTableRowElement, MouseEvent>) => handleTableClick(event, r, index)}
                                 key={`table-row-${index}`}
-
+                                style={{height: "50px"}}
                                 onMouseEnter={() => handleMouseEnter(index)}
                                 onMouseLeave={handleMouseLeave}
 
                                 className={
-
                                     index === selectedRow ?
                                         'selected-row' :
                                         index === indexRow ?
@@ -180,37 +157,38 @@ const TableRender = <T,>({ values, selectedRow, onTableClick }: tableRender<T>):
                                 {
                                     typeof r === 'object' && r !== null ?
                                         Object.entries(r).map(([key, value], idx: number) => (
-
-                                            <td
-                                                key={`table-row-cell-${idx}`}>
-                                                {handleValue(value)}
-                                            </td>
+                                            headers !== undefined ?
+                                                (headers.find((h: Headers<T>) => h.attributeName === key) !== undefined ? (
+                                                    <td
+                                                        key={`table-row-cell-${idx}`}>
+                                                        {handleValue(value)}
+                                                    </td>
+                                                ) : (null))
+                                                :
+                                                (<td
+                                                    key={`table-row-cell-${idx}`}>
+                                                    {handleValue(value)}
+                                                </td>)
 
                                         )) : null
                                 }
+                                {eventButtons !== undefined &&
+                                    <td width="200px">
+                                        {
+                                            indexRow === index &&
+                                            <div style={{ display: 'flex' }}>
 
-                                <td>
-                                    <Link to={indexValue === index ? `/editProd/${product.id}?` : '#'}>
-
-                                        <button
-                                            disabled={indexValue !== index}
-                                            className={indexValue === index ?
-                                                'content-abled-button-list' :
-                                                "content-disabled-button-list"}>
-                                            EDITAR PRODUTO
-                                        </button>
-                                    </Link>
-
-                                    <button
-
-                                        disabled={indexValue !== index}
-                                        onClick={handleOpen}
-                                        className={indexValue === index ?
-                                            'content-abled-button-list' :
-                                            "content-disabled-button-list"}>
-                                        DELETAR PRODUTO
-                                    </button>
-                                </td>
+                                                <button
+                                                    onClick={handleOpen}
+                                                    className="content-abled-button-list"
+                                                    value="Open actions"
+                                                >
+                                                    Actions
+                                                </button>
+                                            </div>
+                                        }
+                                    </td>
+                                }
                             </tr>
                         ))
                     }
