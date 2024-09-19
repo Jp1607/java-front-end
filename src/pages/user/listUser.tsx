@@ -1,39 +1,47 @@
-import { Link, useLocation } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import TableRender from "../../components/tableRender"
 import React from "react";
 import getFunction, { User } from "../../api/GET";
-import Delete from "../../api/DeleteProducts";
 import Edit from "../../api/PUT";
+import ActionsModal from "../../components/ActionsModal";
 
 const UserListRender = () => {
 
-console.log("entrou")
-
+    const [show, setShow] = React.useState<boolean>(undefined)
     const [users, setUsers] = React.useState<User[]>([]);
     const [user, setUser] = React.useState<User>({
         name: '',
         active: false
     });
 
-const path = useLocation().pathname
-
     React.useEffect(() => {
 
         const fetch = async () => {
+
             await getFunction('/users').then((response: User[]) => {
+
                 setUsers(response)
-            }).catch(() => {})
+            }).catch(() => { })
         }
 
-        console.log(users)
         fetch()
-    }, [])
+    }, [, user])
 
-    const handlePUT = (row: any): void => {
-        Edit(row, '/users').catch(() => { })
+    const handlePUT = async (): Promise<void> => {
+
+        await Edit(`/users/${user.id}`).
+        then((response: string) => console.log("Sucesso! ", response)).
+        catch((e) => console.log(e))
+        
+        setShow(false)
+      
+        await getFunction('/users').
+        then((response: User[]) => {setUsers(response)}).
+        catch(() => { })
     }
 
     const handleClick = (row: User) => {
+
         setUser(row as User)
     }
 
@@ -41,7 +49,18 @@ const path = useLocation().pathname
 
         <div className="default-page">
             <div className="default-content">
+
+                <ActionsModal
+
+                    isOpen={show}
+                    onClose={() => { setShow(false) }}
+                    eventButtons={[
+                        { label: user.active ? "DESATIVAR" : "ATIVAR", cb: handlePUT }
+                    ]}
+                />
+
                 <TableRender
+
                     values={users}
                     headers={[
                         { gridType: "FLEX", width: 1, attributeName: "id", label: "Identificador" },
@@ -50,12 +69,8 @@ const path = useLocation().pathname
                     ]}
                     onTableClick={handleClick}
                     selectedRow={user}
-                    eventButtons={[
-                        { label: user.active ? "DESATIVAR" : "ATIVAR", cb: handlePUT }
-                    ]}
-
+                    onClickActions={() => (setShow(true))}
                 />
-
             </div>
         </div>
     )

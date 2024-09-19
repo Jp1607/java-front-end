@@ -1,14 +1,5 @@
 import React from "react";
-import { Product, User } from "../api/GET";
-import DeleteProds from "../api/DeleteProducts";
-import { Link, useLocation } from "react-router-dom";
-import Modal from "./modal";
 import '../css/delete-pop-up.css';
-
-type EventButtons = {
-    label: string;
-    cb: (event?: React.MouseEvent<HTMLButtonElement, MouseEvent>, param?: any) => void;
-}
 
 type Headers<T> = {
     attributeName: keyof T;
@@ -22,21 +13,18 @@ type tableRender<T> = {
     selectedRow?: T | null;
     headers?: Headers<T>[];
     onTableClick?: (param: T) => void;
-    eventButtons?: EventButtons[];
+    onClickActions?: () => void;
 }
 
-const TableRender = <T,>({ values, selectedRow, onTableClick, eventButtons, headers }: tableRender<T>): JSX.Element => {
+const TableRender = <T,>({ values, selectedRow, headers, onTableClick, onClickActions }: tableRender<T>): JSX.Element => {
 
-
-    const path = useLocation().pathname;
     const [indexRow, setIndexRow] = React.useState<number>(-1);
-    const [showState, setShowState] = React.useState<boolean>(false);
 
-    const handleTableClick = (event: React.MouseEvent<HTMLTableRowElement, MouseEvent>, row: T, index: number): void => {
+    const handleTableClick = (row: T): void => {
+
         if (onTableClick !== undefined && onTableClick !== null) {
 
             onTableClick(row);
-
         }
     }
 
@@ -48,16 +36,10 @@ const TableRender = <T,>({ values, selectedRow, onTableClick, eventButtons, head
         setIndexRow(-1);
     }
 
-    const handleClose = () => {
-        setShowState(false)
-    }
-
-    const handleOpen = () => {
-        setShowState(true)
-    }
-
     const handleValue = (value: any): string => {
+
         if (value === true) {
+
             return "ATIVO"
         } else if (value === false) {
 
@@ -69,81 +51,60 @@ const TableRender = <T,>({ values, selectedRow, onTableClick, eventButtons, head
         return (value)
     }
 
-
     return (
 
         <div>
-            <Modal isOpen={showState}>
-                <div className="pop-up">
-                    <div className="pop-up-header">
-
-                        <h1
-                            className="pop-up-head">
-                            ACTIONS
-                        </h1>
-                    </div>
-
-                    <div className="pop-up-body">
-                        <p className="pop-up-content" >
-                            {/* Você tem certeza de que deseja excluir este {path == "/product" ? "produto" : "usuário"}? */}
-                        </p>
-                    </div>
-
-                    <div
-                        className="pop-up-footer">
-
-                        {
-                            eventButtons !== undefined && eventButtons.map((b: EventButtons) => (
-                                <button className="content-abled-button" onClick={b.cb}>{b.label}</button>
-                            ))
-                        }
-                        <button className={'content-abled-button'} onClick={handleClose}> CANCELAR</button>
-                    </div>
-                </div>
-            </Modal>
-
-
             <table className="content-table" id="table">
                 <thead>
+
                     <tr>
                         {
                             headers !== undefined ?
-                                (
-                                    headers.map((h: Headers<T>) => (
-                                        <th style={h.gridType === 'FLEX' ? { flex: h.width } : { width: h.width }}>
-                                            {h.label}
-                                        </th>
-                                    ))
-                                )
-                                :
-                                ((values && values.length > 0 && typeof values[0] === "object" && values[0]) ?
-                                    (
-                                        Object.keys(values[0]).map((key: any, idx: number) => (
 
-                                            <th style={{ textTransform: "capitalize" }}
-                                                key={`${key}`}>
-                                                {key}
-                                            </th>
-                                        ))
-                                    ) : (null)
+                                (headers.map((h: Headers<T>) => (
+                                    <th style={h.gridType === 'FLEX' ?
+                                        { flex: h.width } :
+                                        { width: h.width }}>
+
+                                        {h.label}
+
+                                    </th>
+                                ))) :
+
+                                ((values && values.length > 0 && typeof values[0] === "object" && values[0]) ?
+
+                                    (Object.keys(values[0]).map((key: any, idx: number) => (
+                                        <th style={{ textTransform: "capitalize" }}
+                                            key={`${key}`}>
+
+                                            {key}
+
+                                        </th>
+                                    ))) :
+
+                                    (null)
                                 )
                         }
-                        {eventButtons !== undefined &&
-                            <th> Actions </th>
+                        {
+                            onClickActions !== undefined &&
+                            <th>
+                                Actions
+                            </th>
                         }
                     </tr>
+
                 </thead>
 
                 <tbody>
                     {
                         values.map((r: T, index: number) => (
+
                             <tr
-                                onClick={(event: React.MouseEvent<HTMLTableRowElement, MouseEvent>) => handleTableClick(event, r, index)}
+                                onClick={() => handleTableClick(r)}
                                 key={`table-row-${index}`}
-                                style={{height: "50px"}}
+                                style={{ height: "50px" }}
                                 onMouseEnter={() => handleMouseEnter(index)}
                                 onMouseLeave={handleMouseLeave}
-
                                 className={
                                     index === selectedRow ?
                                         'selected-row' :
@@ -156,15 +117,17 @@ const TableRender = <T,>({ values, selectedRow, onTableClick, eventButtons, head
 
                                 {
                                     typeof r === 'object' && r !== null ?
+
                                         Object.entries(r).map(([key, value], idx: number) => (
                                             headers !== undefined ?
-                                                (headers.find((h: Headers<T>) => h.attributeName === key) !== undefined ? (
-                                                    <td
+
+                                                (headers.find((h: Headers<T>) => h.attributeName === key) !== undefined ?
+
+                                                    (<td
                                                         key={`table-row-cell-${idx}`}>
                                                         {handleValue(value)}
-                                                    </td>
-                                                ) : (null))
-                                                :
+                                                    </td>) : (null)) :
+
                                                 (<td
                                                     key={`table-row-cell-${idx}`}>
                                                     {handleValue(value)}
@@ -172,18 +135,21 @@ const TableRender = <T,>({ values, selectedRow, onTableClick, eventButtons, head
 
                                         )) : null
                                 }
-                                {eventButtons !== undefined &&
+
+                                {onClickActions !== undefined &&
                                     <td width="200px">
+
                                         {
                                             indexRow === index &&
                                             <div style={{ display: 'flex' }}>
 
                                                 <button
-                                                    onClick={handleOpen}
+                                                    onClick={onClickActions}
                                                     className="content-abled-button-list"
-                                                    value="Open actions"
-                                                >
+                                                    value="Open actions">
+
                                                     Actions
+
                                                 </button>
                                             </div>
                                         }

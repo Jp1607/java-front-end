@@ -1,5 +1,5 @@
 import React, { useEffect } from "react"
-import { Link, useHref, useNavigate, useParams } from "react-router-dom"
+import { Link, useNavigate, useParams } from "react-router-dom"
 import getProducts, { Product } from "../../api/GET";
 import PostNewProduct from "../../api/PostNewProduct";
 import EditProduct from "../../api/PUT";
@@ -67,7 +67,8 @@ const CreateProds = () => {
 
         if (willEdit === true) {
 
-            EditProduct(product, '/product').then((response: string) => console.log('sucesso!', response)).catch((e) => console.log(e));
+            EditProduct('/product', product).then((response: string) => console.log('sucesso!', response)).catch((e) => console.log(e));
+
         } else {
 
             // if (verifyEmpty(product) === false) {

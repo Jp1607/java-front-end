@@ -1,7 +1,7 @@
 import Configuration from "./Config";
 
 type Method = 'GET' | 'POST' | 'PUT' | 'DELETE';
-type Path = '/login' | '/product' | '/users';
+type Path = '/login' | '/product' | '/users' | `/users/${number}`;
 
 function DefaultFetch<T>(method: Method, path: Path, body?: any, pathParam?: string | number): Promise<T | void> {
 
