@@ -29,7 +29,6 @@
 #create-form input[type=text], input[type=number], select {
     font-size: 2rem;
     margin-top: 5px;
-    /* height: 0.5%; */
     margin-right: 100%;
     width: 50%;
 }

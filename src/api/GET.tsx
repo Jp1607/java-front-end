@@ -15,14 +15,12 @@ export type User = {
 
     id?: number,
     name: string,
-    // password: number,
     active: boolean
 }
 
 function getFunction(path: Path): Promise<Product[] | User[]>
 function getFunction(path: Path, id: number): Promise<Product | User>
 function getFunction(path: Path, id?: number): Promise<Product[] | User[]> | Promise<Product | User> {
-
 
     if (id == undefined) {
 

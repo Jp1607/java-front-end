@@ -7,7 +7,7 @@
 }
 
 [theme="dark-theme"] {
-  
+
   --login-bg: #495057;
   --login-fonts: rgba(200, 255, 195, 0.807);
   --login-button-bg: rgb(25, 25, 25);
@@ -15,71 +15,66 @@
 }
 
 #login-page {
-    border-radius: 10%;
-    width: 50vw;
-    height: 90vh;
-    margin: auto;
-    margin-top: 2%;
-    border: solid rgb(50, 50, 50) 2px;
-    background-color: var(--login-bg);
   
-  }
-  
-  #login-page-container {
-    width: 90%;
-    margin: 10px auto;
-  }
-  
-  #login-form {
-    /* border: solid rgb(80, 80, 80) 1px; */
-    height: 100%;
-    padding: 2%;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-  }
-  
-  #login-title {
-    width: max-content;
-    margin: 5% auto 10%;
-    font-size: 4rem;
-    color: var(--login-fonts);
-  }
-  
-  #login-form label {
-    font-size: 2rem;
-    font-weight: 600;
-    min-width: 100%;
-    margin-right: 100%;
-   
-    color: var(--login-fonts);
-  }
+  border-radius: 10%;
+  width: 50vw;
+  height: 90vh;
+  margin: auto;
+  margin-top: 2%;
+  border: solid #053700 2px;
+  background-color: var(--login-bg);
 
-  #login-form input[type=text], input[type=password]{
-    margin-top: 5px;
-    height: 0.5%;
-    margin-right: 100%;
-    min-width: 50%;
-    
-  }
-  
-  #content-abled-button-login {
-    background-color:var(--login-button-bg);
-    color: var(--login-button-font);
-  
-    margin-right: 10px;
-    margin-top: 2%;
-    width: 150px;
-    height: 40px;
-    border-radius: 4px;
-    border: none;
-    font-size: 1.2rem;
-    font-weight: 500;
-    cursor: pointer;
-  }
-  
-  #content-abled-button-create:hover {
-  
-    opacity: 0.7;
-    
-  }
+}
+
+#login-page-container {
+  width: 90%;
+  margin: 10px auto;
+}
+
+#login-form {
+  /* border: solid rgb(80, 80, 80) 1px; */
+  margin-top: 5%;
+  height: 100%;
+  padding: 2%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+#login-page-header {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  padding-top: 5%;
+}
+
+#login-title {
+  width: max-content;
+  margin-right: 20%;
+  font-size: 4rem;
+  color: var(--login-fonts);
+}
+
+#themeCad {}
+
+#login-form label {
+  font-size: 2rem;
+  font-weight: 600;
+  min-width: 100%;
+  margin-right: 100%;
+margin-top: 5%;
+  color: var(--login-fonts);
+}
+
+#login-form input[type=text],
+input[type=password] {
+  margin-top: 5px;
+  height: 0.5%;
+  margin-right: 100%;
+  min-width: 50%;
+
+}
+
+#subCad {
+  margin-top: 5%;
+}

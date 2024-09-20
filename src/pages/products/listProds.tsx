@@ -67,7 +67,6 @@ const ProductListRender: React.FC = () => {
         } catch (e) {
             console.log("Erro: ", e)
         }
-        
     }
 
     return (

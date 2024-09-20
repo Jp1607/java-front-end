@@ -7,6 +7,10 @@ import '../css/delete-pop-up.css';
 import Modal from "../components/modal";
 import { useAuthContext } from "../api/context/AuthContext";
 import { useThemeContext } from "../api/context/ThemeContext";
+import InputComponent from "../components/Input";
+import { Button } from "react-bootstrap";
+import ButtonComponent from "../components/Button";
+import ActionsModal from "../components/ActionsModal";
 
 
 type User = {
@@ -15,7 +19,7 @@ type User = {
 }
 
 const Login = () => {
-    const {  toggleTheme } = useThemeContext()
+    const { toggleTheme } = useThemeContext()
     window.history.pushState(null, null, window.location.origin)
     const auth = useAuthContext();
     const [show, setShow] = useState<boolean>(false)
@@ -57,7 +61,7 @@ const Login = () => {
     return (
 
         <>
-            <Modal isOpen={show}>
+            {/* <Modal isOpen={show}>
                 <div className="pop-up">
                     <div className="pop-up-header">
 
@@ -93,52 +97,72 @@ const Login = () => {
                         </button>
                     </div>
                 </div>
-            </Modal>
+            </Modal> */}
+
+            <ActionsModal
+                isOpen={show}
+                onClose={() => setShow(false)}
+                title="ATENÇÃO!"
+                closeLabel = "OK">
+
+                <p>
+                    Credenciais inválidas!
+                </p>
+                <p>
+                    Esperado:
+                </p>
+                <p>
+                    Usuário: admin
+                </p>
+                <p>
+                    Senha: 12345
+                </p>
+
+            </ActionsModal>
 
             <div id="login-page">
                 <div id="login-page-container">
+                    <div id="login-page-header">
 
-                    <h1 id="login-title">
-                        LOGIN
-                    </h1>
+                        <h1 id="login-title">
 
-                    <button className="theme-toggle"
-                        onClick={toggleTheme}>
-                        TEMA
-                    </button>
+                            LOGIN
+
+                        </h1>
+
+                        <ButtonComponent
+                            id="themeCad"
+                            label="TEMA"
+                            type="button"
+                            action={toggleTheme}
+                        />
+
+                    </div>
+
 
                     <form onSubmit={handleSubmit} id="login-form">
 
-                        <label htmlFor="user">
-                            Usuário:
-                        </label>
-
-                        <input
+                        <InputComponent
+                            id="userCad"
+                            label="USUÁRIO: "
                             type="text"
-                            id="user"
-                            value={user.username}
-                            onChange={
-                                (event: React.ChangeEvent<HTMLInputElement>) =>
-                                    handleUserChange("username", event.target.value)}
+                            placeHolder="User"
+                            action={(event: React.ChangeEvent<HTMLInputElement>) => (handleUserChange('username', event.target.value.toString()))}
                         />
 
-                        <label htmlFor="pass">
-                            Senha:
-                        </label>
-
-                        <input
+                        <InputComponent
+                            id="passCad"
+                            label="SENHA: "
                             type="password"
-                            id="pass"
-                            value={user.password}
-                            onChange={
-                                (event: React.ChangeEvent<HTMLInputElement>) =>
-                                    handleUserChange("password", event.target.value)}
+                            placeHolder="88888888"
+                            action={(event: React.ChangeEvent<HTMLInputElement>) => (handleUserChange('password', event.target.value.toString()))}
                         />
 
-                        <input
-                            id="content-abled-button-login"
+                        <ButtonComponent
+                            id="subCad"
                             type="submit"
-                            value="ENTRAR"
+                            label="ENTRAR"
+                            action={handleSubmit}
                         />
 
                     </form>

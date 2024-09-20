@@ -1,10 +1,14 @@
 import React, { Children, ReactElement } from "react";
 import Modal from "./modal";
 import { JsxElement } from "typescript";
+import ButtonComponent from "./Button";
+import "./css/modal.css"
+
+type cbType =  React.FormEvent | React.MouseEvent | React.MouseEvent<HTMLButtonElement, MouseEvent>
 
 type EventButtons = {
     label: string;
-    cb: (event?: React.MouseEvent<HTMLButtonElement, MouseEvent>, param?: any) => void;
+    cb: (event?: cbType, param?: any) => void;
 }
 
 type ActionsModalProps = {
@@ -12,13 +16,12 @@ type ActionsModalProps = {
     children?: React.ReactElement | ReactElement[];
     title?: string;
     eventButtons?: EventButtons[];
+    closeLabel?: string;
     onClose: () => void;
 }
 
 
-const ActionsModal: React.FC<ActionsModalProps> = ({ isOpen, children, title, eventButtons, onClose }): JSX.Element => {
-
-
+const ActionsModal: React.FC<ActionsModalProps> = ({ isOpen, children, title, eventButtons, closeLabel, onClose }): JSX.Element => {
 
     return (
         <Modal isOpen={isOpen}>
@@ -46,10 +49,10 @@ const ActionsModal: React.FC<ActionsModalProps> = ({ isOpen, children, title, ev
                     {
                         eventButtons !== undefined && eventButtons.map((b: EventButtons) => (
 
-                            <button className="content-abled-button" onClick={b.cb}>{b.label}</button>
+                            <ButtonComponent type = "button" label = {b.label} action = {b.cb}/>
                         ))
                     }
-                    <button className={'content-abled-button'} onClick={onClose}> CANCELAR</button>
+                    <button className='pop-up-buttons' onClick={onClose}> {closeLabel} </button>
 
                 </div>
             </div>

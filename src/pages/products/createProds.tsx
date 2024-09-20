@@ -3,7 +3,8 @@ import { Link, useNavigate, useParams } from "react-router-dom"
 import getProducts, { Product } from "../../api/GET";
 import PostNewProduct from "../../api/PostNewProduct";
 import EditProduct from "../../api/PUT";
-import '../../css/createForm.css';
+// import '../../css/createForm.css';
+import InputComponent from "../../components/Input";
 
 const CreateProds = () => {
 
@@ -14,7 +15,7 @@ const CreateProds = () => {
         {
             name: '',
             description: '',
-            barCode: 0,
+            barCode: null,
             active: false
         }
     )
@@ -109,41 +110,34 @@ const CreateProds = () => {
 
             <h1>{id}</h1>
 
-            <label htmlFor="prodName">
-                NOME:
-            </label>
-
-            <input
-                id="prodName"
+            <InputComponent
+                label="NOME:"
+                id="inputName"
+                placeHolder="Nome do produto"
                 type="text"
-                value={product !== undefined ? product.name : undefined}
-                onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                    handleChange('name', event.target.value.toString())}
-            />
+                value={product ? product.name : ""}
+                action={(event: React.ChangeEvent<HTMLInputElement>) =>
+                    handleChange('name', event.target.value.toString())} />
 
-            <label htmlFor="prodDesc">
-                DESCRIÇÃO:
-            </label>
-
-            <input
-                id="prodDesc"
+            <InputComponent
+                label="DESCRIÇÃO: "
+                id="inputDesc"
+                placeHolder="Descrição do produto"
                 type="text"
-                value={product !== undefined ? product.description : undefined}
-                onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                    handleChange('description', event.target.value.toString())}
-            />
+                value={product ? product.description : ""}
+                action={(event: React.ChangeEvent<HTMLInputElement>) =>
+                    handleChange('description', event.target.value.toString())} />
 
-            <label htmlFor="prodBarCode">
-                CÓDIGO DE BARRAS:
-            </label>
-
-            <input
-                id="prodBarCode"
+            <InputComponent
+                label="CÓDIGO DE BARRAS: "
+                id="inputBarCode"
+                placeHolder = "0123456789012"
                 type="number"
-                value={product !== undefined ? product.barCode : undefined}
-                onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                    handleChange('barCode', parseInt(event.target.value.toString()))}
-            />
+
+                value={product ? product.barCode : ""}
+                action={(event: React.ChangeEvent<HTMLInputElement>) =>
+                    handleChange('barCode', parseInt(event.target.value.toString()))} />
+
 
             <label htmlFor="prodActive">
                 ATIVO:

@@ -7,6 +7,7 @@
     --logout: darkred;
     --logo: black;
     --side-button-txt: #064E00;
+    --bars-border: #064E00;
 }
 
 [theme="dark-theme"] {
@@ -18,6 +19,7 @@
     --logout: red;
     --logo: white;
     --side-button-txt: rgba(200, 255, 195, 0.807);
+    --bars-border:  rgb(200, 255, 195);
 }
 
 #main-page {
@@ -32,7 +34,7 @@
 #top-bar {
     
     display: inline-flex;
-    border-bottom: solid #e9ecef 1.5px;
+    border-bottom: solid var(--bars-border) 2px;
     width: 100%;
     height: 10%;
     background-color: var(--top-bg)
@@ -72,7 +74,7 @@
     height: 100%;
     background-color: var(--top-bg);
     color: var(--logo);
-    border-right: solid #e9ecef 1.5px;
+    border-right: solid var(--bars-border) 2px;
 }
 
 #main-container {
@@ -109,7 +111,6 @@
     width: 10%;
     height: 100%;
     background-color: var(--side-bg);
-    border-top: solid black 1px;
-    border-right: solid #e9ecef 1.5px;
+    border-right: solid var(--bars-border) 2px;
 
 }
