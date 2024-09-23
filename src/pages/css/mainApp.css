@@ -23,12 +23,12 @@
 }
 
 #main-page {
+
     width: 100vw;
     height: 100vh;
     margin: 0;
     padding: 0;
     overflow: hidden;
-
 }
 
 #top-bar {
@@ -38,6 +38,18 @@
     width: 100%;
     height: 10%;
     background-color: var(--top-bg)
+}
+
+#logo-container {
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 10%;
+    height: 100%;
+    background-color: var(--top-bg);
+    color: var(--logo);
+    border-right: solid var(--bars-border) 2px;
 }
 
 #logout {
@@ -50,13 +62,10 @@
     background-color: var(--top-bg);
 }
 
-#logout-symbol {
-
-    font-size: 1.5rem;
-    color: var(--logout);
-}
-
 #logout-button {
+
+    cursor: pointer;
+    margin-left: 1%;
     box-sizing: border-box;
     background-color: var(--logout-bg);
     float: right;
@@ -66,18 +75,15 @@
     margin-right: 10px;
 }
 
-#logo-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 10%;
-    height: 100%;
-    background-color: var(--top-bg);
-    color: var(--logo);
-    border-right: solid var(--bars-border) 2px;
+#logout-symbol {
+
+    font-size: 1.5rem;
+    color: var(--logout);
 }
 
+
 #main-container {
+
     width: 100%;
     height: 90%;
     display: flex
@@ -85,32 +91,19 @@
 
 #content-container {
 
+    padding-left: 1%;
     padding-top: 1%;
     padding-bottom: 20px;
-    width: 90%;
+    width: 89%;
     height: 100%;
     background-color: var(--content-bg);
     overflow-y: scroll;
 }
 
-#content-abled-button-main {
-
-    background-color: var(--side-button);
-    color: var(--side-button-txt);
-    width: 100%;
-    height: 10%;
-    border: none;
-    font-size: 1rem;
-    font-weight: 600;
-    cursor: pointer;
-    border-bottom: solid black;
-
-}
-
 #side-bar {
+
     width: 10%;
     height: 100%;
     background-color: var(--side-bg);
     border-right: solid var(--bars-border) 2px;
-
 }

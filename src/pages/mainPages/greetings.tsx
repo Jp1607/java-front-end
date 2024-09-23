@@ -8,8 +8,9 @@ const GreetingsPage = () => {
             <div className="header">
 
                 <h1>
-                    GREETINGS!
+                    SAUDAÇÕES!
                 </h1>
+
             </div>
 
             <div className="greetings-content">
@@ -18,6 +19,7 @@ const GreetingsPage = () => {
                     <button className="content-abled-button">
                         SOBRE
                     </button>
+
                 </div>
 
                 <div>
@@ -25,6 +27,7 @@ const GreetingsPage = () => {
                     <button className="content-abled-button">
                         APRENDA A USAR!
                     </button>
+                    
                 </div>
             </div>
         </div>

@@ -1,15 +1,18 @@
 [theme="light-theme"] {
   --bg: #adb5bd;
   --title: #064E00;
+  --border: #064E00;
 }
 [theme="dark-theme"] {
   --bg: #6c757d;
-  --title: rgba(147, 242, 138, 0.807);
+  --title: rgba(200, 255, 195, 0.807);
+  --border: rgba(200, 255, 195, 0.807);
 }
 
 .greetings-page {
  
     border-radius: 10px;
+    border: solid var(--border) 2px;
     background-color: var(--bg);
     width: 80%;
     height: 90%;
@@ -28,6 +31,7 @@
   }
   
   .header {
+    
     width: max-content;
     margin: 5% auto;
     font-size: 4rem;

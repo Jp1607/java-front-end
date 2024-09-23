@@ -1,4 +1,4 @@
-import DefaultFetch from "./DefaultFetch";
+import DefaultFetch from "../services/DefaultFetch";
 
 type Path = '/product' | '/users' | `/users/${number}`
 

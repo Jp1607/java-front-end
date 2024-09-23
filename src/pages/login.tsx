@@ -1,25 +1,15 @@
-import React, { FormEvent, useState } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
-import * as LoginMethod from '../api/login/login';
-import '../css/login.css';
-import '../css/delete-pop-up.css';
-
-import Modal from "../components/modal";
+import ActionsModal from "../components/modals/ActionsModal";
+import ThemeToggler from "../components/buttons/themeToggle";
 import { useAuthContext } from "../api/context/AuthContext";
-import { useThemeContext } from "../api/context/ThemeContext";
-import InputComponent from "../components/Input";
-import { Button } from "react-bootstrap";
-import ButtonComponent from "../components/Button";
-import ActionsModal from "../components/ActionsModal";
-
-
-type User = {
-    userName: string;
-    password: string;
-}
+import ButtonComponent from "../components/buttons/Button";
+import InputComponent from "../components/inputs/Input";
+import React, { FormEvent, useState } from "react";
+import * as LoginMethod from '../api/login/login';
+import '../components/css/modal.css';
+import './css/login.css';
 
 const Login = () => {
-    const { toggleTheme } = useThemeContext()
+    
     window.history.pushState(null, null, window.location.origin)
     const auth = useAuthContext();
     const [show, setShow] = useState<boolean>(false)
@@ -42,10 +32,8 @@ const Login = () => {
 
         event.preventDefault();
         LoginMethod.default(user).then((response: LoginMethod.LoginResponseBody) => {
-            console.log(response.token)
 
             localStorage.setItem('token', response.token);
-            console.log(localStorage.getItem('token'))
             auth.setAuthenticated(true);
         }).catch(() => {
 
@@ -54,67 +42,25 @@ const Login = () => {
         })
     };
 
-    const handleClick = () => {
-        setShow(false)
-    }
-
     return (
 
         <>
-            {/* <Modal isOpen={show}>
-                <div className="pop-up">
-                    <div className="pop-up-header">
-
-                        <h1 className="pop-up-head ">
-                            Atenção!
-                        </h1>
-
-                    </div>
-
-                    <div className="pop-up-body">
-
-                        <p className="pop-up-content">
-                            Credenciais inválidas!
-                        </p>
-                        <p className="pop-up-content">
-                            Esperado:
-                        </p>
-                        <p className="pop-up-content">
-                            Usuário: admin
-                        </p>
-                        <p className="pop-up-content">
-                            Senha: 12345
-                        </p>
-
-                    </div>
-
-                    <div className="pop-up-footer">
-
-                        <button
-                            className={'content-abled-button'}
-                            onClick={handleClick}>
-                            OK
-                        </button>
-                    </div>
-                </div>
-            </Modal> */}
-
             <ActionsModal
                 isOpen={show}
                 onClose={() => setShow(false)}
                 title="ATENÇÃO!"
                 closeLabel = "OK">
 
-                <p>
+                <p id = "p1">
                     Credenciais inválidas!
                 </p>
-                <p>
+                <p id = "p2">
                     Esperado:
                 </p>
-                <p>
+                <p className = "p3">
                     Usuário: admin
                 </p>
-                <p>
+                <p className = "p3">
                     Senha: 12345
                 </p>
 
@@ -130,15 +76,9 @@ const Login = () => {
 
                         </h1>
 
-                        <ButtonComponent
-                            id="themeCad"
-                            label="TEMA"
-                            type="button"
-                            action={toggleTheme}
-                        />
-
+                        <ThemeToggler/>
+                        
                     </div>
-
 
                     <form onSubmit={handleSubmit} id="login-form">
 

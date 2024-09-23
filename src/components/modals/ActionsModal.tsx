@@ -1,8 +1,7 @@
-import React, { Children, ReactElement } from "react";
+import React, { ReactElement } from "react";
 import Modal from "./modal";
-import { JsxElement } from "typescript";
-import ButtonComponent from "./Button";
-import "./css/modal.css"
+import ButtonComponent from "../buttons/Button";
+import "../css/modal.css"
 
 type cbType =  React.FormEvent | React.MouseEvent | React.MouseEvent<HTMLButtonElement, MouseEvent>
 
@@ -37,9 +36,9 @@ const ActionsModal: React.FC<ActionsModalProps> = ({ isOpen, children, title, ev
 
                 <div className="pop-up-body">
 
-                    <p className="pop-up-content" >
+                    <div className="pop-up-content" >
                          {children ? children : ""}
-                    </p>
+                    </div>
 
                 </div>
 
@@ -52,7 +51,12 @@ const ActionsModal: React.FC<ActionsModalProps> = ({ isOpen, children, title, ev
                             <ButtonComponent type = "button" label = {b.label} action = {b.cb}/>
                         ))
                     }
-                    <button className='pop-up-buttons' onClick={onClose}> {closeLabel} </button>
+
+                   
+                    <ButtonComponent
+                    label = {closeLabel ? closeLabel : "CANCELAR"}
+                    type = "button"
+                    action = {onClose}/>
 
                 </div>
             </div>

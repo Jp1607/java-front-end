@@ -23,11 +23,12 @@ label{
     color: var(--label);
 }
 
-input[type=text], input[type=number], input[type=password] {
-
+select{
+    
     font-size: 2rem;
     margin-bottom: 3%;
     margin-top: 5px;
     margin-right: 100%;
     width: 50%;
+    
 }

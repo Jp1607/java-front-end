@@ -1,12 +1,12 @@
-import React, { useEffect } from "react";
-import getProducts, { Product, User } from "../../api/GET";
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import getProducts, { Product, User } from "../../api/requests/GET";
+import ActionsModal from "../../components/modals/ActionsModal";
+import LinkButton from "../../components/buttons/LinkButton";
+import DeleteProds from "../../api/requests/DeleteProducts";
 import TableRender from "../../components/tableRender";
-import '../../css/table.css';
-import ActionsModal from "../../components/ActionsModal";
-
-import DeleteProds from "../../api/DeleteProducts";
+import {  useNavigate } from "react-router-dom";
+import React, { useEffect } from "react";
+import { useState } from "react";
+import '../css/table.css';
 
 const ProductListRender: React.FC = () => {
 
@@ -60,10 +60,10 @@ const ProductListRender: React.FC = () => {
             DeleteProds(product).
                 then(() => (
                     fetchData().
-                    then(() =>(
-                        setOpenDelete(false),
-                        setOpen(false))).catch(() => (null))
-                )).catch(() => (null)) 
+                        then(() => (
+                            setOpenDelete(false),
+                            setOpen(false))).catch(() => (null))
+                )).catch(() => (null))
         } catch (e) {
             console.log("Erro: ", e)
         }
@@ -80,7 +80,7 @@ const ProductListRender: React.FC = () => {
                     { label: 'DELETAR', cb: handleDeleteClick }
                 ]}
             >
-
+                
                 <p>
                     Você tem certeza de que deseja deletar este produto?
                 </p>
@@ -88,6 +88,7 @@ const ProductListRender: React.FC = () => {
             </ActionsModal>
 
             <ActionsModal
+
                 isOpen={open}
                 onClose={() => setOpen(false)}
                 eventButtons={[
@@ -99,12 +100,12 @@ const ProductListRender: React.FC = () => {
             <div className="default-page">
                 <div className="default-content">
 
-                    <Link to={'/createProd'}>
-                        <button
-                            className="content-abled-button-list">
-                            CRIAR PRODUTO
-                        </button>
-                    </Link>
+                    <LinkButton
+                        dest="/createProd"
+                        label="CRIAR PRODUTO"
+                        style="button"
+                        
+                    />
 
                     <TableRender<Product>
 

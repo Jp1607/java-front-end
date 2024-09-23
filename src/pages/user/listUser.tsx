@@ -1,9 +1,8 @@
-import { useNavigate } from "react-router-dom"
+import ActionsModal from "../../components/modals/ActionsModal";
+import getFunction, { User } from "../../api/requests/GET";
 import TableRender from "../../components/tableRender"
+import Edit from "../../api/requests/PUT";
 import React from "react";
-import getFunction, { User } from "../../api/GET";
-import Edit from "../../api/PUT";
-import ActionsModal from "../../components/ActionsModal";
 
 const UserListRender = () => {
 
@@ -25,19 +24,19 @@ const UserListRender = () => {
         }
 
         fetch()
-    }, [, user])
+    }, [user])
 
     const handlePUT = async (): Promise<void> => {
 
         await Edit(`/users/${user.id}`).
-        then((response: string) => console.log("Sucesso! ", response)).
-        catch((e) => console.log(e))
-        
+            then((response: string) => console.log("Sucesso! ", response)).
+            catch((e) => console.log(e))
+
         setShow(false)
-      
+
         await getFunction('/users').
-        then((response: User[]) => {setUsers(response)}).
-        catch(() => { })
+            then((response: User[]) => { setUsers(response) }).
+            catch(() => { })
     }
 
     const handleClick = (row: User) => {
@@ -51,7 +50,6 @@ const UserListRender = () => {
             <div className="default-content">
 
                 <ActionsModal
-
                     isOpen={show}
                     onClose={() => { setShow(false) }}
                     eventButtons={[
@@ -69,8 +67,10 @@ const UserListRender = () => {
                     ]}
                     onTableClick={handleClick}
                     selectedRow={user}
+                    actionsLabel = {user.active ? 'DESATIVAR' : 'ATIVAR'}
                     onClickActions={() => (setShow(true))}
                 />
+                
             </div>
         </div>
     )

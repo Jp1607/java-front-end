@@ -1,10 +1,13 @@
-import React, { useEffect } from "react"
-import { Link, useNavigate, useParams } from "react-router-dom"
-import getProducts, { Product } from "../../api/GET";
-import PostNewProduct from "../../api/PostNewProduct";
-import EditProduct from "../../api/PUT";
-// import '../../css/createForm.css';
-import InputComponent from "../../components/Input";
+import PostNewProduct from "../../api/requests/PostNewProduct";
+import getProducts, { Product } from "../../api/requests/GET";
+import InputSelect from "../../components/inputs/selectInput";
+import ButtonComponent from "../../components/buttons/Button";
+import LinkButton from "../../components/buttons/LinkButton";
+import InputComponent from "../../components/inputs/Input";
+import {  useNavigate, useParams } from "react-router-dom";
+import EditProduct from "../../api/requests/PUT";
+import React, { useEffect } from "react";
+import '../css/createForm.css';
 
 const CreateProds = () => {
 
@@ -62,7 +65,7 @@ const CreateProds = () => {
 
     const navigate = useNavigate()
 
-    function HandleSubmit(event: React.FormEvent<HTMLFormElement>): void {
+    function HandleSubmit(event: React.FormEvent): void {
 
         event.preventDefault();
 
@@ -108,8 +111,6 @@ const CreateProds = () => {
 
         <form onSubmit={HandleSubmit} id="create-form">
 
-            <h1>{id}</h1>
-
             <InputComponent
                 label="NOME:"
                 id="inputName"
@@ -131,7 +132,7 @@ const CreateProds = () => {
             <InputComponent
                 label="CÓDIGO DE BARRAS: "
                 id="inputBarCode"
-                placeHolder = "0123456789012"
+                placeHolder="0123456789012"
                 type="number"
 
                 value={product ? product.barCode : ""}
@@ -139,25 +140,26 @@ const CreateProds = () => {
                     handleChange('barCode', parseInt(event.target.value.toString()))} />
 
 
-            <label htmlFor="prodActive">
-                ATIVO:
-            </label>
-
-            <select
-                id="prodActive"
-                // value={product !== undefined ? "True" : 'False'}
-                onChange={(event: React.ChangeEvent<HTMLSelectElement>) =>
+            <InputSelect
+                id="selectActive"
+                label="ATIVO: "
+                options={[
+                    "ATIVO",
+                    "NÃO ATIVO"
+                ]}
+                action={(event: React.ChangeEvent<HTMLSelectElement>) =>
                     handleChange('active', event.target.value.toString() === 'true' ? true : false)}
-            >
-                <option value='true'>ATIVO</option>
-                <option value='false'>NÃO ATIVO</option>
-            </select>
+            />
 
-            <input type="submit" value="ENVIAR" className="content-abled-button-create" />
+            <ButtonComponent
+                label="CRIAR"
+                type="submit"
+                action={HandleSubmit} />
 
-            <Link to={'/listProds'}>
-                <button className="content-abled-button-create">CANCELAR</button>
-            </Link>
+            <LinkButton
+                dest="/listProds"
+                label="CANCELAR"
+                style="button" />
         </form>
     )
 }

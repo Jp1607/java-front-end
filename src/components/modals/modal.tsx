@@ -1,4 +1,4 @@
-import '../css/delete-pop-up.css';
+import '../css/modal.css';
 
 type modalProps = {
 

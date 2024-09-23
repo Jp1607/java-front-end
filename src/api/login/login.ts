@@ -1,4 +1,4 @@
-import DefaultFetch from '../DefaultFetch';
+import DefaultFetch from '../services/DefaultFetch';
 
 export type LoginForm = {
 

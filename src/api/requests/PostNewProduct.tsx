@@ -1,5 +1,5 @@
 import { Product } from "./GET";
-import DefaultFetch from "./DefaultFetch";
+import DefaultFetch from "../services/DefaultFetch";
 
 function PostNewProduct(product: Product): Promise<string> {
 

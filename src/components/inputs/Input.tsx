@@ -1,6 +1,6 @@
-import "./css/inputComp.css"
+import "../css/inputComp.css"
 
-type inputType = 'text' | 'number' | 'password'
+type inputType = 'text' | 'number' | 'password' | 'submit'
 
 type inputProps = {
 

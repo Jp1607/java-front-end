@@ -1,5 +1,5 @@
 import AuthContextProvider, { AC, AuthContext } from './api/context/AuthContext';
-import MainApp from './pages/MainApp';
+import MainApp from './pages/mainPages/MainApp';
 import Login from "./pages/login";
 import './App.css';
 import ThemeContextProvider from './api/context/ThemeContext';

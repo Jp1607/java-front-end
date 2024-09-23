@@ -1,5 +1,6 @@
+import '../components/css/modal.css';
 import React from "react";
-import '../css/delete-pop-up.css';
+import ButtonComponent from './buttons/Button';
 
 type Headers<T> = {
     attributeName: keyof T;
@@ -12,11 +13,12 @@ type tableRender<T> = {
     values: T[];
     selectedRow?: T | null;
     headers?: Headers<T>[];
+    actionsLabel?: string;
     onTableClick?: (param: T) => void;
     onClickActions?: () => void;
 }
 
-const TableRender = <T,>({ values, selectedRow, headers, onTableClick, onClickActions }: tableRender<T>): JSX.Element => {
+const TableRender = <T,>({ values, selectedRow, headers, actionsLabel, onTableClick, onClickActions }: tableRender<T>): JSX.Element => {
 
     const [indexRow, setIndexRow] = React.useState<number>(-1);
 
@@ -88,7 +90,7 @@ const TableRender = <T,>({ values, selectedRow, headers, onTableClick, onClickAc
                         {
                             onClickActions !== undefined &&
                             <th>
-                                Actions
+                                OPÇÕES
                             </th>
                         }
                     </tr>
@@ -101,6 +103,7 @@ const TableRender = <T,>({ values, selectedRow, headers, onTableClick, onClickAc
 
                             <tr
                                 onClick={() => handleTableClick(r)}
+                                onMouseOver = {() => handleTableClick(r)}
                                 key={`table-row-${index}`}
                                 style={{ height: "50px" }}
                                 onMouseEnter={() => handleMouseEnter(index)}
@@ -143,14 +146,11 @@ const TableRender = <T,>({ values, selectedRow, headers, onTableClick, onClickAc
                                             indexRow === index &&
                                             <div style={{ display: 'flex' }}>
 
-                                                <button
-                                                    onClick={onClickActions}
-                                                    className="content-abled-button-list"
-                                                    value="Open actions">
+                                                <ButtonComponent
+                                                    label= {actionsLabel ? actionsLabel : "AÇÕES"}
+                                                    type='button'
+                                                    action={onClickActions} />
 
-                                                    Actions
-
-                                                </button>
                                             </div>
                                         }
                                     </td>

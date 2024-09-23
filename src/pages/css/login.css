@@ -2,6 +2,7 @@
 
   --login-bg: #ced4da;
   --login-fonts: #064E00;
+  --login-border: #064E00;
   --login-button-bg: white;
   --login-button-font: #064E00;
 }
@@ -10,6 +11,7 @@
 
   --login-bg: #495057;
   --login-fonts: rgba(200, 255, 195, 0.807);
+  --login-border: rgba(200, 255, 195, 0.807);
   --login-button-bg: rgb(25, 25, 25);
   --login-button-font: rgba(200, 255, 195, 0.807);
 }
@@ -21,7 +23,7 @@
   height: 90vh;
   margin: auto;
   margin-top: 2%;
-  border: solid #053700 2px;
+  border: solid var(--login-border) 2px;
   background-color: var(--login-bg);
 
 }
@@ -29,16 +31,6 @@
 #login-page-container {
   width: 90%;
   margin: 10px auto;
-}
-
-#login-form {
-  /* border: solid rgb(80, 80, 80) 1px; */
-  margin-top: 5%;
-  height: 100%;
-  padding: 2%;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
 }
 
 #login-page-header {
@@ -55,7 +47,14 @@
   color: var(--login-fonts);
 }
 
-#themeCad {}
+#login-form {
+  margin-top: 5%;
+  height: 100%;
+  padding: 2%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
 
 #login-form label {
   font-size: 2rem;
@@ -76,5 +75,20 @@ input[type=password] {
 }
 
 #subCad {
+  
   margin-top: 5%;
+}
+
+#p1 {
+  align-self: center;
+  margin: 0;
+  height: max-content;
+}
+
+#p2 {
+  margin-bottom: 2%;
+}
+
+.p3 {
+  margin: 0
 }

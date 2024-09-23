@@ -2,7 +2,7 @@ import { Route, Routes } from "react-router-dom"
 import CreateProds from "../../pages/products/createProds"
 import ProductListRender from "../../pages/products/listProds"
 import PageNotFound from "../../pages/notFound"
-import HomePage from "../../pages/greetings"
+import HomePage from "../../pages/mainPages/greetings"
 import UserListRender from "../../pages/user/listUser"
 
 const Routers = () => {
