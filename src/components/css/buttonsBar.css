@@ -1,0 +1,14 @@
+#buttons-bar-container {
+
+    display: flex;
+    width: 100%;
+    background-color: red;
+}
+
+#buttons-bar-container button {
+
+    font-size: 1rem;
+    margin-right: 3%;
+    width: 7rem;
+  height: 3rem;
+}

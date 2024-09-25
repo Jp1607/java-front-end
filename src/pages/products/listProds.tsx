@@ -1,12 +1,17 @@
-import getProducts, { Product, User } from "../../api/requests/GET";
 import ActionsModal from "../../components/modals/ActionsModal";
 import LinkButton from "../../components/buttons/LinkButton";
 import DeleteProds from "../../api/requests/DeleteProducts";
 import TableRender from "../../components/tableRender";
-import {  useNavigate } from "react-router-dom";
-import React, { useEffect } from "react";
-import { useState } from "react";
-import '../css/table.css';
+import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+
+import '../css/listPage.css';
+import ButtonComponent from "../../components/buttons/Button";
+import ButtonsBar from "../../components/ButtonsBar";
+import InputComponent from "../../components/inputs/InputComponent";
+import { getProducts } from "../../api/product/product";
+import { Product } from "../../api/entities/Product";
+
 
 const ProductListRender: React.FC = () => {
 
@@ -23,7 +28,7 @@ const ProductListRender: React.FC = () => {
 
     const fetchData = async () => {
 
-        await getProducts("/product").then((response: Product[] | User[]) => {
+        await getProducts().then((response: Product[]) => {
 
             setProducts(response as Product[])
         }).catch(() => { })
@@ -80,7 +85,7 @@ const ProductListRender: React.FC = () => {
                     { label: 'DELETAR', cb: handleDeleteClick }
                 ]}
             >
-                
+
                 <p>
                     Você tem certeza de que deseja deletar este produto?
                 </p>
@@ -97,32 +102,75 @@ const ProductListRender: React.FC = () => {
                 ]}
                 title={"OPÇÕES "} />
 
-            <div className="default-page">
-                <div className="default-content">
 
-                    <LinkButton
-                        dest="/createProd"
-                        label="CRIAR PRODUTO"
-                        style="button"
-                        
+            <div className="default-content">
+
+                <ButtonsBar />
+
+                <div id="search-filters-container">
+
+                    <InputComponent
+                        id="srcCod"
+                        label="Código: "
+                        type="number"
+                        className="search-filter"
+                        action={() => { }} />
+
+                    <InputComponent
+                        id="srcName"
+                        label="Nome: "
+                        type="text"
+                        className="search-filter"
+                        action={() => { }}
+                    // placeHolder="Produto" 
                     />
 
-                    <TableRender<Product>
+                    <InputComponent
+                        id="srcMU"
+                        label="Un. Medida: "
+                        type="number"
+                        className="search-filter"
+                        action={() => { }} />
 
-                        headers={[
-                            { gridType: 'FLEX', attributeName: 'id', width: 1, label: 'Identificador' },
-                            { gridType: 'FLEX', attributeName: 'name', width: 1, label: 'Produto' },
-                            { gridType: 'FLEX', attributeName: 'description', width: 1, label: 'Descrição' },
-                            { gridType: 'FLEX', attributeName: 'barCode', width: 1, label: 'Código de barras' },
-                            { gridType: 'FLEX', attributeName: 'active', width: 1, label: 'Estado' }
-                        ]}
-                        values={products}
-                        selectedRow={product}
-                        onTableClick={handleTableClick}
-                        onClickActions={() => setOpen(true)}
-                    />
+                    <InputComponent
+                        id="srcType"
+                        label="Tipo: "
+                        type="text"
+                        className="search-filter"
+                        action={() => { }} />
+
+                    <InputComponent
+                        id="srcGroup"
+                        label="Grupo: "
+                        type="text"
+                        className="search-filter"
+                        action={() => { }} />
+
+                    <InputComponent
+                        id="srcBrand"
+                        label="Marca: "
+                        type="text"
+                        className="search-filter"
+                        action={() => { }} />
+
                 </div>
+
+                <TableRender<Product>
+
+                    headers={[
+                        { gridType: 'FLEX', attributeName: 'id', width: 1, label: 'Código do produto' },
+                        { gridType: 'FLEX', attributeName: 'name', width: 1, label: 'Produto' },
+                        { gridType: 'FLEX', attributeName: 'description', width: 1, label: 'Descrição' },
+                        { gridType: 'FLEX', attributeName: 'barCode', width: 1, label: 'Código de barras' },
+                        { gridType: 'FLEX', attributeName: 'active', width: 1, label: 'Estado' }
+                    ]}
+                    values={products}
+                    selectedRow={product}
+                    onTableClick={handleTableClick}
+                    onClickActions={() => setOpen(true)}
+                />
             </div>
+
         </>
     )
 }

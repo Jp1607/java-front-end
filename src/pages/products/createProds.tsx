@@ -3,7 +3,7 @@ import getProducts, { Product } from "../../api/requests/GET";
 import InputSelect from "../../components/inputs/selectInput";
 import ButtonComponent from "../../components/buttons/Button";
 import LinkButton from "../../components/buttons/LinkButton";
-import InputComponent from "../../components/inputs/Input";
+import InputComponent from "../../components/inputs/InputComponent";
 import {  useNavigate, useParams } from "react-router-dom";
 import EditProduct from "../../api/requests/PUT";
 import React, { useEffect } from "react";

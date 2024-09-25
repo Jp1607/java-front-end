@@ -1,0 +1,29 @@
+#search-filters-container {
+
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    background-color: yellow;
+    width: 100%;
+}
+
+.search-filter {
+
+    /* margin-right: 1%;  */
+    width: 25.01%;
+}
+
+.search-filter label {
+    
+    margin: 0;
+    font-size: 1rem;
+}
+
+.search-filter input {
+    
+    box-sizing: border-box;
+    font-size: 1rem;
+    margin: 0;
+    width: 100%;
+}

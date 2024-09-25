@@ -1,35 +1,23 @@
 [theme="light-theme"] {
-    --side-bg: white;
-    --side-button: #dee2e6;
+   
     --top-bg: #ced4da;
-    --content-bg: rgb(200, 200, 200);
+ 
     --logout-bg: white;
     --logout: darkred;
     --logo: black;
-    --side-button-txt: #064E00;
+ 
     --bars-border: #064E00;
 }
 
 [theme="dark-theme"] {
-    --side-bg: black;
-    --side-button: rgb(64, 70, 76);
+  
     --top-bg: #495057;
-    --content-bg: rgb(25, 25, 25);
+   
     --logout-bg: black;
     --logout: red;
     --logo: white;
-    --side-button-txt: rgba(200, 255, 195, 0.807);
+  
     --bars-border: rgb(200, 255, 195);
-    
-}
-
-#main-page {
-
-    width: 100vw;
-    height: 100vh;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
 }
 
 #top-bar {
@@ -72,6 +60,7 @@
     float: right;
     height: 50px;
     width: 50px;
+    border: 0;
     border-radius: 50%;
     margin-right: 10px;
 }
@@ -81,42 +70,3 @@
     font-size: 1.5rem;
     color: var(--logout);
 }
-
-#main-container {
-
-    width: 100vw;
-    height: 90%;
-    display: flex
-}
-
-#content-container {
-
-    width: 100%;
-    height: 100%;
-    background-color: var(--content-bg);
-    overflow-y: scroll;
-    box-sizing: border-box;
-}
-
-#default-content {
-
-    margin: auto;
-    margin-top: 1%;
-    width: max-content;
-}
-
-
-
-/* #side-bar {
-
-    width: 10vw;
-    height: 100%;
-    background-color: var(--side-bg);
-    border-right: solid var(--bars-border) 2px;
-}
-
-#open-side-button-container {
-    width: 1.5vw;
-    height: 100vw;
-    background-color: var(--content-bg);
-} */

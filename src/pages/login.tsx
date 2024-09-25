@@ -2,7 +2,7 @@ import ActionsModal from "../components/modals/ActionsModal";
 import ThemeToggler from "../components/buttons/themeToggle";
 import { useAuthContext } from "../api/context/AuthContext";
 import ButtonComponent from "../components/buttons/Button";
-import InputComponent from "../components/inputs/Input";
+import InputComponent from "../components/inputs/InputComponent";
 import React, { FormEvent, useState } from "react";
 import * as LoginMethod from '../api/login/login';
 import '../components/css/modal.css';

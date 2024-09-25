@@ -1,4 +1,5 @@
 import '../components/css/modal.css';
+import './css/table.css'
 import React from "react";
 import ButtonComponent from './buttons/Button';
 
@@ -88,10 +89,10 @@ const TableRender = <T,>({ values, selectedRow, headers, actionsLabel, onTableCl
                                 )
                         }
                         {
-                            onClickActions !== undefined &&
-                            <th>
-                                OPÇÕES
-                            </th>
+                            // onClickActions !== undefined &&
+                            // <th>
+                            //     OPÇÕES
+                            // </th>
                         }
                     </tr>
 
@@ -139,7 +140,7 @@ const TableRender = <T,>({ values, selectedRow, headers, actionsLabel, onTableCl
                                         )) : null
                                 }
 
-                                {onClickActions !== undefined &&
+                                {/* {onClickActions !== undefined &&
                                     <td width="200px">
 
                                         {
@@ -154,7 +155,7 @@ const TableRender = <T,>({ values, selectedRow, headers, actionsLabel, onTableCl
                                             </div>
                                         }
                                     </td>
-                                }
+                                } */}
                             </tr>
                         ))
                     }

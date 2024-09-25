@@ -7,16 +7,18 @@ type inputProps = {
     label: string;
     id: string;
     type: inputType;
+    className?: string;
     value?: string | number;
     placeHolder?: string;
     action: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const InputComponent: React.FC<inputProps> = ({ label, id, type, value, placeHolder, action }): JSX.Element => {
+const InputComponent: React.FC<inputProps> = ({ label, id, type, className, value, placeHolder, action }): JSX.Element => {
 
     return (
 
-        <>
+        <div className={className}>
+
             <label>
                 {label}
             </label>
@@ -28,7 +30,8 @@ const InputComponent: React.FC<inputProps> = ({ label, id, type, value, placeHol
                 placeholder={placeHolder}
                 onChange={action}>
             </input>
-        </>
+
+        </div>
     )
 }
 

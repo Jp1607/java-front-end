@@ -2,6 +2,8 @@ import '../css/greetingsPage.css';
 
 const GreetingsPage = () => {
 
+    console.log('eu sou o jão viado');
+
     return (
 
         <div className="greetings-page">
@@ -27,7 +29,7 @@ const GreetingsPage = () => {
                     <button className="content-abled-button">
                         APRENDA A USAR!
                     </button>
-                    
+
                 </div>
             </div>
         </div>

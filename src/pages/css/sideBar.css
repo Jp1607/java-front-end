@@ -1,0 +1,43 @@
+[theme="light-theme"] {
+    --side-bg: white;
+    --content-bg: rgb(200, 200, 200);
+    --bars-border: #064E00;
+}
+
+[theme="dark-theme"] {
+    --side-bg: black;
+    --content-bg: rgb(25, 25, 25);
+    --bars-border: rgb(200, 255, 195);
+}
+
+#side-bar {
+    display: flex;
+}
+
+.bar-container {
+
+    /* box-sizing: border-box; */
+    transition: width 0.5s;
+    height: 100%;
+    background-color: var(--side-bg);
+    border-right: solid var(--bars-border) 2px;
+}
+
+#bar-container-true {
+    width: 10vw;
+
+}
+
+#bar-container-false {
+
+    border-right: none ;
+    width: 0;
+
+}
+
+#open-side-button-container {
+
+    width: 1.5vw;
+    height: 100vw;
+    background-color: var(--content-bg);
+}
