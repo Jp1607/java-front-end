@@ -12,10 +12,9 @@ const Routers = () => {
         <Routes>
             <Route>
                 <Route index path='/' element={<HomePage />} />
+                <Route path='/listProds' element={<ProductListRender />} />
                 <Route path='/createProd' element={<CreateProds /> } />
                 <Route path='/editProd/:id?' element={<CreateProds />} />
-                <Route path='/editUser/:id?' element={<CreateProds />} />
-                <Route path='/listProds' element={<ProductListRender />} />
                 <Route path='/listUsers' element={<UserListRender />} />
                 <Route path="/*" element={<PageNotFound />} />
             </Route>

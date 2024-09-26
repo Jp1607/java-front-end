@@ -1,8 +1,8 @@
 import ActionsModal from "../../components/modals/ActionsModal";
-import getFunction, { User } from "../../api/requests/GET";
 import TableRender from "../../components/tableRender"
-import Edit from "../../api/requests/PUT";
 import React from "react";
+import { User } from "../../api/entities/user";
+import { GETUsers, PUTUser } from "../../api/requests/userRequests";
 
 const UserListRender = () => {
 
@@ -17,7 +17,7 @@ const UserListRender = () => {
 
         const fetch = async () => {
 
-            await getFunction('/users').then((response: User[]) => {
+            await GETUsers().then((response: User[]) => {
 
                 setUsers(response)
             }).catch(() => { })
@@ -28,13 +28,13 @@ const UserListRender = () => {
 
     const handlePUT = async (): Promise<void> => {
 
-        await Edit(`/users/${user.id}`).
+        await PUTUser(user.id).
             then((response: string) => console.log("Sucesso! ", response)).
-            catch((e) => console.log(e))
+            catch((e: string) => console.log(e))
 
         setShow(false)
 
-        await getFunction('/users').
+        await GETUsers().
             then((response: User[]) => { setUsers(response) }).
             catch(() => { })
     }
@@ -42,6 +42,11 @@ const UserListRender = () => {
     const handleClick = (row: User) => {
 
         setUser(row as User)
+    }
+
+    const handleFilter = (r: User): boolean => {
+
+        return (r.active == false ? true : false)
     }
 
     return (
@@ -65,6 +70,7 @@ const UserListRender = () => {
                         { gridType: "FLEX", width: 1, attributeName: "name", label: "Nome" },
                         { gridType: "FLEX", width: 1, attributeName: "active", label: "Estado" }
                     ]}
+                    filter={handleFilter}
                     onTableClick={handleClick}
                     selectedRow={user}
                     actionsLabel = {user.active ? 'DESATIVAR' : 'ATIVAR'}

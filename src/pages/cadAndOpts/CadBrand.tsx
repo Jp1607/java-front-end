@@ -26,10 +26,11 @@ const CadBrand = () => {
             
         </div>
 
-        <TableRender
+        {/* <TableRender
         headers={[
             {attributeName: "id", label: "CÓDIGO", gridType: "FLEX", width: "1"}
-        ]}/>
+        ]}
+        /> */}
 
         </div>
     )

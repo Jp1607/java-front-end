@@ -1,13 +1,12 @@
-import PostNewProduct from "../../api/requests/PostNewProduct";
-import getProducts, { Product } from "../../api/requests/GET";
 import InputSelect from "../../components/inputs/selectInput";
 import ButtonComponent from "../../components/buttons/Button";
 import LinkButton from "../../components/buttons/LinkButton";
 import InputComponent from "../../components/inputs/InputComponent";
 import {  useNavigate, useParams } from "react-router-dom";
-import EditProduct from "../../api/requests/PUT";
 import React, { useEffect } from "react";
 import '../css/createForm.css';
+import { Product } from "../../api/entities/product";
+import { GETProductById, POSTProduct, PUTProduct } from "../../api/requests/productRequests";
 
 const CreateProds = () => {
 
@@ -46,11 +45,12 @@ const CreateProds = () => {
 
     useEffect(() => {
 
+        console.log(id)
         if (id !== undefined) {
 
             const fetchProd = async () => {
 
-                const prodById = await getProducts('/product', parseInt(id))
+                const prodById = await GETProductById(parseInt(id))
 
                 if (prodById) {
 
@@ -71,12 +71,12 @@ const CreateProds = () => {
 
         if (willEdit === true) {
 
-            EditProduct('/product', product).then((response: string) => console.log('sucesso!', response)).catch((e) => console.log(e));
+            PUTProduct(product).then((response: string) => console.log('sucesso!', response)).catch((e) => console.log(e));
 
         } else {
 
             // if (verifyEmpty(product) === false) {
-            PostNewProduct(product).then((response: string) =>
+            POSTProduct(product).then((response: string) =>
                 console.log('sucesso!', response)).catch((e) =>
                     console.log(e));
             // } else if (verifyEmpty(product) === true) {

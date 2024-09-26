@@ -2,21 +2,28 @@ import ButtonComponent from "./buttons/Button"
 import LinkButton from "./buttons/LinkButton"
 import "./css/buttonsBar.css"
 
-const ButtonsBar: React.FC = () => {
+type ButtonsBarProps = {
+
+    createPath: string;
+    editPath: string;
+    excludeAction: () => void;
+}
+
+const ButtonsBar: React.FC<ButtonsBarProps> = ({createPath, editPath, excludeAction}) => {
 
     return (
 
         <div id="buttons-bar-container">
 
             <LinkButton
-                dest="/createProd"
+                dest={createPath}
                 label="CRIAR"
                 style="button"
 
             />
 
             <LinkButton
-                dest="/editProd"
+                dest={editPath}
                 label="EDITAR"
                 style="button"
             />
@@ -30,7 +37,7 @@ const ButtonsBar: React.FC = () => {
                 label="EXCLUIR"
                 type="button"
                 style="button"
-                action={() => { }}
+                action={excludeAction}
             />
 
         </div>

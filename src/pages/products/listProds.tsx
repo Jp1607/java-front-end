@@ -1,16 +1,13 @@
 import ActionsModal from "../../components/modals/ActionsModal";
-import LinkButton from "../../components/buttons/LinkButton";
-import DeleteProds from "../../api/requests/DeleteProducts";
 import TableRender from "../../components/tableRender";
 import { useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
-
 import '../css/listPage.css';
-import ButtonComponent from "../../components/buttons/Button";
 import ButtonsBar from "../../components/ButtonsBar";
 import InputComponent from "../../components/inputs/InputComponent";
-import { getProducts } from "../../api/product/product";
-import { Product } from "../../api/entities/Product";
+import { Product } from "../../api/entities/product";
+import { GETProducts, StateProduct } from "../../api/requests/productRequests";
+;
 
 
 const ProductListRender: React.FC = () => {
@@ -28,7 +25,7 @@ const ProductListRender: React.FC = () => {
 
     const fetchData = async () => {
 
-        await getProducts().then((response: Product[]) => {
+        await GETProducts().then((response: Product[]) => {
 
             setProducts(response as Product[])
         }).catch(() => { })
@@ -44,45 +41,25 @@ const ProductListRender: React.FC = () => {
         setProduct(param as Product);
     }
 
-    const handleEditAction = (): void => {
+    const handleState = (id: number): void => {
 
-        if (product.id !== undefined && product.id > 0) {
-
-            navigate(`/editProd/${product.id}`);
-        }
+        StateProduct(id).catch(() => { })
     }
 
-    const handleDeleteProduct = (): void => {
+const filter = (r: Product): boolean => {
 
-        setOpen(false)
-        setOpenDelete(true)
-
-    }
-
-    const handleDeleteClick = (): void => {
-
-        try {
-            DeleteProds(product).
-                then(() => (
-                    fetchData().
-                        then(() => (
-                            setOpenDelete(false),
-                            setOpen(false))).catch(() => (null))
-                )).catch(() => (null))
-        } catch (e) {
-            console.log("Erro: ", e)
-        }
-    }
+return (r.active == false ? true : false);
+}
 
     return (
         <>
 
-            <ActionsModal
+            {/* <ActionsModal
                 isOpen={openDelete}
                 onClose={() => { setOpenDelete(false); setOpen(true) }}
                 title="ATENÇÃO!"
                 eventButtons={[
-                    { label: 'DELETAR', cb: handleDeleteClick }
+                    { label: 'DELETAR', cb: handleChangeState }
                 ]}
             >
 
@@ -90,9 +67,9 @@ const ProductListRender: React.FC = () => {
                     Você tem certeza de que deseja deletar este produto?
                 </p>
 
-            </ActionsModal>
+            </ActionsModal> */}
 
-            <ActionsModal
+            {/* <ActionsModal
 
                 isOpen={open}
                 onClose={() => setOpen(false)}
@@ -100,12 +77,15 @@ const ProductListRender: React.FC = () => {
                     { label: 'DELETAR PRODUTO', cb: handleDeleteProduct },
                     { label: 'EDITAR', cb: handleEditAction }
                 ]}
-                title={"OPÇÕES "} />
+                title={"OPÇÕES "} /> */}
 
 
             <div className="default-content">
 
-                <ButtonsBar />
+                <ButtonsBar
+                    createPath="/createProd"
+                    editPath={`/editProd/${product.id}`}
+                    excludeAction={() => handleState(product.id)} />
 
                 <div id="search-filters-container">
 
@@ -162,9 +142,15 @@ const ProductListRender: React.FC = () => {
                         { gridType: 'FLEX', attributeName: 'name', width: 1, label: 'Produto' },
                         { gridType: 'FLEX', attributeName: 'description', width: 1, label: 'Descrição' },
                         { gridType: 'FLEX', attributeName: 'barCode', width: 1, label: 'Código de barras' },
-                        { gridType: 'FLEX', attributeName: 'active', width: 1, label: 'Estado' }
+                        { gridType: 'FLEX', attributeName: 'active', width: 1, label: 'Marca' },
+                        { gridType: 'FLEX', attributeName: 'active', width: 1, label: 'Grupo' },
+                        { gridType: 'FLEX', attributeName: 'active', width: 1, label: 'Tipo' },
+                        { gridType: 'FLEX', attributeName: 'active', width: 1, label: 'Unidade de Medida' }
                     ]}
+
+                    
                     values={products}
+                    filter={filter}
                     selectedRow={product}
                     onTableClick={handleTableClick}
                     onClickActions={() => setOpen(true)}

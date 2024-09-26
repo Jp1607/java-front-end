@@ -27,7 +27,7 @@
     margin: 1%;
     margin-left: 0;
     font-size: 6mm;
-    min-width: 1500px;
+    min-width: 100%;
   }
 
   .content-table thead {
@@ -56,12 +56,12 @@
     border-collapse: collapse;
   }
   
-  .content-table tbody tr.hovered-row {
+  /* .content-table tbody tr.hovered-row {
     background-color: var(--tr-hovered);
-  }
+  } */
   
   .content-table tbody tr.selected-row {
-    background-color: #8cd6a7;
+    background-color: black;
   }
   
   .content-abled-button-list {

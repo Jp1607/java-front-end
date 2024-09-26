@@ -1,7 +1,6 @@
 import '../components/css/modal.css';
 import './css/table.css'
 import React from "react";
-import ButtonComponent from './buttons/Button';
 
 type Headers<T> = {
     attributeName: keyof T;
@@ -12,6 +11,7 @@ type Headers<T> = {
 
 type tableRender<T> = {
     values: T[];
+    filter?: (param: T) => boolean;
     selectedRow?: T | null;
     headers?: Headers<T>[];
     actionsLabel?: string;
@@ -19,25 +19,29 @@ type tableRender<T> = {
     onClickActions?: () => void;
 }
 
-const TableRender = <T,>({ values, selectedRow, headers, actionsLabel, onTableClick, onClickActions }: tableRender<T>): JSX.Element => {
+const TableRender = <T,>({ values, filter, selectedRow, headers, actionsLabel, onTableClick, onClickActions }: tableRender<T>): JSX.Element => {
 
     const [indexRow, setIndexRow] = React.useState<number>(-1);
 
-    const handleTableClick = (row: T): void => {
+    const handleTableClick = (row: T, index?: number): void => {
 
         if (onTableClick !== undefined && onTableClick !== null) {
 
             onTableClick(row);
+            console.log(row)
         }
+
+        setIndexRow(index)
     }
 
-    const handleMouseEnter = (index: number): void => {
-        setIndexRow(index);
-    }
+const handleFilter = (r: T): boolean => {
 
-    const handleMouseLeave = () => {
-        setIndexRow(-1);
-    }
+if (filter) {
+return filter(r);
+} else {
+    return false
+}
+}
 
     const handleValue = (value: any): string => {
 
@@ -102,23 +106,23 @@ const TableRender = <T,>({ values, selectedRow, headers, actionsLabel, onTableCl
                     {
                         values.map((r: T, index: number) => (
 
+                            
+                              !handleFilter(r) &&
                             <tr
-                                onClick={() => handleTableClick(r)}
-                                onMouseOver = {() => handleTableClick(r)}
+                                onClick={() => handleTableClick(r, index)}
+                                // onMouseOver = {() => handleTableClick(r)}
                                 key={`table-row-${index}`}
                                 style={{ height: "50px" }}
-                                onMouseEnter={() => handleMouseEnter(index)}
-                                onMouseLeave={handleMouseLeave}
+                                // onMouseEnter={() => handleMouseEnter(index)}
+                                // onMouseLeave={handleMouseLeave}
                                 className={
-                                    index === selectedRow ?
+                                    index === indexRow ?
                                         'selected-row' :
-                                        index === indexRow ?
-                                            'hovered-row' :
                                             index % 2 === 0 ?
                                                 'even-row' :
                                                 'odd-row'
                                 }>
-
+                            
                                 {
                                     typeof r === 'object' && r !== null ?
 
@@ -157,6 +161,7 @@ const TableRender = <T,>({ values, selectedRow, headers, actionsLabel, onTableCl
                                     </td>
                                 } */}
                             </tr>
+                                
                         ))
                     }
                 </tbody>
