@@ -2,6 +2,7 @@ import React from "react";
 import LinkButton from "../../components/buttons/LinkButton"
 import OpenSb from "../../components/buttons/OpenSB"
 import "../css/sideBar.css"
+import DropDown from "../../components/buttons/DropDown";
 
 const SideBar = () => {
 
@@ -15,11 +16,11 @@ const SideBar = () => {
 
     return (
 
-        <div id = "side-bar">
+        <div id="side-bar">
 
             <div className="bar-container"
                 ref={sideBar}
-                id = {`bar-container-${open.toString()}`}>
+                id={`bar-container-${open.toString()}`}>
 
                 <LinkButton
                     dest="/listProds"
@@ -29,10 +30,7 @@ const SideBar = () => {
                     dest="/listUsers"
                     label="LISTA DE USUÁRIOS" />
 
-                    <LinkButton
-                    dest=""
-                    label="CADASTROS E OPÇÕES"/>
-
+                <DropDown />
             </div>
 
             <div

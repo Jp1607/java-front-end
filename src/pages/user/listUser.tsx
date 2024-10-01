@@ -3,6 +3,8 @@ import TableRender from "../../components/tableRender"
 import React from "react";
 import { User } from "../../api/entities/user";
 import { GETUsers, PUTUser } from "../../api/requests/userRequests";
+import ButtonsBar from "../../components/ButtonsBar";
+import InputComponent from "../../components/inputs/InputComponent";
 
 const UserListRender = () => {
 
@@ -15,7 +17,7 @@ const UserListRender = () => {
 
     React.useEffect(() => {
 
-        const fetch = async () => {
+        const requestGet = async () => {
 
             await GETUsers().then((response: User[]) => {
 
@@ -23,7 +25,7 @@ const UserListRender = () => {
             }).catch(() => { })
         }
 
-        fetch()
+        requestGet()
     }, [user])
 
     const handlePUT = async (): Promise<void> => {
@@ -62,6 +64,57 @@ const UserListRender = () => {
                     ]}
                 />
 
+                <ButtonsBar
+                    createPath="/listUser"
+                    excludeAction={() => setShow(true)}
+                />
+
+                <div id="search-filters-container">
+
+                    <InputComponent
+                        id="srcCod"
+                        label="Código: "
+                        type="number"
+                        className="search-filter"
+                        action={() => { }} />
+
+                    <InputComponent
+                        id="srcName"
+                        label="Nome: "
+                        type="text"
+                        className="search-filter"
+                        action={() => { }}
+                    />
+
+                    <InputComponent
+                        id="srcMU"
+                        label="Un. Medida: "
+                        type="number"
+                        className="search-filter"
+                        action={() => { }} />
+
+                    <InputComponent
+                        id="srcType"
+                        label="Tipo: "
+                        type="text"
+                        className="search-filter"
+                        action={() => { }} />
+
+                    <InputComponent
+                        id="srcGroup"
+                        label="Grupo: "
+                        type="text"
+                        className="search-filter"
+                        action={() => { }} />
+
+                    <InputComponent
+                        id="srcBrand"
+                        label="Marca: "
+                        type="text"
+                        className="search-filter"
+                        action={() => { }} />
+                </div>
+
                 <TableRender
 
                     values={users}
@@ -73,10 +126,10 @@ const UserListRender = () => {
                     filter={handleFilter}
                     onTableClick={handleClick}
                     selectedRow={user}
-                    actionsLabel = {user.active ? 'DESATIVAR' : 'ATIVAR'}
+                    actionsLabel={user.active ? 'DESATIVAR' : 'ATIVAR'}
                     onClickActions={() => (setShow(true))}
                 />
-                
+
             </div>
         </div>
     )

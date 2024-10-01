@@ -44,6 +44,7 @@
   .content-table tbody tr td {
     color:var(--table-fonts);
     font-weight: 500;
+    text-align: center;
   }
   
   .content-table tbody tr.even-row {

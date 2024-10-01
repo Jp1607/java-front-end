@@ -5,11 +5,12 @@ import "./css/buttonsBar.css"
 type ButtonsBarProps = {
 
     createPath: string;
-    editPath: string;
+    editIsPresent?: boolean;
+    editPath?: string;
     excludeAction: () => void;
 }
 
-const ButtonsBar: React.FC<ButtonsBarProps> = ({createPath, editPath, excludeAction}) => {
+const ButtonsBar: React.FC<ButtonsBarProps> = ({ createPath, editIsPresent, editPath, excludeAction }) => {
 
     return (
 
@@ -19,14 +20,15 @@ const ButtonsBar: React.FC<ButtonsBarProps> = ({createPath, editPath, excludeAct
                 dest={createPath}
                 label="CRIAR"
                 style="button"
-
             />
 
-            <LinkButton
-                dest={editPath}
-                label="EDITAR"
-                style="button"
-            />
+            {editIsPresent &&
+                <LinkButton
+                    dest={editPath}
+                    label="EDITAR"
+                    style="button"
+                />
+            }
 
             <ButtonComponent
                 label="VISUALIZAR"

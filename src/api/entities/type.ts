@@ -1,7 +1,6 @@
 export type Type = {
 
     id?: number;
-    Type: string;
-    desc: string;
+    description: string;
     active: boolean;
 }

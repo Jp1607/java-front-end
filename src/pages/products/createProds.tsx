@@ -2,7 +2,7 @@ import InputSelect from "../../components/inputs/selectInput";
 import ButtonComponent from "../../components/buttons/Button";
 import LinkButton from "../../components/buttons/LinkButton";
 import InputComponent from "../../components/inputs/InputComponent";
-import {  useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import React, { useEffect } from "react";
 import '../css/createForm.css';
 import { Product } from "../../api/entities/product";
@@ -48,7 +48,7 @@ const CreateProds = () => {
         console.log(id)
         if (id !== undefined) {
 
-            const fetchProd = async () => {
+            const requestGetProd = async () => {
 
                 const prodById = await GETProductById(parseInt(id))
 
@@ -59,7 +59,7 @@ const CreateProds = () => {
                 }
             }
 
-            fetchProd()
+            requestGetProd()
         }
     }, []);
 

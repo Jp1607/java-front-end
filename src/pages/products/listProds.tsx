@@ -23,7 +23,7 @@ const ProductListRender: React.FC = () => {
         active: false
     })
 
-    const fetchData = async () => {
+    const requestGetData = async () => {
 
         await GETProducts().then((response: Product[]) => {
 
@@ -33,7 +33,7 @@ const ProductListRender: React.FC = () => {
 
     useEffect(() => {
 
-        fetchData()
+        requestGetData()
     }, [])
 
     const handleTableClick = (param: Product) => {
@@ -46,10 +46,10 @@ const ProductListRender: React.FC = () => {
         StateProduct(id).catch(() => { })
     }
 
-const filter = (r: Product): boolean => {
+    const filter = (r: Product): boolean => {
 
-return (r.active == false ? true : false);
-}
+        return (r.active == false ? true : false);
+    }
 
     return (
         <>
@@ -83,6 +83,7 @@ return (r.active == false ? true : false);
             <div className="default-content">
 
                 <ButtonsBar
+                    editIsPresent={true}
                     createPath="/createProd"
                     editPath={`/editProd/${product.id}`}
                     excludeAction={() => handleState(product.id)} />
@@ -142,13 +143,13 @@ return (r.active == false ? true : false);
                         { gridType: 'FLEX', attributeName: 'name', width: 1, label: 'Produto' },
                         { gridType: 'FLEX', attributeName: 'description', width: 1, label: 'Descrição' },
                         { gridType: 'FLEX', attributeName: 'barCode', width: 1, label: 'Código de barras' },
-                        { gridType: 'FLEX', attributeName: 'active', width: 1, label: 'Marca' },
-                        { gridType: 'FLEX', attributeName: 'active', width: 1, label: 'Grupo' },
-                        { gridType: 'FLEX', attributeName: 'active', width: 1, label: 'Tipo' },
-                        { gridType: 'FLEX', attributeName: 'active', width: 1, label: 'Unidade de Medida' }
+                        // { gridType: 'FLEX', attributeName: 'active', width: 1, label: 'Marca' },
+                        // { gridType: 'FLEX', attributeName: 'active', width: 1, label: 'Grupo' },
+                        // { gridType: 'FLEX', attributeName: 'active', width: 1, label: 'Tipo' },
+                        // { gridType: 'FLEX', attributeName: 'active', width: 1, label: 'Unidade de Medida' }
                     ]}
 
-                    
+
                     values={products}
                     filter={filter}
                     selectedRow={product}

@@ -22,7 +22,7 @@ const LinkButton: React.FC<lbProps> = ({ dest, label, style }) => {
 
             label={label}
             type="button"
-            style={style ? style : "linkButton"}
+            style={style ? style : "link-button"}
             action={() => (onClick())} />
 
     )
