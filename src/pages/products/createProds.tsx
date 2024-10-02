@@ -13,14 +13,7 @@ const CreateProds = () => {
     const { id } = useParams();
     const [willEdit, setWillEdit] = React.useState<Boolean>(false);
     const [emptyParams, setEmptyParams] = React.useState<number>(0);
-    const [product, setProduct] = React.useState<Product>(
-        {
-            name: '',
-            description: '',
-            barCode: null,
-            active: false
-        }
-    )
+    const [product, setProduct] = React.useState<Product>(null)
 
     // const verifyEmpty = (product: Product): boolean => {
 
@@ -84,8 +77,8 @@ const CreateProds = () => {
             // }
         }
 
-        navigate('/listProds')
-        window.location.reload();
+        // navigate('/listProds')
+        // window.location.reload();
     }
 
     const handleChange = <T extends keyof Product>(key: T, newValue: Product[T]): void => {
@@ -140,7 +133,7 @@ const CreateProds = () => {
                     handleChange('barCode', parseInt(event.target.value.toString()))} />
 
 
-            <InputSelect
+            {/* <InputSelect
                 id="selectActive"
                 label="ATIVO: "
                 options={[
@@ -149,7 +142,40 @@ const CreateProds = () => {
                 ]}
                 action={(event: React.ChangeEvent<HTMLSelectElement>) =>
                     handleChange('active', event.target.value.toString() === 'true' ? true : false)}
-            />
+            /> */}
+
+            <InputComponent
+                label="MARCA: "
+                id="inputBrand"
+                type="text"
+                value={product ? product.brandDesc : ""}
+                action={(event: React.ChangeEvent<HTMLInputElement>) =>
+                    handleChange('brandDesc', event.target.value.toString())} />
+
+            <InputComponent
+                label="GRUPO: "
+                id="inputGroup"
+                type="text"
+                value={product ? product.groupDesc : ""}
+                action={(event: React.ChangeEvent<HTMLInputElement>) =>
+                    handleChange('groupDesc', event.target.value.toString())} />
+
+            <InputComponent
+                label="TIPO: "
+                id="inputType"
+                type="text"
+                value={product ? product.typeDesc : ""}
+                action={(event: React.ChangeEvent<HTMLInputElement>) =>
+                    handleChange('typeDesc', event.target.value.toString())} />
+
+            <InputComponent
+                label="UNIDADE DE MEDIDA: "
+                id="inputMU"
+                type="text"
+                value={product ? product.muDesc : ""}
+                action={(event: React.ChangeEvent<HTMLInputElement>) =>
+                    handleChange('muDesc', event.target.value.toString())} />
+
 
             <ButtonComponent
                 label="CRIAR"

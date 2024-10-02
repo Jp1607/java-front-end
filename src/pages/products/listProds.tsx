@@ -20,7 +20,11 @@ const ProductListRender: React.FC = () => {
         name: '',
         description: "",
         barCode: 0,
-        active: false
+        active: false,
+        brandDesc: '',
+        groupDesc: '',
+        typeDesc: '',
+        muDesc: ''
     })
 
     const requestGetData = async () => {
@@ -86,7 +90,8 @@ const ProductListRender: React.FC = () => {
                     editIsPresent={true}
                     createPath="/createProd"
                     editPath={`/editProd/${product.id}`}
-                    excludeAction={() => handleState(product.id)} />
+                    excludeAction={() => handleState(product.id)}
+                    reloadAction={requestGetData} />
 
                 <div id="search-filters-container">
 
@@ -143,10 +148,10 @@ const ProductListRender: React.FC = () => {
                         { gridType: 'FLEX', attributeName: 'name', width: 1, label: 'Produto' },
                         { gridType: 'FLEX', attributeName: 'description', width: 1, label: 'Descrição' },
                         { gridType: 'FLEX', attributeName: 'barCode', width: 1, label: 'Código de barras' },
-                        // { gridType: 'FLEX', attributeName: 'active', width: 1, label: 'Marca' },
-                        // { gridType: 'FLEX', attributeName: 'active', width: 1, label: 'Grupo' },
-                        // { gridType: 'FLEX', attributeName: 'active', width: 1, label: 'Tipo' },
-                        // { gridType: 'FLEX', attributeName: 'active', width: 1, label: 'Unidade de Medida' }
+                        { gridType: 'FLEX', attributeName: 'brandDesc', width: 1, label: 'Marca' },
+                        { gridType: 'FLEX', attributeName: 'groupDesc', width: 1, label: 'Grupo' },
+                        { gridType: 'FLEX', attributeName: 'typeDesc', width: 1, label: 'Tipo' },
+                        { gridType: 'FLEX', attributeName: 'muDesc', width: 1, label: 'Unidade de Medida' }
                     ]}
 
 

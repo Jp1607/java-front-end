@@ -31,6 +31,10 @@ const SideBar = () => {
                     label="LISTA DE USUÁRIOS" />
 
                 <DropDown />
+
+                <LinkButton
+                        dest="/createUser"
+                        label="CRIAR USUÁRIO"/>
             </div>
 
             <div

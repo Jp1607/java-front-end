@@ -44,6 +44,7 @@ const BrandListRender = () => {
     const handleDelete = (brand: Brand) => {
 
         PUTBrand(brand.id)
+        setShow(false)
     }
 
     const handleClose = () => {
@@ -67,7 +68,8 @@ const BrandListRender = () => {
 
             <ButtonsBar
                 createPath="/createBrand"
-                excludeAction={handleShow} />
+                excludeAction={handleShow} 
+                reloadAction={requestGet}/>
 
             <div className="default-content">
 

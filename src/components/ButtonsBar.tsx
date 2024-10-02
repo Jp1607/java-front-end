@@ -7,14 +7,15 @@ type ButtonsBarProps = {
     createPath: string;
     editIsPresent?: boolean;
     editPath?: string;
+    reloadAction: () => void
     excludeAction: () => void;
 }
 
-const ButtonsBar: React.FC<ButtonsBarProps> = ({ createPath, editIsPresent, editPath, excludeAction }) => {
+const ButtonsBar: React.FC<ButtonsBarProps> = ({ createPath, editIsPresent, editPath, reloadAction, excludeAction }) => {
 
     return (
 
-        <div id="buttons-bar-container">
+        <div className="buttons-bar-container">
 
             <LinkButton
                 dest={createPath}
@@ -40,6 +41,14 @@ const ButtonsBar: React.FC<ButtonsBarProps> = ({ createPath, editIsPresent, edit
                 type="button"
                 style="button"
                 action={excludeAction}
+            />
+
+            <ButtonComponent
+                label="🗘"
+                id="reload"
+                type="button"
+                style="button"
+                action={reloadAction}
             />
 
         </div>

@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Type } from "../../../api/entities/type";
-import { GETType, PUTType, POSTType } from "../../../api/requests/typeRequests";
+import { GETType, PUTType, POSTType, GETTypes } from "../../../api/requests/typeRequests";
 import ButtonComponent from "../../../components/buttons/Button";
 import LinkButton from "../../../components/buttons/LinkButton";
 import InputComponent from "../../../components/inputs/InputComponent";
@@ -11,6 +11,7 @@ const CreateTypes = () => {
     const { id } = useParams();
     const [willEdit, setWillEdit] = React.useState<Boolean>(false);
     const [emptyParams, setEmptyParams] = React.useState<number>(0);
+    const [types, setTypes] = React.useState<Type[]>([]);
     const [type, setType] = React.useState<Type>(
         {
             description: '',
@@ -71,16 +72,18 @@ const CreateTypes = () => {
         } else {
 
             // if (verifyEmpty(type) === false) {
-            POSTType(type).then((response: string) =>
-                console.log('sucesso!', response)).catch((e) =>
-                    console.log(e));
+            POSTType(type).then((response: string) => {
+                console.log('sucesso!', response)
+                // GETTypes().then((response: Type[]) =>
+                //     (setTypes(response))).catch(() => { })
+            }).catch((e) =>
+                console.log(e));
             // } else if (verifyEmpty(type) === true) {
             //     window.alert('Você deve preencher todos os campos ')
             // }
         }
 
         navigate('/listTypes')
-        window.location.reload();
     }
 
     const handleChange = <T extends keyof Type>(key: T, newValue: Type[T]): void => {

@@ -12,18 +12,19 @@ const UserListRender = () => {
     const [users, setUsers] = React.useState<User[]>([]);
     const [user, setUser] = React.useState<User>({
         name: '',
+        password: null,
         active: false
     });
 
+    const requestGet = async () => {
+
+        await GETUsers().then((response: User[]) => {
+
+            setUsers(response)
+        }).catch(() => { })
+    }
+
     React.useEffect(() => {
-
-        const requestGet = async () => {
-
-            await GETUsers().then((response: User[]) => {
-
-                setUsers(response)
-            }).catch(() => { })
-        }
 
         requestGet()
     }, [user])
@@ -67,6 +68,7 @@ const UserListRender = () => {
                 <ButtonsBar
                     createPath="/listUser"
                     excludeAction={() => setShow(true)}
+                    reloadAction={requestGet}
                 />
 
                 <div id="search-filters-container">

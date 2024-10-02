@@ -4,10 +4,20 @@
     width: 100%;
 }
 
-#buttons-bar-container button {
+.buttons-bar-container button {
 
     font-size: 1rem;
     margin-right: 3%;
     width: 7rem;
   height: 3rem;
+}
+
+#reload {
+float: right;
+  border: 0;
+  font-size: 2rem;
+  height: 3rem; 
+  width: 3rem;
+  background-color: transparent;
+  margin: 0;
 }

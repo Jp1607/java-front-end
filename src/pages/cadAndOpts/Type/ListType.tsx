@@ -24,6 +24,7 @@ const TypeListRender = () => {
     React.useEffect(() => {
 
         requestGet()
+
     }, []);
 
     const filter = (r: Type): boolean => {
@@ -44,6 +45,7 @@ const TypeListRender = () => {
     const handleDelete = (type: Type) => {
 
         PUTType(type.id)
+        setShow(false)
     }
 
     const handleClose = () => {
@@ -67,7 +69,8 @@ const TypeListRender = () => {
 
             <ButtonsBar
                 createPath="/createType"
-                excludeAction={handleShow} />
+                excludeAction={handleShow} 
+                reloadAction={requestGet}/>
 
             <div className="default-content">
 

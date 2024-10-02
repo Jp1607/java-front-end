@@ -44,6 +44,7 @@ const GroupListRender = () => {
     const handleDelete = (group: Group) => {
 
         PUTGroup(group.id)
+        setShow(false)
     }
 
     const handleClose = () => {
@@ -67,7 +68,8 @@ const GroupListRender = () => {
 
             <ButtonsBar
                 createPath="/createGroup"
-                excludeAction={handleShow} />
+                excludeAction={handleShow} 
+                reloadAction={requestGet}/>
 
             <div className="default-content">
 

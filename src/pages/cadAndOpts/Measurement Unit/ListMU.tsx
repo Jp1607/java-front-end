@@ -44,6 +44,7 @@ const MUListRender = () => {
     const handleDelete = (mu: MU) => {
 
         PUTMU(mu.id)
+        setShow(false)
     }
 
     const handleClose = () => {
@@ -69,7 +70,8 @@ const MUListRender = () => {
 
             <ButtonsBar
                 createPath="/createMU"
-                excludeAction={handleShow} />
+                excludeAction={handleShow} 
+                reloadAction={requestGet}/>
 
             <div className="default-content">
 

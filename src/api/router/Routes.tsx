@@ -12,6 +12,7 @@ import CreateBrands from "../../pages/cadAndOpts/Brand/CreateBrand"
 import CreateGroups from "../../pages/cadAndOpts/Group/CreateGroup"
 import CreateTypes from "../../pages/cadAndOpts/Type/CreateType"
 import CreateMUs from "../../pages/cadAndOpts/Measurement Unit/CreateMU"
+import CreateUser from "../../pages/user/createUser"
 
 const Routers = () => {
 
@@ -28,6 +29,7 @@ const Routers = () => {
 
                 {/* User endpoints */}
                 <Route path='/listUsers' element={<UserListRender />} />
+                <Route path='/createUser' element={<CreateUser />} />
 
                 {/* Brand endpoints */}
                 <Route path='/listBrands' element={<BrandListRender />} />

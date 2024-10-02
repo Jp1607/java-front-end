@@ -22,6 +22,7 @@ type tableRender<T> = {
 const TableRender = <T,>({ values, filter, selectedRow, headers, actionsLabel, onTableClick, onClickActions }: tableRender<T>): JSX.Element => {
 
     const [indexRow, setIndexRow] = React.useState<number>(-1);
+    let controlIndex = -1
 
     const handleTableClick = (row: T, index?: number): void => {
 
@@ -33,15 +34,6 @@ const TableRender = <T,>({ values, filter, selectedRow, headers, actionsLabel, o
 
         setIndexRow(index)
     }
-
-const handleFilter = (r: T): boolean => {
-
-if (filter) {
-return filter(r);
-} else {
-    return false
-}
-}
 
     const handleValue = (value: any): string => {
 
@@ -104,47 +96,52 @@ return filter(r);
 
                 <tbody>
                     {
-                        values.map((r: T, index: number) => (
+                        values.map((r: T, index: number) => {
 
-                            
-                              !handleFilter(r) &&
-                            <tr
-                                onClick={() => handleTableClick(r, index)}
-                                // onMouseOver = {() => handleTableClick(r)}
-                                key={`table-row-${index}`}
-                                style={{ height: "50px" }}
-                                // onMouseEnter={() => handleMouseEnter(index)}
-                                // onMouseLeave={handleMouseLeave}
-                                className={
-                                    index === indexRow ?
-                                        'selected-row' :
-                                            index % 2 === 0 ?
-                                                'even-row' :
-                                                'odd-row'
-                                }>
-                            
-                                {
-                                    typeof r === 'object' && r !== null ?
+                            const flag: boolean = filter(r);
+                            if (!flag) {
+                                controlIndex++;
 
-                                        Object.entries(r).map(([key, value], idx: number) => (
-                                            headers !== undefined ?
 
-                                                (headers.find((h: Headers<T>) => h.attributeName === key) !== undefined ?
+                                return (
 
-                                                    (<td
-                                                        key={`table-row-cell-${idx}`}>
-                                                        {handleValue(value)}
-                                                    </td>) : (null)) :
+                                    <tr
+                                        onClick={() => handleTableClick(r, index)}
+                                        // onMouseOver = {() => handleTableClick(r)}
+                                        key={`table-row-${index}`}
+                                        style={{ height: "50px" }}
+                                        // onMouseEnter={() => handleMouseEnter(index)}
+                                        // onMouseLeave={handleMouseLeave}
+                                        className={
+                                            index === indexRow ?
+                                                'selected-row' :
+                                                controlIndex % 2 === 0 ?
+                                                    'even-row' :
+                                                    'odd-row'
+                                        }>
 
-                                                (<td
-                                                    key={`table-row-cell-${idx}`}>
-                                                    {handleValue(value)}
-                                                </td>)
+                                        {
+                                            typeof r === 'object' && r !== null ?
 
-                                        )) : null
-                                }
+                                                Object.entries(r).map(([key, value], idx: number) => (
+                                                    headers !== undefined ?
 
-                                {/* {onClickActions !== undefined &&
+                                                        (headers.find((h: Headers<T>) => h.attributeName === key) !== undefined ?
+
+                                                            (<td
+                                                                key={`table-row-cell-${idx}`}>
+                                                                {handleValue(value)}
+                                                            </td>) : (null)) :
+
+                                                        (<td
+                                                            key={`table-row-cell-${idx}`}>
+                                                            {handleValue(value)}
+                                                        </td>)
+
+                                                )) : null
+                                        }
+
+                                        {/* {onClickActions !== undefined &&
                                     <td width="200px">
 
                                         {
@@ -160,10 +157,11 @@ return filter(r);
                                         }
                                     </td>
                                 } */}
-                            </tr>
-                                
-                        ))
-                    }
+                                    </tr>
+                                )
+                            }
+                            return null
+                        })}
                 </tbody>
             </table>
         </div>

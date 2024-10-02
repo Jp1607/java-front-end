@@ -7,9 +7,10 @@ import React, { FormEvent, useState } from "react";
 import * as LoginMethod from '../api/login/login';
 import '../components/css/modal.css';
 import './css/login.css';
+import LinkButton from "../components/buttons/LinkButton";
 
 const Login = () => {
-    
+
     window.history.pushState(null, null, window.location.origin)
     const auth = useAuthContext();
     const [show, setShow] = useState<boolean>(false)
@@ -28,6 +29,8 @@ const Login = () => {
             [key]: newValue
         }));
     }
+
+
     const handleSubmit = (event: FormEvent) => {
 
         event.preventDefault();
@@ -49,18 +52,18 @@ const Login = () => {
                 isOpen={show}
                 onClose={() => setShow(false)}
                 title="ATENÇÃO!"
-                closeLabel = "OK">
+                closeLabel="OK">
 
-                <p id = "p1">
+                <p id="p1">
                     Credenciais inválidas!
                 </p>
-                <p id = "p2">
+                <p id="p2">
                     Esperado:
                 </p>
-                <p className = "p3">
+                <p className="p3">
                     Usuário: admin
                 </p>
-                <p className = "p3">
+                <p className="p3">
                     Senha: 12345
                 </p>
 
@@ -76,13 +79,15 @@ const Login = () => {
 
                         </h1>
 
-                        <ThemeToggler/>
-                        
+                        <ThemeToggler />
+
                     </div>
 
                     <form onSubmit={handleSubmit} id="login-form">
 
                         <InputComponent
+                            className="input-component"
+                            inputStyle="input-field"
                             id="userCad"
                             label="USUÁRIO: "
                             type="text"
@@ -91,6 +96,8 @@ const Login = () => {
                         />
 
                         <InputComponent
+                            className="input-component"
+                            inputStyle="input-field"
                             id="passCad"
                             label="SENHA: "
                             type="password"
