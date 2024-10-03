@@ -1,3 +1,4 @@
+import { ProductDTO } from "../entities/productDTO";
 import { Product } from "../entities/product";
 import DefaultFetch from "../services/DefaultFetch";
 
@@ -6,9 +7,9 @@ export function GETProductById(id?: number): Promise<Product> {
     return DefaultFetch<Product>('GET', '/product', undefined, id) as Promise<Product>;
 }
 
-export function GETProducts(): Promise<Product[]> {
+export function GETProducts(): Promise<ProductDTO[]> {
 
-    return DefaultFetch<Product[]>('GET', '/product', undefined, undefined) as Promise<Product[]>;
+    return DefaultFetch<ProductDTO[]>('GET', '/product', undefined, undefined) as Promise<ProductDTO[]>;
 }
 
 export function POSTProduct(product: Product): Promise<string> {

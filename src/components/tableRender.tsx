@@ -45,7 +45,7 @@ const TableRender = <T,>({ values, filter, selectedRow, headers, actionsLabel, o
             return "NÃO ATIVO"
         } else if (value == undefined || value == "") {
 
-            return "INDEFINIDO"
+            return ""
         }
         return (value)
     }

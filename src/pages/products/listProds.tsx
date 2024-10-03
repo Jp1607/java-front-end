@@ -5,7 +5,7 @@ import React, { useEffect, useState } from "react";
 import '../css/listPage.css';
 import ButtonsBar from "../../components/ButtonsBar";
 import InputComponent from "../../components/inputs/InputComponent";
-import { Product } from "../../api/entities/product";
+import { ProductDTO } from "../../api/entities/productDTO";
 import { GETProducts, StateProduct } from "../../api/requests/productRequests";
 ;
 
@@ -15,8 +15,8 @@ const ProductListRender: React.FC = () => {
     const navigate = useNavigate();
     const [open, setOpen] = React.useState<boolean>(false);
     const [openDelete, setOpenDelete] = React.useState<boolean>(false);
-    const [products, setProducts] = useState<Product[]>([])
-    const [product, setProduct] = useState<Product>({
+    const [productsDTO, setProductsDTO] = useState<ProductDTO[]>([])
+    const [productDTO, setProductDTO] = useState<ProductDTO>({
         name: '',
         description: "",
         barCode: 0,
@@ -29,9 +29,9 @@ const ProductListRender: React.FC = () => {
 
     const requestGetData = async () => {
 
-        await GETProducts().then((response: Product[]) => {
+        await GETProducts().then((response: ProductDTO[]) => {
 
-            setProducts(response as Product[])
+            setProductsDTO(response as ProductDTO[])
         }).catch(() => { })
     }
 
@@ -40,17 +40,18 @@ const ProductListRender: React.FC = () => {
         requestGetData()
     }, [])
 
-    const handleTableClick = (param: Product) => {
+    const handleTableClick = (param: ProductDTO) => {
 
-        setProduct(param as Product);
+        setProductDTO(param as ProductDTO);
     }
 
     const handleState = (id: number): void => {
 
         StateProduct(id).catch(() => { })
+        setOpenDelete(false);
     }
 
-    const filter = (r: Product): boolean => {
+    const filter = (r: ProductDTO): boolean => {
 
         return (r.active == false ? true : false);
     }
@@ -58,12 +59,12 @@ const ProductListRender: React.FC = () => {
     return (
         <>
 
-            {/* <ActionsModal
+           <ActionsModal
                 isOpen={openDelete}
                 onClose={() => { setOpenDelete(false); setOpen(true) }}
                 title="ATENÇÃO!"
                 eventButtons={[
-                    { label: 'DELETAR', cb: handleChangeState }
+                    { label: 'DELETAR', cb: () => handleState(productDTO.id) }
                 ]}
             >
 
@@ -71,7 +72,7 @@ const ProductListRender: React.FC = () => {
                     Você tem certeza de que deseja deletar este produto?
                 </p>
 
-            </ActionsModal> */}
+            </ActionsModal> 
 
             {/* <ActionsModal
 
@@ -89,8 +90,8 @@ const ProductListRender: React.FC = () => {
                 <ButtonsBar
                     editIsPresent={true}
                     createPath="/createProd"
-                    editPath={`/editProd/${product.id}`}
-                    excludeAction={() => handleState(product.id)}
+                    editPath={`/editProd/${productDTO.id}`}
+                    excludeAction={() => setOpenDelete(true)}
                     reloadAction={requestGetData} />
 
                 <div id="search-filters-container">
@@ -141,7 +142,7 @@ const ProductListRender: React.FC = () => {
 
                 </div>
 
-                <TableRender<Product>
+                <TableRender<ProductDTO>
 
                     headers={[
                         { gridType: 'FLEX', attributeName: 'id', width: 1, label: 'Código do produto' },
@@ -155,9 +156,9 @@ const ProductListRender: React.FC = () => {
                     ]}
 
 
-                    values={products}
+                    values={productsDTO}
                     filter={filter}
-                    selectedRow={product}
+                    selectedRow={productDTO}
                     onTableClick={handleTableClick}
                     onClickActions={() => setOpen(true)}
                 />

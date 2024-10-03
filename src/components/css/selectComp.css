@@ -15,7 +15,7 @@ input::-webkit-inner-spin-button {
   margin: 0;
 }
 
-label{
+.input-select label{
 
     font-size: 2rem;
     min-width: 100%;
@@ -23,12 +23,13 @@ label{
     color: var(--label);
 }
 
-select{
+.input-select select{
     
     font-size: 2rem;
     margin-bottom: 3%;
     margin-top: 5px;
     margin-right: 100%;
-    width: 50%;
+    width: 100%;
+    box-sizing: border-box;
     
 }

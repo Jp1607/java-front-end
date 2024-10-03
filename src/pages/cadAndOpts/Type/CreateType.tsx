@@ -83,7 +83,7 @@ const CreateTypes = () => {
             // }
         }
 
-        navigate('/listTypes')
+        navigate('/listTypes');
     }
 
     const handleChange = <T extends keyof Type>(key: T, newValue: Type[T]): void => {

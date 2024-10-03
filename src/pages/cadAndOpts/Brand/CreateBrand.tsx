@@ -80,7 +80,6 @@ const CreateBrands = () => {
         }
 
         navigate('/listBrands')
-        window.location.reload();
     }
 
     const handleChange = <T extends keyof Brand>(key: T, newValue: Brand[T]): void => {

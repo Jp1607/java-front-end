@@ -79,8 +79,7 @@ const CreateGroups = () => {
             // }
         }
 
-        navigate('/listGroups')
-        window.location.reload();
+        navigate('/listGroups');
     }
 
     const handleChange = <T extends keyof Group>(key: T, newValue: Group[T]): void => {

@@ -79,8 +79,7 @@ const CreateMUs = () => {
             // }
         }
 
-        navigate('/listMUs')
-        window.location.reload();
+        navigate('/listMUs');
     }
 
     const handleChange = <T extends keyof MU>(key: T, newValue: MU[T]): void => {

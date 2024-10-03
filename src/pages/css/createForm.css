@@ -1,3 +1,22 @@
 #create-form button {
     margin-right: 2%;
+    align-self: flex-end ;
 }
+
+#create-form {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+#create-form .input-select, .input-component {
+
+width: 40%;
+margin-right: 10%;
+}
+
+#create-form .input-component label {
+
+    margin-right: 0;
+}
+

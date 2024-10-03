@@ -10,8 +10,8 @@ export type Product = {
     description: string,
     barCode: number,
     active: boolean,
-    brandDesc: string,
-    groupDesc: string,
-    typeDesc: string,
-    muDesc: string
+    brand: Brand,
+    group: Group,
+    type: Type,
+    mu: MU
 }

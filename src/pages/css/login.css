@@ -20,7 +20,7 @@
   
   border-radius: 10%;
   width: 50vw;
-  height: 90vh;
+  height: 80vh;
   margin: auto;
   margin-top: 2%;
   border: solid var(--login-border) 2px;
@@ -49,33 +49,16 @@
 }
 
 #login-form {
-  margin-top: 5%;
+  margin-top: 10%;
   height: 100%;
   padding: 2%;
+  padding-left: 10%;
+  flex-direction: column;
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
 }
 
-/* #login-form label {
-  font-size: 2rem;
-  font-weight: 600;
-  min-width: 100%;
-  margin-right: 100%;
-margin-top: 5%;
-  color: var(--login-fonts);
-}
-
-#login-form input[type=text],
-input[type=password] {
-  margin-top: 5px;
-  height: 0.5%;
-  margin-right: 100%;
-  width: 100%;
-
-} */
-
-.input-component {
+.login-form .input-component {
 
   width: 100%
 }
@@ -83,6 +66,7 @@ input[type=password] {
 #subCad {
   
   margin-top: 5%;
+  align-self: self-start;
 }
 
 #p1 {

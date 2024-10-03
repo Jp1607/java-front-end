@@ -1,29 +1,48 @@
 import "../css/selectComp.css"
 
-type selectProps = {
+type selectProps<T> = {
+    classname?: string;
     label: string;
     id: string;
-    options: string[];
-    action: (event: React.ChangeEvent<HTMLSelectElement>) => void
+    value: T;
+    labelKey: keyof T;
+    idKey: keyof T;
+    options: T[];
+    onValueChange: (param: T) => void;
 }
 
-const InputSelect: React.FC<selectProps> = ({ label, id, options, action }) => {
+const InputSelect = <T,>({ classname, label, id, options, onValueChange, value, idKey, labelKey }: selectProps<T>) => {
 
+    const handleValueChange = (event: React.ChangeEvent<HTMLSelectElement>): void => {
+        if (event.target.value === '') {
+            onValueChange(null);
+        } else {
+            const O: T = options.find((o: T) => o[idKey].toString() === event.target.value.toString());
+
+            if (O) {
+                onValueChange(O);
+            }
+        }
+    }
     return (
 
-        <>
+        <div className={classname ? classname : 'input-select'}>
             <label>
                 {label}
             </label>
 
             <select
-            id = {id}
-            onChange = {action}>
-                {options.map((o: string) => (
-                    <option value = {o}>{o.toUpperCase()}</option>
-                ))}
+                id={id}
+                onChange={handleValueChange}
+                value={value !== undefined && value !== null ? value[idKey] as string : ''}>
+                <option style={{ display: 'none' }} value="" ></option>
+                {
+                    options.map((o: T, index: number) => {
+                        return <option key={`select-${index}`} value={o[idKey] as string}>{o[labelKey] as string}</option>
+                    })
+                }
             </select>
-        </>
+        </div>
     )
 }
 
