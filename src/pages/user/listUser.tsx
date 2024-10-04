@@ -5,6 +5,7 @@ import { User } from "../../api/entities/user";
 import { GETUsers, PUTUser } from "../../api/requests/userRequests";
 import ButtonsBar from "../../components/ButtonsBar";
 import InputComponent from "../../components/inputs/InputComponent";
+import { capitalize } from "../../api/Methods/capitalizeFunction";
 
 const UserListRender = () => {
 
@@ -19,8 +20,15 @@ const UserListRender = () => {
     const requestGet = async () => {
 
         await GETUsers().then((response: User[]) => {
+            const capitalizedUsers =
+                response.map((u: User) => {
+                    return {
+                        ...u,
+                        name: capitalize(u.name)
+                    }
 
-            setUsers(response)
+                })
+            setUsers(capitalizedUsers)
         }).catch(() => { })
     }
 
@@ -38,7 +46,10 @@ const UserListRender = () => {
         setShow(false)
 
         await GETUsers().
-            then((response: User[]) => { setUsers(response) }).
+            then((response: User[]) => {
+
+                setUsers(response)
+            }).
             catch(() => { })
     }
 
@@ -66,7 +77,7 @@ const UserListRender = () => {
                 />
 
                 <ButtonsBar
-                    createPath="/listUser"
+                    createPath="/createUser"
                     excludeAction={() => setShow(true)}
                     reloadAction={requestGet}
                 />

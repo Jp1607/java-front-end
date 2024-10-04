@@ -7,6 +7,7 @@ import ButtonsBar from "../../components/ButtonsBar";
 import InputComponent from "../../components/inputs/InputComponent";
 import { ProductDTO } from "../../api/entities/productDTO";
 import { GETProducts, StateProduct } from "../../api/requests/productRequests";
+import { capitalize } from "../../api/Methods/capitalizeFunction";
 ;
 
 
@@ -30,8 +31,21 @@ const ProductListRender: React.FC = () => {
     const requestGetData = async () => {
 
         await GETProducts().then((response: ProductDTO[]) => {
+            const capitalizedProducts: ProductDTO[] =
+                response.map((p: ProductDTO) => {
+                    return {
+                        ...p,
+                        description: capitalize(p.description),
+                        name: capitalize(p.name),
+                        brandDesc: capitalize(p.brandDesc),
+                        groupDesc: capitalize(p.groupDesc),
+                        typeDesc: capitalize(p.typeDesc),
+                        muDesc: capitalize(p.muDesc)
 
-            setProductsDTO(response as ProductDTO[])
+                    }
+                })
+
+            setProductsDTO(capitalizedProducts);
         }).catch(() => { })
     }
 
@@ -59,7 +73,7 @@ const ProductListRender: React.FC = () => {
     return (
         <>
 
-           <ActionsModal
+            <ActionsModal
                 isOpen={openDelete}
                 onClose={() => { setOpenDelete(false); setOpen(true) }}
                 title="ATENÇÃO!"
@@ -72,7 +86,7 @@ const ProductListRender: React.FC = () => {
                     Você tem certeza de que deseja deletar este produto?
                 </p>
 
-            </ActionsModal> 
+            </ActionsModal>
 
             {/* <ActionsModal
 

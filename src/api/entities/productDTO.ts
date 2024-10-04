@@ -20,14 +20,14 @@ export type ProductDTO = {
 export function ProductDTO(product: Product): ProductDTO {
     return {
         id: product.id ? product.id : 0,
-        name: product.name ? product.name: "",
-        description: product.description ? product.brand.description : "",
+        name: product.name ? product.name.charAt(0).toUpperCase(): "",
+        description: product.description ? product.brand.description.charAt(0).toUpperCase() : "",
         barCode: product.barCode ? product.barCode : 0,
         active: product.active ? product.active : false,
-        brandDesc: product.brand.description ? product.brand.description : "",
-        groupDesc: product.group.description ? product.group.description : "",
-        typeDesc: product.type.description ? product.type.description : "",
-        muDesc: product.mu.description ? product.mu.description : ""
+        brandDesc: product.brand.description ? product.brand.description.charAt(0).toUpperCase() : "",
+        groupDesc: product.group.description ? product.group.description.charAt(0).toUpperCase() : "",
+        typeDesc: product.type.description ? product.type.description.charAt(0).toUpperCase() : "",
+        muDesc: product.mu.description ? product.mu.description.charAt(0).toUpperCase() : ""
     }
 
 }

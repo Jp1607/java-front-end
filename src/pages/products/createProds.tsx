@@ -34,7 +34,7 @@ const CreateProds = () => {
         name: '',
         type: null,
     })
-    const [productDTO, setProductDTO] = React.useState<ProductDTO>(null)
+    // const [productDTO, setProductDTO] = React.useState<ProductDTO>(null)
     const [brands, setBrands] = React.useState<Brand[]>([])
     const [groups, setGroups] = React.useState<Group[]>([])
     const [types, setTypes] = React.useState<Type[]>([])
@@ -63,6 +63,7 @@ const CreateProds = () => {
 
     useEffect(() => {
 
+        console.log(id)
         if (id !== undefined) {
 
             const requestGetProd = async () => {
@@ -72,14 +73,14 @@ const CreateProds = () => {
 
                 if (prodById) {
 
-                    setProduct(prodById as Product);
+                    setProduct(prodById);
+                    console.log(prodById)
+                    console.log(product)
                     setWillEdit(true);
                 }
             }
             
             requestGetProd()
-            console.log(product)
-            setProductDTO(ProductDTO(product));
         }
 
         GETBrands().then((response: Brand[]) => (setBrands(response)))
@@ -189,7 +190,7 @@ const CreateProds = () => {
 
 
             <ButtonComponent
-                label="CRIAR"
+                label={willEdit ? "ALTERAR" : "CRIAR"}
                 type="submit"
                 action={HandleSubmit} />
 

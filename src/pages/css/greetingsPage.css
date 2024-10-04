@@ -22,6 +22,11 @@
    margin-top: 7%;
   }
   
+.greetings-content .content-abled-button {
+
+  margin-bottom: 5%;
+}
+
   .greetings-content {
 
     justify-content: center;

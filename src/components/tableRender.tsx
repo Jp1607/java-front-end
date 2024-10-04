@@ -47,6 +47,7 @@ const TableRender = <T,>({ values, filter, selectedRow, headers, actionsLabel, o
 
             return ""
         }
+        
         return (value)
     }
 

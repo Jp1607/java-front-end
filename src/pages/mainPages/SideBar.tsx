@@ -32,9 +32,9 @@ const SideBar = () => {
 
                 <DropDown />
 
-                <LinkButton
+                {/* <LinkButton
                         dest="/createUser"
-                        label="CRIAR USUÁRIO"/>
+                        label="CRIAR USUÁRIO"/> */}
             </div>
 
             <div
