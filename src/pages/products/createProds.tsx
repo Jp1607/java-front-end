@@ -16,6 +16,8 @@ import { GETGroups } from "../../api/requests/groupRequests";
 import { GETMUs } from "../../api/requests/MURequests";
 import { GETTypes } from "../../api/requests/typeRequests";
 import { ProductDTO } from "../../api/entities/productDTO";
+import { verify } from "crypto";
+import ActionsModal from "../../components/modals/ActionsModal";
 
 const CreateProds = () => {
 
@@ -24,6 +26,7 @@ const CreateProds = () => {
     const { id } = useParams();
     const [willEdit, setWillEdit] = React.useState<Boolean>(false);
     const [emptyParams, setEmptyParams] = React.useState<number>(0);
+    const [open, setOpen] = React.useState<boolean>(false);
     const [product, setProduct] = React.useState<Product>({
         active: true,
         barCode: 0,
@@ -40,26 +43,22 @@ const CreateProds = () => {
     const [types, setTypes] = React.useState<Type[]>([])
     const [MUs, setMUs] = React.useState<MU[]>([])
 
-    // const verifyEmpty = (product: Product): boolean => {
+    const verifyEmpty = (product: Product): boolean => {
 
-    //     const prodParamsArray = Object.entries(product)
-    //     prodParamsArray.forEach(([key, value]) => {
+        const prodParamsArray = Object.entries(product)
+        prodParamsArray.forEach(([key, value]) => {
 
-    //         if (value === null || value === undefined || value === "") {
-    //             console.log(value)
-    //             setEmptyParams((emptyParams) => (emptyParams + 1));
+            if (value === "" || !value) {
+                setEmptyParams((emptyParams) => (emptyParams + 1));
+            }
+        })
 
-    //             console.log(emptyParams)
-    //         }
-    //     })
-
-    //     if (emptyParams > 0) {
-    //         return true;
-    //     } else {
-    //         return false
-    //     }
-    //     console.log(emptyParams)
-    // }
+        if (emptyParams > 0) {
+            return true;
+        } else {
+            return false
+        }
+    }
 
     useEffect(() => {
 
@@ -79,7 +78,7 @@ const CreateProds = () => {
                     setWillEdit(true);
                 }
             }
-            
+
             requestGetProd()
         }
 
@@ -94,25 +93,34 @@ const CreateProds = () => {
         event.preventDefault();
 
         if (willEdit === true) {
+            if (verifyEmpty(product)) {
+                PUTProduct(product).then((response: string) => console.log('sucesso!', response)).catch((e) => console.log(e));
+                navigate('/listProds')
+            }
+            else {
 
-            PUTProduct(product).then((response: string) => console.log('sucesso!', response)).catch((e) => console.log(e));
-
+                setEmptyParams(0)
+                setOpen(true)
+            }
         } else {
 
-            // if (verifyEmpty(product) === false) {
-            POSTProduct(product).then((response: string) =>
-                console.log('sucesso!', response, product)).catch((e) =>
-                    console.log(e));
-            // } else if (verifyEmpty(product) === true) {
-            //     window.alert('Você deve preencher todos os campos ')
-            // }
-        }
+            if (verifyEmpty(product)) {
 
-        navigate('/listProds')
-        // window.location.reload();
+                POSTProduct(product).then((response: string) =>
+                    console.log('sucesso!', response, product)).catch((e) =>
+                        console.log(e));
+                navigate('/listProds')
+            }
+            else {
+
+                setEmptyParams(0)
+                setOpen(true)
+            }
+        }
     }
 
-    const handleChange = <T extends keyof Product>(key: T, newValue: Product[T]): void => { console.log("Saída 1: ", key, newValue)
+    const handleChange = <T extends keyof Product>(key: T, newValue: Product[T]): void => {
+        console.log("Saída 1: ", key, newValue)
         const COPY_PRODUCT: Product = Object.assign({}, product);
         COPY_PRODUCT[key] = newValue;
         setProduct(COPY_PRODUCT);
@@ -122,6 +130,15 @@ const CreateProds = () => {
 
         <form onSubmit={HandleSubmit} id="create-form">
 
+            <ActionsModal
+                isOpen={open}
+                onClose={() => setOpen(false)}
+                title="ATENÇÃO"
+            >
+                <p>
+                    Há alguns campos obrigatórios não preenchidos
+                </p>
+            </ActionsModal>
 
             <InputComponent
                 label="NOME:"

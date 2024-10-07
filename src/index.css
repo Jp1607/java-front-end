@@ -12,7 +12,6 @@
 --button-txt-color: rgba(200, 255, 195, 0.807);
 }
 
-
 body {
   color: var(--fonts);
   background-color: var(--bg-color);
@@ -25,9 +24,6 @@ body {
   margin: 0;
   padding: 0;
 }
-
-
-
 
 .theme-toggle {
   background-color: var(--button-bg-color);

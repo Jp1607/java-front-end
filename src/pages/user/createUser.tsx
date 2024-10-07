@@ -23,6 +23,7 @@ const CreateUser = () => {
     const handleSubmit = () => {
 
         POSTUser(user).then((response: String) => (console.log(response))).catch(() => { })
+    
     }
 
     return (

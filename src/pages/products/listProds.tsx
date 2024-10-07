@@ -13,10 +13,16 @@ import { capitalize } from "../../api/Methods/capitalizeFunction";
 
 const ProductListRender: React.FC = () => {
 
-    const navigate = useNavigate();
-    const [open, setOpen] = React.useState<boolean>(false);
+    // const navigate = useNavigate();
+    // const [open, setOpen] = React.useState<boolean>(false);
+
+
     const [openDelete, setOpenDelete] = React.useState<boolean>(false);
+
+    const [searchItem, setSearchItem] = React.useState<string>('');
     const [productsDTO, setProductsDTO] = useState<ProductDTO[]>([])
+    const [filteredProducts, setFilteredProducts] = useState([])
+
     const [productDTO, setProductDTO] = useState<ProductDTO>({
         name: '',
         description: "",
@@ -46,6 +52,7 @@ const ProductListRender: React.FC = () => {
                 })
 
             setProductsDTO(capitalizedProducts);
+            setFilteredProducts(capitalizedProducts);
         }).catch(() => { })
     }
 
@@ -68,6 +75,162 @@ const ProductListRender: React.FC = () => {
     const filter = (r: ProductDTO): boolean => {
 
         return (r.active == false ? true : false);
+
+    }
+
+    // const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+
+    //     const filterTerm = e.target.value;
+    //     setSearchItem(filterTerm);
+
+    //     const filteringProds = (values?: ProductDTO[]) => {
+    //         if (values == undefined || values.length == 0 || values == null || filterTerm.length == 0) {
+    //             const filtering = productsDTO.filter((p: ProductDTO) =>
+    //                 p.name.includes(filterTerm.toUpperCase()))
+    //             console.log(values + filterTerm)
+    //             setFilteredProducts(filtering)
+    //         } else {
+    //             const filtering = values.filter((p: ProductDTO) =>
+    //                 p.name.includes(filterTerm.toUpperCase()))
+    //             console.log(values + filterTerm)
+    //             setFilteredProducts(filtering)
+    //         }
+    //     }
+
+    //     filteredProducts.length == null ? filteringProds() : filteringProds(filteredProducts);
+    // }
+
+    // const handleBrandChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+
+    //     const filterTerm = e.target.value;
+    //     setSearchItem(filterTerm);
+
+    //     const filteringProds =
+    //         productsDTO.filter((p: ProductDTO) =>
+    //             p.brandDesc.includes(filterTerm.toUpperCase()))
+
+    //     setFilteredProducts(filteringProds);
+    // }
+
+    // const handleBrandChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+
+    //     const filterTerm = e.target.value;
+    //     setSearchItem(filterTerm);
+
+    //     const filteringProds = (values?: ProductDTO[]) => {
+    //         if (values == undefined || values.length == 0 || values == null || filterTerm.length == 0) {
+    //             const filtering = productsDTO.filter((p: ProductDTO) =>
+    //                 p.brandDesc.includes(filterTerm.toUpperCase()))
+    //             setFilteredProducts(filtering)
+    //         } else {
+    //             const filtering = values.filter((p: ProductDTO) =>
+    //                 p.brandDesc.includes(filterTerm.toUpperCase()))
+    //             setFilteredProducts(filtering)
+    //         }
+    //     }
+
+    //     filteredProducts.length == null ? filteringProds() : filteringProds(filteredProducts);
+    // }
+
+    // const handleGroupChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+
+    //     const filterTerm = e.target.value;
+    //     setSearchItem(filterTerm);
+
+    //     const filteringProds = (values?: ProductDTO[]) => {
+    //         if (values == undefined || values.length == 0 || values == null || filterTerm.length == 0) {
+    //             const filtering = productsDTO.filter((p: ProductDTO) =>
+    //                 p.groupDesc.includes(filterTerm.toUpperCase()))
+    //             setFilteredProducts(filtering)
+    //         } else {
+    //             const filtering = values.filter((p: ProductDTO) =>
+    //                 p.groupDesc.includes(filterTerm.toUpperCase()))
+    //             setFilteredProducts(filtering)
+    //         }
+    //     }
+
+    //     filteredProducts.length == null ? filteringProds() : filteringProds(filteredProducts);
+    // }
+
+    // const handleTypeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+
+    //     const filterTerm = e.target.value;
+    //     setSearchItem(filterTerm);
+
+    //     const filteringProds = (values?: ProductDTO[]) => {
+    //         if (values == undefined || values.length == 0 || values == null || filterTerm.length == 0) {
+    //             const filtering = productsDTO.filter((p: ProductDTO) =>
+    //                 p.typeDesc.includes(filterTerm.toUpperCase()))
+    //             setFilteredProducts(filtering)
+    //         } else {
+    //             const filtering = values.filter((p: ProductDTO) =>
+    //                 p.typeDesc.includes(filterTerm.toUpperCase()))
+    //             setFilteredProducts(filtering)
+    //         }
+    //     }
+
+    //     filteredProducts.length == null ? filteringProds() : filteringProds(filteredProducts);
+    // }
+
+    // const handleMUChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+
+    //     const filterTerm = e.target.value;
+    //     setSearchItem(filterTerm);
+
+    //     const filteringProds = (values?: ProductDTO[]) => {
+    //         if (values == undefined || values.length == 0 || values == null || filterTerm.length == 0) {
+    //             const filtering = productsDTO.filter((p: ProductDTO) =>
+    //                 p.muDesc.includes(filterTerm.toUpperCase()))
+    //             setFilteredProducts(filtering)
+    //         } else {
+    //             const filtering = values.filter((p: ProductDTO) =>
+    //                 p.muDesc.includes(filterTerm.toUpperCase()))
+    //             setFilteredProducts(filtering)
+    //         }
+    //     }
+
+    //     filteredProducts.length == null ? filteringProds() : filteringProds(filteredProducts);
+    // }
+
+    // const handleCodeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+
+    //     const filterTerm = e.target.value;
+    //     setSearchItem(filterTerm);
+
+    //     const filteringProds = (values?: ProductDTO[]) => {
+    //         if (values == undefined || values.length == 0 || values == null || filterTerm.length == 0) {
+    //             const filtering = productsDTO.filter((p: ProductDTO) =>
+    //                 p.barCode.toString().includes(filterTerm.toUpperCase()))
+    //             setFilteredProducts(filtering)
+    //         } else {
+    //             const filtering = values.filter((p: ProductDTO) =>
+    //                 p.barCode.toString().includes(filterTerm.toUpperCase()))
+    //             setFilteredProducts(filtering)
+    //         }
+    //     }
+
+    //     filteredProducts.length == null ? filteringProds() : filteringProds(filteredProducts);
+    // }
+
+    const handleSearch = (param: keyof ProductDTO, e: React.ChangeEvent<HTMLInputElement>) => {
+
+        const filterTerm = e.target.value;
+        setSearchItem(filterTerm);
+
+        const filteringProds = (values?: ProductDTO[]) => {
+            if (values) {
+                const filtering = values.filter((p: ProductDTO) =>
+                    p[param].toString().includes(filterTerm.toUpperCase()))
+                setFilteredProducts(filtering)
+            } else {
+                const filtering = productsDTO.filter((p: ProductDTO) =>
+                    p[param].toString().includes(filterTerm.toUpperCase()))
+                setFilteredProducts(filtering)
+            }
+        }
+
+        filteredProducts.length == 0 ? filteringProds() : filteringProds(filteredProducts);
+
     }
 
     return (
@@ -75,7 +238,7 @@ const ProductListRender: React.FC = () => {
 
             <ActionsModal
                 isOpen={openDelete}
-                onClose={() => { setOpenDelete(false); setOpen(true) }}
+                onClose={() => { setOpenDelete(false) }}
                 title="ATENÇÃO!"
                 eventButtons={[
                     { label: 'DELETAR', cb: () => handleState(productDTO.id) }
@@ -112,47 +275,65 @@ const ProductListRender: React.FC = () => {
 
                     <InputComponent
                         id="srcCod"
-                        label="Código: "
+                        label="Código De Barras: "
                         type="number"
                         className="search-filter"
-                        action={() => { }} />
+                        action={(e: React.ChangeEvent<HTMLInputElement>) =>
+                            handleSearch("barCode", e)}
+                    // action={handleCodeChange} 
+                    />
 
                     <InputComponent
                         id="srcName"
                         label="Nome: "
                         type="text"
+                        // value={searchItem}
                         className="search-filter"
-                        action={() => { }}
+                        action={(e: React.ChangeEvent<HTMLInputElement>) =>
+                            handleSearch("name", e)}
+                    // action={handleNameChange}
                     // placeHolder="Produto" 
                     />
 
                     <InputComponent
                         id="srcMU"
                         label="Un. Medida: "
-                        type="number"
+                        type="text"
                         className="search-filter"
-                        action={() => { }} />
+                        action={(e: React.ChangeEvent<HTMLInputElement>) =>
+                            handleSearch("muDesc", e)}
+                    // action={handleMUChange} 
+                    />
 
                     <InputComponent
                         id="srcType"
                         label="Tipo: "
                         type="text"
                         className="search-filter"
-                        action={() => { }} />
+                        action={(e: React.ChangeEvent<HTMLInputElement>) =>
+                            handleSearch("typeDesc", e)}
+                    // action={handleTypeChange} 
+                    />
 
                     <InputComponent
                         id="srcGroup"
                         label="Grupo: "
                         type="text"
                         className="search-filter"
-                        action={() => { }} />
+                        action={(e: React.ChangeEvent<HTMLInputElement>) =>
+                            handleSearch("groupDesc", e)}
+                    // action={handleGroupChange} 
+                    />
 
                     <InputComponent
                         id="srcBrand"
                         label="Marca: "
                         type="text"
                         className="search-filter"
-                        action={() => { }} />
+                        action={(e: React.ChangeEvent<HTMLInputElement>) =>
+                            handleSearch("brandDesc", e)}
+                    // action={handleBrandChange} 
+                    />
 
                 </div>
 
@@ -170,11 +351,11 @@ const ProductListRender: React.FC = () => {
                     ]}
 
 
-                    values={productsDTO}
+                    values={filteredProducts}
                     filter={filter}
                     selectedRow={productDTO}
                     onTableClick={handleTableClick}
-                    onClickActions={() => setOpen(true)}
+                // onClickActions={() => setOpen(true)}
                 />
             </div>
 
