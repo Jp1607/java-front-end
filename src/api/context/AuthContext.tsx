@@ -1,14 +1,13 @@
 import React from "react";
 
+export let interceptor: (param: boolean) => void = null;
 
 export type AuthContext = {
-
     isAuthenticated: boolean;
     setAuthenticated: (param: boolean) => void;
 }
 
 const AC = React.createContext<AuthContext>({
-
     isAuthenticated: false,
     setAuthenticated: null
 });
@@ -17,12 +16,16 @@ export { AC }
 
 type AuthContextProviderProps = {
 
-    children: React.ReactElement[] | React.ReactElement 
+    children: React.ReactElement[] | React.ReactElement
 }
 
 const AuthContextProvider: React.FC<AuthContextProviderProps> = ({ children }) => {
 
     const [isAuthenticated, setIsAuthenticated] = React.useState<boolean>(false);
+
+    interceptor = (param: boolean) => {
+        setIsAuthenticated(param);
+    }
 
     React.useEffect(() => {
 

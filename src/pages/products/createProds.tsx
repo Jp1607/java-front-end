@@ -19,6 +19,11 @@ import { ProductDTO } from "../../api/entities/productDTO";
 import { verify } from "crypto";
 import ActionsModal from "../../components/modals/ActionsModal";
 
+const MandatoryFields: Array<{ key: keyof Product, description: string }> = [
+    { key: 'barCode', description: 'Código de barras' },
+    { key: 'name', description: 'Nome do produto' }
+];
+
 const CreateProds = () => {
 
     const navigate = useNavigate();
@@ -29,7 +34,7 @@ const CreateProds = () => {
     const [open, setOpen] = React.useState<boolean>(false);
     const [product, setProduct] = React.useState<Product>({
         active: true,
-        barCode: 0,
+        barCode: null,
         brand: null,
         description: '',
         group: null,
@@ -41,23 +46,22 @@ const CreateProds = () => {
     const [brands, setBrands] = React.useState<Brand[]>([])
     const [groups, setGroups] = React.useState<Group[]>([])
     const [types, setTypes] = React.useState<Type[]>([])
-    const [MUs, setMUs] = React.useState<MU[]>([])
+    const [MUs, setMUs] = React.useState<MU[]>([]);
+    const [fieldsError, setFieldsError] = React.useState<string[]>([]);
 
-    const verifyEmpty = (product: Product): boolean => {
-
-        const prodParamsArray = Object.entries(product)
-        prodParamsArray.forEach(([key, value]) => {
-
-            if (value === "" || !value) {
-                setEmptyParams((emptyParams) => (emptyParams + 1));
+    const verifyEmpty = (product: Product): { ret: boolean, fields: string[] } => {
+        let ret: boolean = true;
+        const FIELDS: string[] = [];
+        for (let index = 0; index < MandatoryFields.length; index++) {
+            const PRODUCT_FIELD = product[MandatoryFields[index].key];
+            console.log(MandatoryFields[index], PRODUCT_FIELD);
+            if (PRODUCT_FIELD === undefined || PRODUCT_FIELD === '' || PRODUCT_FIELD === null) {
+                ret = false;
+                FIELDS.push(MandatoryFields[index].description);
             }
-        })
-
-        if (emptyParams > 0) {
-            return true;
-        } else {
-            return false
         }
+        console.log('return', ret);
+        return { ret, fields: FIELDS };
     }
 
     useEffect(() => {
@@ -93,18 +97,19 @@ const CreateProds = () => {
         event.preventDefault();
 
         if (willEdit === true) {
-            if (verifyEmpty(product)) {
+            const RET = verifyEmpty(product);
+            if (RET.ret) {
                 PUTProduct(product).then((response: string) => console.log('sucesso!', response)).catch((e) => console.log(e));
                 navigate('/listProds')
             }
             else {
-
+                setFieldsError(RET.fields);
                 setEmptyParams(0)
                 setOpen(true)
             }
         } else {
-
-            if (verifyEmpty(product)) {
+            const RET = verifyEmpty(product);
+            if (RET.ret) {
 
                 POSTProduct(product).then((response: string) =>
                     console.log('sucesso!', response, product)).catch((e) =>
@@ -112,7 +117,7 @@ const CreateProds = () => {
                 navigate('/listProds')
             }
             else {
-
+                setFieldsError(RET.fields);
                 setEmptyParams(0)
                 setOpen(true)
             }
@@ -132,11 +137,13 @@ const CreateProds = () => {
 
             <ActionsModal
                 isOpen={open}
-                onClose={() => setOpen(false)}
+                onClose={() => { setOpen(false); setFieldsError([]); }}
                 title="ATENÇÃO"
             >
                 <p>
-                    Há alguns campos obrigatórios não preenchidos
+                    Há alguns campos obrigatórios não preenchidos!
+                    <br />
+                    {fieldsError.map((f: string) => (<>{`-Campo: ${f}.`}<br /></>))}
                 </p>
             </ActionsModal>
 
@@ -164,7 +171,7 @@ const CreateProds = () => {
                 placeHolder="0123456789012"
                 type="number"
 
-                value={product ? product.barCode : ""}
+                value={product && product.barCode ? product.barCode : ""}
                 action={(event: React.ChangeEvent<HTMLInputElement>) =>
                     handleChange('barCode', parseInt(event.target.value.toString()))} />
 

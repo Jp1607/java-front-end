@@ -1,3 +1,4 @@
+import { interceptor } from "../context/AuthContext";
 import Configuration from "./Config";
 
 type Method = 'GET' | 'POST' | 'PUT' | 'DELETE';
@@ -42,6 +43,11 @@ function DefaultFetch<T>(method: Method, path: Path, body?: any, pathParam?: str
             if (!FETCH.ok) {
 
                 if (FETCH.status >= 400) {
+                    if (FETCH.status === 401) {
+                        if (interceptor) {
+                            interceptor(false);
+                        }
+                    }
 
                     if (FETCH.headers.get('content-type') !== null) {
 
