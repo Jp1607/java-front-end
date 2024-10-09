@@ -1,9 +1,8 @@
 import { User } from "../entities/user";
 import DefaultFetch from "../services/DefaultFetch";
 
-export function GETUsers(): Promise<User[]> {
-
-    return DefaultFetch<User[]>('GET', "/users") as Promise<User[]>;
+export function GETUsers(name?: string): Promise<User[]> {
+    return DefaultFetch<User[]>('GET', "/users", undefined, `${name ? `?name=${name}` : ''}`) as Promise<User[]>;
 }
 
 export function GETUserById(id: number): Promise<User> {

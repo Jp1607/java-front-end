@@ -1,13 +1,24 @@
 import ActionsModal from "../../components/modals/ActionsModal";
 import TableRender from "../../components/tableRender";
 import { useNavigate } from "react-router-dom";
-import React, { useEffect, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import '../css/listPage.css';
 import ButtonsBar from "../../components/ButtonsBar";
 import InputComponent from "../../components/inputs/InputComponent";
 import { ProductDTO } from "../../api/entities/productDTO";
 import { GETProducts, StateProduct } from "../../api/requests/productRequests";
 import { capitalize } from "../../api/Methods/capitalizeFunction";
+import InputSelect from "../../components/inputs/selectInput";
+import ButtonComponent from "../../components/buttons/Button";
+import { Brand } from "../../api/entities/brand";
+import { GETBrand, GETBrands } from "../../api/requests/brandRequests";
+import { Group } from "../../api/entities/group";
+import { Type } from "../../api/entities/type";
+import { MU } from "../../api/entities/MU";
+import { GETGroups } from "../../api/requests/groupRequests";
+import { GETTypes } from "../../api/requests/typeRequests";
+import { GETMUs } from "../../api/requests/MURequests";
+import { Product } from "../../api/entities/product";
 ;
 
 
@@ -18,11 +29,21 @@ const ProductListRender: React.FC = () => {
 
 
     const [openDelete, setOpenDelete] = React.useState<boolean>(false);
-
-    const [searchItem, setSearchItem] = React.useState<string>('');
-    const [productsDTO, setProductsDTO] = useState<ProductDTO[]>([])
-    const [filteredProducts, setFilteredProducts] = useState([])
-
+    const [brands, setBrands] = React.useState<Brand[]>([]);
+    const [groups, setGroups] = React.useState<Group[]>([]);
+    const [types, setTypes] = React.useState<Type[]>([]);
+    const [MUs, setMUs] = React.useState<MU[]>([]);
+    const [products, setProducts] = useState([])
+    const [product, setProduct] = React.useState<Product>({
+        active: null,
+        barCode: null,
+        brand: null,
+        description: null,
+        group: null,
+        mu: null,
+        name: null,
+        type: null
+    })
     const [productDTO, setProductDTO] = useState<ProductDTO>({
         name: '',
         description: "",
@@ -51,9 +72,13 @@ const ProductListRender: React.FC = () => {
                     }
                 })
 
-            setProductsDTO(capitalizedProducts);
-            setFilteredProducts(capitalizedProducts);
+
+            setProducts(capitalizedProducts);
         }).catch(() => { })
+        await GETBrands().then((reponse: Brand[]) => (setBrands(reponse))).catch(() => { })
+        await GETGroups().then((reponse: Group[]) => (setGroups(reponse))).catch(() => { })
+        await GETTypes().then((reponse: Type[]) => (setTypes(reponse))).catch(() => { })
+        await GETMUs().then((reponse: MU[]) => (setMUs(reponse))).catch(() => { })
     }
 
     useEffect(() => {
@@ -78,159 +103,22 @@ const ProductListRender: React.FC = () => {
 
     }
 
-    // const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleChange = <T extends keyof Product>(key: T, newValue: Product[T]) => {
 
-    //     const filterTerm = e.target.value;
-    //     setSearchItem(filterTerm);
+        const COPY_PRODUCT: Product = Object.assign({}, product);
+        COPY_PRODUCT[key] = newValue;
+        setProduct(COPY_PRODUCT);
 
-    //     const filteringProds = (values?: ProductDTO[]) => {
-    //         if (values == undefined || values.length == 0 || values == null || filterTerm.length == 0) {
-    //             const filtering = productsDTO.filter((p: ProductDTO) =>
-    //                 p.name.includes(filterTerm.toUpperCase()))
-    //             console.log(values + filterTerm)
-    //             setFilteredProducts(filtering)
-    //         } else {
-    //             const filtering = values.filter((p: ProductDTO) =>
-    //                 p.name.includes(filterTerm.toUpperCase()))
-    //             console.log(values + filterTerm)
-    //             setFilteredProducts(filtering)
-    //         }
-    //     }
+    }
 
-    //     filteredProducts.length == null ? filteringProds() : filteringProds(filteredProducts);
-    // }
-
-    // const handleBrandChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-
-    //     const filterTerm = e.target.value;
-    //     setSearchItem(filterTerm);
-
-    //     const filteringProds =
-    //         productsDTO.filter((p: ProductDTO) =>
-    //             p.brandDesc.includes(filterTerm.toUpperCase()))
-
-    //     setFilteredProducts(filteringProds);
-    // }
-
-    // const handleBrandChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-
-    //     const filterTerm = e.target.value;
-    //     setSearchItem(filterTerm);
-
-    //     const filteringProds = (values?: ProductDTO[]) => {
-    //         if (values == undefined || values.length == 0 || values == null || filterTerm.length == 0) {
-    //             const filtering = productsDTO.filter((p: ProductDTO) =>
-    //                 p.brandDesc.includes(filterTerm.toUpperCase()))
-    //             setFilteredProducts(filtering)
-    //         } else {
-    //             const filtering = values.filter((p: ProductDTO) =>
-    //                 p.brandDesc.includes(filterTerm.toUpperCase()))
-    //             setFilteredProducts(filtering)
-    //         }
-    //     }
-
-    //     filteredProducts.length == null ? filteringProds() : filteringProds(filteredProducts);
-    // }
-
-    // const handleGroupChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-
-    //     const filterTerm = e.target.value;
-    //     setSearchItem(filterTerm);
-
-    //     const filteringProds = (values?: ProductDTO[]) => {
-    //         if (values == undefined || values.length == 0 || values == null || filterTerm.length == 0) {
-    //             const filtering = productsDTO.filter((p: ProductDTO) =>
-    //                 p.groupDesc.includes(filterTerm.toUpperCase()))
-    //             setFilteredProducts(filtering)
-    //         } else {
-    //             const filtering = values.filter((p: ProductDTO) =>
-    //                 p.groupDesc.includes(filterTerm.toUpperCase()))
-    //             setFilteredProducts(filtering)
-    //         }
-    //     }
-
-    //     filteredProducts.length == null ? filteringProds() : filteringProds(filteredProducts);
-    // }
-
-    // const handleTypeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-
-    //     const filterTerm = e.target.value;
-    //     setSearchItem(filterTerm);
-
-    //     const filteringProds = (values?: ProductDTO[]) => {
-    //         if (values == undefined || values.length == 0 || values == null || filterTerm.length == 0) {
-    //             const filtering = productsDTO.filter((p: ProductDTO) =>
-    //                 p.typeDesc.includes(filterTerm.toUpperCase()))
-    //             setFilteredProducts(filtering)
-    //         } else {
-    //             const filtering = values.filter((p: ProductDTO) =>
-    //                 p.typeDesc.includes(filterTerm.toUpperCase()))
-    //             setFilteredProducts(filtering)
-    //         }
-    //     }
-
-    //     filteredProducts.length == null ? filteringProds() : filteringProds(filteredProducts);
-    // }
-
-    // const handleMUChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-
-    //     const filterTerm = e.target.value;
-    //     setSearchItem(filterTerm);
-
-    //     const filteringProds = (values?: ProductDTO[]) => {
-    //         if (values == undefined || values.length == 0 || values == null || filterTerm.length == 0) {
-    //             const filtering = productsDTO.filter((p: ProductDTO) =>
-    //                 p.muDesc.includes(filterTerm.toUpperCase()))
-    //             setFilteredProducts(filtering)
-    //         } else {
-    //             const filtering = values.filter((p: ProductDTO) =>
-    //                 p.muDesc.includes(filterTerm.toUpperCase()))
-    //             setFilteredProducts(filtering)
-    //         }
-    //     }
-
-    //     filteredProducts.length == null ? filteringProds() : filteringProds(filteredProducts);
-    // }
-
-    // const handleCodeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-
-    //     const filterTerm = e.target.value;
-    //     setSearchItem(filterTerm);
-
-    //     const filteringProds = (values?: ProductDTO[]) => {
-    //         if (values == undefined || values.length == 0 || values == null || filterTerm.length == 0) {
-    //             const filtering = productsDTO.filter((p: ProductDTO) =>
-    //                 p.barCode.toString().includes(filterTerm.toUpperCase()))
-    //             setFilteredProducts(filtering)
-    //         } else {
-    //             const filtering = values.filter((p: ProductDTO) =>
-    //                 p.barCode.toString().includes(filterTerm.toUpperCase()))
-    //             setFilteredProducts(filtering)
-    //         }
-    //     }
-
-    //     filteredProducts.length == null ? filteringProds() : filteringProds(filteredProducts);
-    // }
-
-    const handleSearch = (param: keyof ProductDTO, e: React.ChangeEvent<HTMLInputElement>) => {
-
-        const filterTerm = e.target.value;
-        setSearchItem(filterTerm);
-
-        const filteringProds = (values?: ProductDTO[]) => {
-            if (values) {
-                const filtering = values.filter((p: ProductDTO) =>
-                    p[param].toString().includes(filterTerm.toUpperCase()))
-                setFilteredProducts(filtering)
-            } else {
-                const filtering = productsDTO.filter((p: ProductDTO) =>
-                    p[param].toString().includes(filterTerm.toUpperCase()))
-                setFilteredProducts(filtering)
-            }
-        }
-
-        filteredProducts.length == 0 ? filteringProds() : filteringProds(filteredProducts);
-
+    const handleSubmit = () => {
+        console.log('product', product);
+        const brandId = product.brand ? product.brand.id : null;
+        const groupId = product.group ? product.group.id : null;
+        const typeId = product.type ? product.type.id : null;
+        const muId = product.mu ? product.mu.id : null;
+        GETProducts(product.name, product.barCode, brandId, groupId, typeId, muId).then((response: ProductDTO[]) => setProducts(response)).catch(() => { })
+        console.log(products)
     }
 
     return (
@@ -251,17 +139,6 @@ const ProductListRender: React.FC = () => {
 
             </ActionsModal>
 
-            {/* <ActionsModal
-
-                isOpen={open}
-                onClose={() => setOpen(false)}
-                eventButtons={[
-                    { label: 'DELETAR PRODUTO', cb: handleDeleteProduct },
-                    { label: 'EDITAR', cb: handleEditAction }
-                ]}
-                title={"OPÇÕES "} /> */}
-
-
             <div className="default-content">
 
                 <ButtonsBar
@@ -273,13 +150,16 @@ const ProductListRender: React.FC = () => {
 
                 <div id="search-filters-container">
 
+
+
+
                     <InputComponent
                         id="srcCod"
                         label="Código De Barras: "
                         type="number"
                         className="search-filter"
                         action={(e: React.ChangeEvent<HTMLInputElement>) =>
-                            handleSearch("barCode", e)}
+                            handleChange("barCode", parseInt(e.target.value))}
                     // action={handleCodeChange} 
                     />
 
@@ -290,50 +170,70 @@ const ProductListRender: React.FC = () => {
                         // value={searchItem}
                         className="search-filter"
                         action={(e: React.ChangeEvent<HTMLInputElement>) =>
-                            handleSearch("name", e)}
+                            handleChange("name", e.target.value.toString())}
                     // action={handleNameChange}
                     // placeHolder="Produto" 
                     />
 
-                    <InputComponent
-                        id="srcMU"
-                        label="Un. Medida: "
-                        type="text"
-                        className="search-filter"
-                        action={(e: React.ChangeEvent<HTMLInputElement>) =>
-                            handleSearch("muDesc", e)}
-                    // action={handleMUChange} 
-                    />
-
-                    <InputComponent
-                        id="srcType"
-                        label="Tipo: "
-                        type="text"
-                        className="search-filter"
-                        action={(e: React.ChangeEvent<HTMLInputElement>) =>
-                            handleSearch("typeDesc", e)}
-                    // action={handleTypeChange} 
-                    />
-
-                    <InputComponent
-                        id="srcGroup"
-                        label="Grupo: "
-                        type="text"
-                        className="search-filter"
-                        action={(e: React.ChangeEvent<HTMLInputElement>) =>
-                            handleSearch("groupDesc", e)}
-                    // action={handleGroupChange} 
-                    />
-
-                    <InputComponent
-                        id="srcBrand"
+                    <InputSelect<Brand>
+                        classname="search-filter"
+                        id="select-brand"
                         label="Marca: "
-                        type="text"
-                        className="search-filter"
-                        action={(e: React.ChangeEvent<HTMLInputElement>) =>
-                            handleSearch("brandDesc", e)}
-                    // action={handleBrandChange} 
+                        value={product ? product.brand : null}
+                        options={brands}
+                        labelKey="description"
+                        idKey="id"
+                        onValueChange={(b: Brand) =>
+                            handleChange("brand", b)} />
+
+                    <InputSelect<Group>
+                        classname="search-filter"
+                        id="select-group"
+                        label="Grupo: "
+                        value={product ? product.group : null}
+                        options={groups}
+                        labelKey="description"
+                        idKey="id"
+                        onValueChange={(g: Group) =>
+                            handleChange("group", g)} />
+
+                    <InputSelect<Type>
+                        classname="search-filter"
+                        id="select-type"
+                        label="Tipo: "
+                        value={product ? product.type : null}
+                        options={types}
+                        labelKey="description"
+                        idKey="id"
+                        onValueChange={(t: Type) =>
+                            handleChange('type', t)} />
+
+                    <InputSelect<MU>
+                        classname="search-filter"
+                        id="select-mus"
+                        label="Uni. de Medida: "
+                        value={product ? product.mu : null}
+                        options={MUs}
+                        labelKey="description"
+                        idKey="id"
+                        onValueChange={(m: MU) =>
+                            handleChange('mu', m)} />
+
+                    <ButtonComponent
+                        action={handleSubmit}
+                        id="sub-search"
+                        label="BUSCAR"
+                        type="button"
                     />
+
+
+                    {/* <InputSelect
+                    id="brandSelect"
+                    idKey="id"
+                    label="MARCA: "
+                    labelKey="description"
+                    onValueChange={(e: React.ChangeEvent<HTMLInputElement>) => 
+                    handleSearch('brandDesc', e)}/> */}
 
                 </div>
 
@@ -351,7 +251,7 @@ const ProductListRender: React.FC = () => {
                     ]}
 
 
-                    values={filteredProducts}
+                    values={products}
                     filter={filter}
                     selectedRow={productDTO}
                     onTableClick={handleTableClick}

@@ -2,6 +2,7 @@
   --table-head-bg: #dee2e6;
   --table-fonts: #064E00;
   --table-border: #064E00;
+  --selected-row: rgba(151, 205, 146, 0.807);
   --even-row: #ced4da;
   --odd-row: #adb5bd;
   --button-bg: #dee2e6;
@@ -12,6 +13,7 @@
   --table-head-bg: #343a40;
   --table-fonts: rgba(200, 255, 195, 0.807);
   --table-border: rgba(200, 255, 195, 0.807);
+  --selected-row: #0a6402;
   --even-row: #495057;
   --odd-row: #6c757d;
   --button-bg: #343a40;
@@ -62,7 +64,7 @@
   } */
   
   .content-table tbody tr.selected-row {
-    background-color: black;
+    background-color: var(--selected-row);
   }
   
   .content-abled-button-list {

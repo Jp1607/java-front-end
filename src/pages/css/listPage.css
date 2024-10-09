@@ -7,6 +7,15 @@
     width: 100%;
 }
 
+#search-form {
+
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    width: 100%;
+}
+
 .search-filter {
 
     /* margin-right: 1%;  */
@@ -26,4 +35,20 @@
     font-size: 1rem;
     margin: 0;
     width: 100%;
+}
+
+.search-filter select {
+    
+    box-sizing: border-box;
+    font-size: 1rem;
+    margin: 0;
+    width: 100%;
+}
+
+#sub-search {
+
+    height: 2rem;
+    font-size: 1rem;
+    margin-top: 1%;
+    margin-right: 100%;
 }

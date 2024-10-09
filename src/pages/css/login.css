@@ -16,6 +16,10 @@
   --login-button-font: rgba(200, 255, 195, 0.807);
 }
 
+.pop-up-content {
+  flex-direction: column;
+}
+
 #login-page {
   
   border-radius: 10%;

@@ -20,8 +20,8 @@ import { verify } from "crypto";
 import ActionsModal from "../../components/modals/ActionsModal";
 
 const MandatoryFields: Array<{ key: keyof Product, description: string }> = [
+    { key: 'name', description: 'Nome do produto' },
     { key: 'barCode', description: 'Código de barras' },
-    { key: 'name', description: 'Nome do produto' }
 ];
 
 const CreateProds = () => {
@@ -64,25 +64,14 @@ const CreateProds = () => {
         return { ret, fields: FIELDS };
     }
 
+    const requestGetProd = () => {
+
+        GETProductById(parseInt(id)).then((response: Product) => setProduct(response)).catch(() => { })
+    }
+
     useEffect(() => {
 
-        console.log(id)
-        if (id !== undefined) {
-
-            const requestGetProd = async () => {
-
-
-                const prodById = await GETProductById(parseInt(id))
-
-                if (prodById) {
-
-                    setProduct(prodById);
-                    console.log(prodById)
-                    console.log(product)
-                    setWillEdit(true);
-                }
-            }
-
+        if (id) {
             requestGetProd()
         }
 

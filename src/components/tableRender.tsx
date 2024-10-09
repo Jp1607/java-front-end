@@ -47,7 +47,7 @@ const TableRender = <T,>({ values, filter, selectedRow, headers, actionsLabel, o
 
             return ""
         }
-        
+
         return (value)
     }
 
@@ -99,10 +99,10 @@ const TableRender = <T,>({ values, filter, selectedRow, headers, actionsLabel, o
                     {
                         values.map((r: T, index: number) => {
 
+
                             const flag: boolean = filter(r);
                             if (!flag) {
                                 controlIndex++;
-
 
                                 return (
 
@@ -138,26 +138,8 @@ const TableRender = <T,>({ values, filter, selectedRow, headers, actionsLabel, o
                                                             key={`table-row-cell-${idx}`}>
                                                             {handleValue(value)}
                                                         </td>)
-
                                                 )) : null
                                         }
-
-                                        {/* {onClickActions !== undefined &&
-                                    <td width="200px">
-
-                                        {
-                                            indexRow === index &&
-                                            <div style={{ display: 'flex' }}>
-
-                                                <ButtonComponent
-                                                    label= {actionsLabel ? actionsLabel : "AÇÕES"}
-                                                    type='button'
-                                                    action={onClickActions} />
-
-                                            </div>
-                                        }
-                                    </td>
-                                } */}
                                     </tr>
                                 )
                             }

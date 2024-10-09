@@ -33,3 +33,7 @@ input::-webkit-inner-spin-button {
     box-sizing: border-box;
     
 }
+
+option:hover {
+    background-color: green;
+}

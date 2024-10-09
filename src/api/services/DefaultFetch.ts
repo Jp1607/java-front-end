@@ -15,7 +15,10 @@ function DefaultFetch<T>(method: Method, path: Path, body?: any, pathParam?: str
                 pathParam === undefined ||
                     pathParam === null ?
                     `${Configuration.url}${path}` :
-                    `${Configuration.url}${path}/${pathParam}`;
+                    `${Configuration.url}${path}${pathParam}`;
+
+            console.log('URL', Url)
+     
 
             const RequestBody: RequestInit = {
 

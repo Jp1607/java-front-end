@@ -6,6 +6,7 @@ import { GETUsers, PUTUser } from "../../api/requests/userRequests";
 import ButtonsBar from "../../components/ButtonsBar";
 import InputComponent from "../../components/inputs/InputComponent";
 import { capitalize } from "../../api/Methods/capitalizeFunction";
+import ButtonComponent from "../../components/buttons/Button";
 
 const UserListRender = () => {
 
@@ -35,7 +36,7 @@ const UserListRender = () => {
     React.useEffect(() => {
 
         requestGet()
-    }, [user])
+    }, [])
 
     const handlePUT = async (): Promise<void> => {
 
@@ -63,89 +64,77 @@ const UserListRender = () => {
         return (r.active == false ? true : false)
     }
 
-    return (
+    const handleChange = <T extends keyof User>(key: T, newValue: User[T]) => {
 
-        <div className="default-page">
-            <div className="default-content">
+        const COPY_USER: User = Object.assign({}, user);
+        COPY_USER[key] = newValue;
+        setUser(COPY_USER);
 
-                <ActionsModal
-                    isOpen={show}
-                    onClose={() => { setShow(false) }}
-                    eventButtons={[
-                        { label: user.active ? "DESATIVAR" : "ATIVAR", cb: handlePUT }
-                    ]}
-                />
+    }
 
-                <ButtonsBar
-                    createPath="/createUser"
-                    excludeAction={() => setShow(true)}
-                    reloadAction={requestGet}
-                />
+    const handleSubmit = () => {
 
-                <div id="search-filters-container">
+        GETUsers(user.name).then((response: User[]) => setUsers(response)).catch(() => { })
 
-                    <InputComponent
-                        id="srcCod"
-                        label="Código: "
-                        type="number"
-                        className="search-filter"
-                        action={() => { }} />
+    }
 
-                    <InputComponent
-                        id="srcName"
-                        label="Nome: "
-                        type="text"
-                        className="search-filter"
-                        action={() => { }}
+        return (
+
+            <div className="default-page">
+                <div className="default-content">
+
+                    <ActionsModal
+                        isOpen={show}
+                        onClose={() => { setShow(false) }}
+                        eventButtons={[
+                            { label: user.active ? "DESATIVAR" : "ATIVAR", cb: handlePUT }
+                        ]}
                     />
 
-                    <InputComponent
-                        id="srcMU"
-                        label="Un. Medida: "
-                        type="number"
-                        className="search-filter"
-                        action={() => { }} />
+                    <ButtonsBar
+                        createPath="/createUser"
+                        excludeAction={() => setShow(true)}
+                        reloadAction={requestGet}
+                    />
 
-                    <InputComponent
-                        id="srcType"
-                        label="Tipo: "
-                        type="text"
-                        className="search-filter"
-                        action={() => { }} />
+                    <div id="search-filters-container">
 
-                    <InputComponent
-                        id="srcGroup"
-                        label="Grupo: "
-                        type="text"
-                        className="search-filter"
-                        action={() => { }} />
+                        <InputComponent
+                            id="srcName"
+                            label="Nome: "
+                            type="text"
+                            className="search-filter"
+                            action={(e: React.ChangeEvent<HTMLInputElement>) =>
+                                handleChange('name', e.target.value.toString())}
+                        />
 
-                    <InputComponent
-                        id="srcBrand"
-                        label="Marca: "
-                        type="text"
-                        className="search-filter"
-                        action={() => { }} />
+                        <ButtonComponent
+                            action={handleSubmit}
+                            id="sub-search"
+                            label="BUSCAR"
+                            type="button"
+                        />
+
+                    </div>
+
+                    <TableRender
+
+                        values={users}
+                        headers={[
+                            { gridType: "FLEX", width: 1, attributeName: "id", label: "Identificador" },
+                            { gridType: "FLEX", width: 1, attributeName: "name", label: "Nome" },
+
+                        ]}
+                        filter={handleFilter}
+                        onTableClick={handleClick}
+                        selectedRow={user}
+                        actionsLabel={user.active ? 'DESATIVAR' : 'ATIVAR'}
+                        onClickActions={() => (setShow(true))}
+                    />
+
                 </div>
-
-                <TableRender
-
-                    values={users}
-                    headers={[
-                        { gridType: "FLEX", width: 1, attributeName: "id", label: "Identificador" },
-                        { gridType: "FLEX", width: 1, attributeName: "name", label: "Nome" },
-                        { gridType: "FLEX", width: 1, attributeName: "active", label: "Estado" }
-                    ]}
-                    filter={handleFilter}
-                    onTableClick={handleClick}
-                    selectedRow={user}
-                    actionsLabel={user.active ? 'DESATIVAR' : 'ATIVAR'}
-                    onClickActions={() => (setShow(true))}
-                />
-
             </div>
-        </div>
-    )
-}
+        )
+    }
 
 export default UserListRender

@@ -4,12 +4,14 @@ import DefaultFetch from "../services/DefaultFetch";
 
 export function GETProductById(id?: number): Promise<Product> {
 
-    return DefaultFetch<Product>('GET', '/product', undefined, id) as Promise<Product>;
+    return DefaultFetch<Product>('GET', '/product', undefined, `/${id}`) as Promise<Product>;
 }
 
-export function GETProducts(): Promise<ProductDTO[]> {
+export function GETProducts(name?: string, barCode?: number, brandId?: number, groupId?: number, typeId?: number, muId?: number): Promise<ProductDTO[]> {
+    let urlParam: string = `?${name ? `name=${name}&` : ''}${barCode ? `barCode=${barCode}&` : ''}${brandId ? `brandId=${brandId}&` : ''}${groupId ? `groupId=${groupId}&` : ''}${typeId ? `typeId=${typeId}&` : ''}${muId ? `muId=${muId}` : ''}`;
 
-    return DefaultFetch<ProductDTO[]>('GET', '/product', undefined, undefined) as Promise<ProductDTO[]>;
+    console.log('asudhasudhus', urlParam)
+    return DefaultFetch<ProductDTO[]>('GET', '/product', undefined, urlParam) as Promise<ProductDTO[]>;
 }
 
 export function POSTProduct(product: Product): Promise<string> {
@@ -24,5 +26,5 @@ export function PUTProduct(product: Product): Promise<string> {
 
 export function StateProduct(id: number): Promise<string> {
 
-    return DefaultFetch<string>('PUT', '/product/edit', undefined, id) as Promise<string>;
+    return DefaultFetch<string>('PUT', '/product/edit', undefined, `/${id}`) as Promise<string>;
 }
