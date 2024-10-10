@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { MU } from "../../../api/entities/MU";
-import { GETMU, PUTMU, POSTMU } from "../../../api/requests/MURequests";
+import { GETMU, PUTMu, POSTMU } from "../../../api/requests/MURequests";
 import ButtonComponent from "../../../components/buttons/Button";
 import LinkButton from "../../../components/buttons/LinkButton";
 import InputComponent from "../../../components/inputs/InputComponent";
@@ -66,7 +66,7 @@ const CreateMUs = () => {
 
         if (willEdit === true) {
 
-            PUTMU(mu.id).then((response: string) => console.log('sucesso!', response)).catch((e) => console.log(e));
+            PUTMu(mu).then((response: string) => console.log('sucesso!', response)).catch((e: any) => console.log(e));
 
         } else {
 

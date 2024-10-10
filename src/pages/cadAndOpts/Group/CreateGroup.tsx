@@ -66,7 +66,7 @@ const CreateGroups = () => {
 
         if (willEdit === true) {
 
-            PUTGroup(group.id).then((response: string) => console.log('sucesso!', response)).catch((e) => console.log(e));
+            PUTGroup(group).then((response: string) => console.log('sucesso!', response)).catch((e) => console.log(e));
 
         } else {
 

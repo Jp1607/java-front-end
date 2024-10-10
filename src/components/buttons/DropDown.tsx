@@ -27,10 +27,10 @@ const handleSymbol = () => {
                 label="Marcas" />
             <LinkButton
                 dest="/listGroups"
-                label="Grupo" />
+                label="Grupos" />
             <LinkButton
                 dest="/listTypes"
-                label="Tipo" />
+                label="Tipos" />
             <LinkButton
                 dest="/listMUs"
                 label="Unidades de Medida" />

@@ -1,14 +1,14 @@
 import { Type } from "../entities/type"
 import DefaultFetch from "../services/DefaultFetch"
 
-export const GETTypes = (): Promise<Type[]> => {
+export const GETTypes = (name?: string): Promise<Type[]> => {
 
-    return DefaultFetch<Type[]>('GET', '/type') as Promise<Type[]>;
+    return DefaultFetch<Type[]>('GET', '/type', undefined, `?${name ? `name=${name}` : ''}`) as Promise<Type[]>;
 }
 
 export const GETType = (id: number): Promise<Type> => {
 
-    return DefaultFetch<Type>('GET', '/type', undefined, id) as Promise<Type>;
+    return DefaultFetch<Type>('GET', '/type', undefined,  `/${id}`) as Promise<Type>;
 }
 
 export const POSTType = (type: Type): Promise<string> => {
@@ -17,7 +17,12 @@ export const POSTType = (type: Type): Promise<string> => {
     return DefaultFetch<string>('POST', '/type', type) as Promise<string>;
 }
 
-export const PUTType = (id: number): Promise<string> => {
+export function PUTType(type: Type): Promise<string> {
+
+    return DefaultFetch<string>('PUT', '/type/edit', type) as Promise<string>;
+}
+
+export const StateType = (id: number): Promise<string> => {
 
     return DefaultFetch<string>('PUT', '/type', undefined, id) as Promise<string>;
 }

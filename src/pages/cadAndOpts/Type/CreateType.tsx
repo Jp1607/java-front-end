@@ -67,7 +67,7 @@ const CreateTypes = () => {
 
         if (willEdit === true) {
 
-            PUTType(type.id).then((response: string) => console.log('sucesso!', response)).catch((e) => console.log(e));
+            PUTType(type).then((response: string) => console.log('sucesso!', response)).catch((e) => console.log(e));
 
         } else {
 

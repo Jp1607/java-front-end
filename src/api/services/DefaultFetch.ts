@@ -2,7 +2,13 @@ import { interceptor } from "../context/AuthContext";
 import Configuration from "./Config";
 
 type Method = 'GET' | 'POST' | 'PUT' | 'DELETE';
-type Path = '/login' | '/product' | '/product/edit' | '/users' | '/brand' | '/group' | '/type' | '/mu';
+type Path = '/login' | 
+'/product' | '/product/edit' | 
+'/users' | 
+'/brand' | '/brand/edit' |
+'/group' | '/group/edit' |
+'/type' | '/type/edit' |
+'/mu' | '/mu/edit'; 
 
 function DefaultFetch<T>(method: Method, path: Path, body?: any, pathParam?: string | number): Promise<T | void> {
 

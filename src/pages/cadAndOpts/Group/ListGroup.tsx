@@ -1,22 +1,33 @@
 import React from "react"
 import { Group } from "../../../api/entities/group"
-import { GETGroup, GETGroups, PUTGroup } from "../../../api/requests/groupRequests"
+import { GETGroup, GETGroups, PUTGroup, StateGroup } from "../../../api/requests/groupRequests"
 import ButtonsBar from "../../../components/ButtonsBar"
 import InputComponent from "../../../components/inputs/InputComponent"
 import TableRender from "../../../components/tableRender"
 import ActionsModal from "../../../components/modals/ActionsModal"
+import ButtonComponent from "../../../components/buttons/Button"
+import { capitalize } from "../../../api/Methods/capitalizeFunction"
 
 const GroupListRender = () => {
 
     const [groups, setGroups] = React.useState<Group[]>([]);
-    const [group, setGroup] = React.useState<Group>(null);
+    const [group, setGroup] = React.useState<Group>({
+        description: "",
+        active: false
+    });
     const [show, setShow] = React.useState<boolean>(false);
 
     const requestGet = async () => {
 
-        await GETGroups().then((response: Group[]) => (
-            setGroups(response)
-        )).catch(() => { });
+        await GETGroups().then((response: Group[]) => {
+            const capitalizedGroups = response.map((g: Group) => {
+                return {
+                    ...g,
+                    description: capitalize(g.description)
+                }
+            })
+            setGroups(capitalizedGroups);
+        }).catch(() => { });
 
         console.log(groups);
     }
@@ -43,13 +54,26 @@ const GroupListRender = () => {
 
     const handleDelete = (group: Group) => {
 
-        PUTGroup(group.id)
+        StateGroup(group.id)
         setShow(false)
     }
 
     const handleClose = () => {
 
         setShow(false);
+    }
+
+    const handleChange = <T extends keyof Group>(key: T, newValue: Group[T]) => {
+
+        const COPY_GROUP: Group = Object.assign({}, group);
+        COPY_GROUP[key] = newValue;
+        setGroup(COPY_GROUP);
+
+    }
+
+    const handleSearch = () => {
+
+        GETGroups(group.description).then((response: Group[]) => setGroups(response)).catch(() => { })
     }
 
     return (
@@ -69,25 +93,28 @@ const GroupListRender = () => {
             <ButtonsBar
                 createPath="/createGroup"
                 excludeAction={handleShow} 
+                editIsPresent={true}
+                editPath={`/editGroup/${group.id}`}
                 reloadAction={requestGet}/>
 
-            <div className="default-content">
-
-                <InputComponent
-                    id="GroupId"
-                    label="Código: "
-                    type="number"
-                    className="search-filter"
-                    action={() => { }} />
+            <div className="search-filters-container">
 
                 <InputComponent
                     id="GroupName"
-                    label="Marca: "
+                    label="Grupo: "
                     type="text"
                     className="search-filter"
-                    action={() => { }} />
+                    action={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        handleChange('description', e.target.value.toString())}/>
 
             </div>
+
+            <ButtonComponent
+                action={handleSearch}
+                id="sub-search"
+                label="BUSCAR"
+                type="button"
+            />
 
             <TableRender
                 headers={[

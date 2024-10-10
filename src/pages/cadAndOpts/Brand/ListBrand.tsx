@@ -1,22 +1,33 @@
 import React from "react"
 import { Brand } from "../../../api/entities/brand"
-import { GETBrand, GETBrands, PUTBrand } from "../../../api/requests/brandRequests"
+import { GETBrand, GETBrands, PUTBrand, StateBrand } from "../../../api/requests/brandRequests"
 import ButtonsBar from "../../../components/ButtonsBar"
 import InputComponent from "../../../components/inputs/InputComponent"
 import TableRender from "../../../components/tableRender"
 import ActionsModal from "../../../components/modals/ActionsModal"
+import ButtonComponent from "../../../components/buttons/Button"
+import { capitalize } from "../../../api/Methods/capitalizeFunction"
 
 const BrandListRender = () => {
 
     const [brands, setBrands] = React.useState<Brand[]>([]);
-    const [brand, setBrand] = React.useState<Brand>(null);
+    const [brand, setBrand] = React.useState<Brand>({
+        description: "",
+        active: false
+    });
     const [show, setShow] = React.useState<boolean>(false);
 
     const requestGet = async () => {
 
-        await GETBrands().then((response: Brand[]) => (
-            setBrands(response)
-        )).catch(() => { });
+        await GETBrands().then((response: Brand[]) => {
+            const capitalizedBrands = response.map((b: Brand) => {
+                return {
+                    ...b,
+                    description: capitalize(b.description)
+                }
+            })
+            setBrands(capitalizedBrands);
+        }).catch(() => { });
 
         console.log(brands);
     }
@@ -43,13 +54,26 @@ const BrandListRender = () => {
 
     const handleDelete = (brand: Brand) => {
 
-        PUTBrand(brand.id)
+        StateBrand(brand.id)
         setShow(false)
     }
 
     const handleClose = () => {
 
         setShow(false);
+    }
+
+    const handleChange = <T extends keyof Brand>(key: T, newValue: Brand[T]) => {
+
+        const COPY_BRAND: Brand = Object.assign({}, brand);
+        COPY_BRAND[key] = newValue;
+        setBrand(COPY_BRAND);
+
+    }
+
+    const handleSearch = () => {
+
+        GETBrands(brand.description).then((response: Brand[]) => setBrands(response)).catch(() => { })
     }
 
     return (
@@ -68,26 +92,36 @@ const BrandListRender = () => {
 
             <ButtonsBar
                 createPath="/createBrand"
-                excludeAction={handleShow} 
-                reloadAction={requestGet}/>
+                excludeAction={handleShow}
+                editIsPresent={true}
+                editPath={`/editBrand/${brand.id}`}
+                reloadAction={requestGet} />
 
-            <div className="default-content">
+            <div className="search-filters-container">
 
                 <InputComponent
                     id="BrandId"
-                    label="Código: "
-                    type="number"
-                    className="search-filter"
-                    action={() => { }} />
-
-                <InputComponent
-                    id="BrandName"
                     label="Marca: "
                     type="text"
                     className="search-filter"
-                    action={() => { }} />
+                    action={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        handleChange('description', e.target.value.toString())} />
+
+                {/* <InputComponent
+                    id="BrandName"
+                    label="Ativo: "
+                    type="text"
+                    className="search-filter"
+                    action={() => { }} /> */}
 
             </div>
+
+            <ButtonComponent
+                action={handleSearch}
+                id="sub-search"
+                label="BUSCAR"
+                type="button"
+            />
 
             <TableRender
                 headers={[

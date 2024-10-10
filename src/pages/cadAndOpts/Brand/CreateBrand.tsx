@@ -66,7 +66,7 @@ const CreateBrands = () => {
 
         if (willEdit === true) {
 
-            PUTBrand(brand.id).then((response: string) => console.log('sucesso!', response)).catch((e) => console.log(e));
+            PUTBrand(brand).then((response: string) => console.log('sucesso!', response)).catch((e) => console.log(e));
 
         } else {
 
@@ -119,7 +119,7 @@ const CreateBrands = () => {
                 action={HandleSubmit} />
 
             <LinkButton
-                dest="/listMarcas"
+                dest="/listBrands"
                 label="CANCELAR"
                 style="button" />
         </form>

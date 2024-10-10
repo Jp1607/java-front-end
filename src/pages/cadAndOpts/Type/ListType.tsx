@@ -1,22 +1,33 @@
 import React from "react"
 import { Type } from "../../../api/entities/type"
-import { GETType, GETTypes, PUTType } from "../../../api/requests/typeRequests"
+import { GETType, GETTypes, PUTType, StateType } from "../../../api/requests/typeRequests"
 import ButtonsBar from "../../../components/ButtonsBar"
 import InputComponent from "../../../components/inputs/InputComponent"
 import TableRender from "../../../components/tableRender"
 import ActionsModal from "../../../components/modals/ActionsModal"
+import ButtonComponent from "../../../components/buttons/Button"
+import { capitalize } from "../../../api/Methods/capitalizeFunction"
 
 const TypeListRender = () => {
 
     const [types, setTypes] = React.useState<Type[]>([]);
-    const [type, setType] = React.useState<Type>(null);
+    const [type, setType] = React.useState<Type>({
+        description: "",
+        active: false
+    });
     const [show, setShow] = React.useState<boolean>(false);
 
     const requestGet = async () => {
 
-        await GETTypes().then((response: Type[]) => (
-            setTypes(response)
-        )).catch(() => { });
+        await GETTypes().then((response: Type[]) => {
+            const capitalizedTypes = response.map((t: Type) => {
+                return {
+                    ...t,
+                    description: capitalize(t.description)
+                }
+            })
+            setTypes(capitalizedTypes);
+        }).catch(() => { });
 
         console.log(types);
     }
@@ -44,13 +55,26 @@ const TypeListRender = () => {
 
     const handleDelete = (type: Type) => {
 
-        PUTType(type.id)
+        StateType(type.id)
         setShow(false)
     }
 
     const handleClose = () => {
 
         setShow(false);
+    }
+
+    const handleChange = <T extends keyof Type>(key: T, newValue: Type[T]) => {
+
+        const COPY_TYPE: Type = Object.assign({}, type);
+        COPY_TYPE[key] = newValue;
+        setType(COPY_TYPE);
+
+    }
+
+    const handleSearch = () => {
+
+        GETTypes(type.description).then((response: Type[]) => setTypes(response)).catch(() => { })
     }
 
     return (
@@ -69,26 +93,28 @@ const TypeListRender = () => {
 
             <ButtonsBar
                 createPath="/createType"
-                excludeAction={handleShow} 
-                reloadAction={requestGet}/>
+                excludeAction={handleShow}
+                editIsPresent={true}
+                editPath={`/editType/${type.id}`}
+                reloadAction={requestGet} />
 
-            <div className="default-content">
-
-                <InputComponent
-                    id="TypeId"
-                    label="Código: "
-                    type="number"
-                    className="search-filter"
-                    action={() => { }} />
+            <div className="search-filters-container">
 
                 <InputComponent
                     id="TypeName"
-                    label="Marca: "
+                    label="Tipo: "
                     type="text"
                     className="search-filter"
-                    action={() => { }} />
+                    action={(e: React.ChangeEvent<HTMLInputElement>) => handleChange('description', e.target.value.toString())} />
 
             </div>
+
+            <ButtonComponent
+                action={handleSearch}
+                id="sub-search"
+                label="BUSCAR"
+                type="button"
+            />
 
             <TableRender
                 headers={[

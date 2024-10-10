@@ -4,21 +4,30 @@ import ButtonsBar from "../../../components/ButtonsBar"
 import InputComponent from "../../../components/inputs/InputComponent"
 import TableRender from "../../../components/tableRender"
 import ActionsModal from "../../../components/modals/ActionsModal"
-import { GETMUs, PUTMU } from "../../../api/requests/MURequests"
+import { GETMUs, StateMU } from "../../../api/requests/MURequests"
+import ButtonComponent from "../../../components/buttons/Button"
+import { capitalize } from "../../../api/Methods/capitalizeFunction"
 
 const MUListRender = () => {
 
     const [mus, setMUs] = React.useState<MU[]>([]);
-    const [mu, setMU] = React.useState<MU>(null);
+    const [mu, setMU] = React.useState<MU>({
+        description: "",
+        active: false
+    });
     const [show, setShow] = React.useState<boolean>(false);
 
-    const requestGet = () => {
+    const requestGet = async () => {
 
-        GETMUs().then((response: MU[]) => {
-            setMUs(response.filter((r: MU) => r.active));
+        await GETMUs().then((response: MU[]) => {
+            const capitalizedMUs = response.map((m: MU) => {
+                return {
+                    ...m,
+                    description: capitalize(m.description)
+                }
+            })
+            setMUs(capitalizedMUs);
         }).catch(() => { });
-
-        console.log(mus);
     }
 
     React.useEffect(() => {
@@ -43,7 +52,7 @@ const MUListRender = () => {
 
     const handleDelete = (mu: MU) => {
 
-        PUTMU(mu.id)
+        StateMU(mu.id)
         setShow(false)
     }
 
@@ -52,7 +61,18 @@ const MUListRender = () => {
         setShow(false);
     }
 
-    console.log(mus)
+    const handleChange = <T extends keyof MU>(key: T, newValue: MU[T]) => {
+
+        const COPY_MU: MU = Object.assign({}, mu);
+        COPY_MU[key] = newValue;
+        setMU(COPY_MU);
+
+    }
+
+    const handleSearch = () => {
+
+        GETMUs(mu.description).then((response: MU[]) => setMUs(response)).catch(() => { })
+    }
 
     return (
 
@@ -70,26 +90,29 @@ const MUListRender = () => {
 
             <ButtonsBar
                 createPath="/createMU"
-                excludeAction={handleShow} 
-                reloadAction={requestGet}/>
+                excludeAction={handleShow}
+                editIsPresent={true}
+                editPath={`/editMu/${mu.id}`}
+                reloadAction={requestGet} />
 
-            <div className="default-content">
-
-                <InputComponent
-                    id="MUId"
-                    label="Código: "
-                    type="number"
-                    className="search-filter"
-                    action={() => { }} />
+            <div className="search-filters-container">
 
                 <InputComponent
                     id="MUName"
-                    label="Marca: "
+                    label="Uni. de medida: "
                     type="text"
                     className="search-filter"
-                    action={() => { }} />
+                    action={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        handleChange('description', e.target.value.toString())} />
 
             </div>
+
+            <ButtonComponent
+                action={handleSearch}
+                id="sub-search"
+                label="BUSCAR"
+                type="button"
+            />
 
             <TableRender
                 headers={[

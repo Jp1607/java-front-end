@@ -25,7 +25,7 @@ const Routers = () => {
                 {/* Product endpoints */}
                 <Route path='/listProds' element={<ProductListRender />} />
                 <Route path='/createProd' element={<CreateProds />} />
-                <Route path='/editProd/:id?' element={<CreateProds />} />
+                <Route path='/editProd/:id' element={<CreateProds />} />
 
                 {/* User endpoints */}
                 <Route path='/listUsers' element={<UserListRender />} />
@@ -34,18 +34,22 @@ const Routers = () => {
                 {/* Brand endpoints */}
                 <Route path='/listBrands' element={<BrandListRender />} />
                 <Route path='/createBrand' element={<CreateBrands />} />
+                <Route path='/editBrand/:id' element={<CreateBrands />} />
 
                 {/* Group endpoints */}
                 <Route path='/listGroups' element={<GroupListRender />} />
                 <Route path='/createGroup' element={<CreateGroups />} />
+                <Route path='/editGroup/:id' element={<CreateGroups />} />
 
                 {/* Type endpoints */}
                 <Route path='/listTypes' element={<TypeListRender />} />
                 <Route path='/createType' element={<CreateTypes />} />
+                <Route path='/editType/:id' element={<CreateTypes />} />
 
                 {/* Measurement units endpoints */}
                 <Route path='/listMUs' element={<MUListRender />} />
                 <Route path='/createMU' element={<CreateMUs />} />
+                <Route path='/editMU/:id' element={<CreateMUs />} />
 
                 <Route path="/*" element={<PageNotFound />} />
             </Route>
