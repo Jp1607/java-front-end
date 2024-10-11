@@ -1,9 +1,9 @@
 import { MU } from "../entities/MU"
 import DefaultFetch from "../services/DefaultFetch"
 
-export const GETMUs = (name?: string): Promise<MU[]> => {
+export const GETMUs = (name?: string, active?: boolean): Promise<MU[]> => {
 
-    return DefaultFetch<MU[]>('GET', '/mu', undefined, `?${name ? `name=${name}` : ''}`) as Promise<MU[]>;
+    return DefaultFetch<MU[]>('GET', '/mu', undefined, `?${name ? `name=${name}&` : ''}${active ? `active=${active}&` : ''}`) as Promise<MU[]>;
 }
 
 export const GETMU = (id: number): Promise<MU> => {
@@ -24,5 +24,5 @@ export function PUTMu(mu: MU): Promise<string> {
 
 export const StateMU = (id: number): Promise<string> => {
 
-    return DefaultFetch<string>('PUT', '/mu', undefined, id) as Promise<string>;
+    return DefaultFetch<string>('PUT', '/mu', undefined, `/${id}`) as Promise<string>;
 }

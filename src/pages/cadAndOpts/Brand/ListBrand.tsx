@@ -1,46 +1,33 @@
 import React from "react"
 import { Brand } from "../../../api/entities/brand"
-import { GETBrand, GETBrands, PUTBrand, StateBrand } from "../../../api/requests/brandRequests"
+import { GETBrands, StateBrand } from "../../../api/requests/brandRequests"
 import ButtonsBar from "../../../components/ButtonsBar"
 import InputComponent from "../../../components/inputs/InputComponent"
 import TableRender from "../../../components/tableRender"
 import ActionsModal from "../../../components/modals/ActionsModal"
 import ButtonComponent from "../../../components/buttons/Button"
-import { capitalize } from "../../../api/Methods/capitalizeFunction"
+import Active from "../../../api/services/activeInterface"
+import InputSelect from "../../../components/inputs/selectInput"
 
 const BrandListRender = () => {
 
+    const [show, setShow] = React.useState<boolean>(false);
+    const [showActives, setShowActives] = React.useState<Active>({ description: '', value: false });
     const [brands, setBrands] = React.useState<Brand[]>([]);
     const [brand, setBrand] = React.useState<Brand>({
         description: "",
         active: false
     });
-    const [show, setShow] = React.useState<boolean>(false);
 
     const requestGet = async () => {
 
-        await GETBrands().then((response: Brand[]) => {
-            const capitalizedBrands = response.map((b: Brand) => {
-                return {
-                    ...b,
-                    description: capitalize(b.description)
-                }
-            })
-            setBrands(capitalizedBrands);
-        }).catch(() => { });
-
-        console.log(brands);
+        await GETBrands().then((response: Brand[]) => setBrands(response)).catch(() => { });
     }
 
     React.useEffect(() => {
 
         requestGet()
     }, []);
-
-    const filter = (r: Brand): boolean => {
-
-        return (r.active ? false : true);
-    }
 
     const handleTableClick = (r: Brand) => {
 
@@ -73,7 +60,7 @@ const BrandListRender = () => {
 
     const handleSearch = () => {
 
-        GETBrands(brand.description).then((response: Brand[]) => setBrands(response)).catch(() => { })
+        GETBrands(brand.description, showActives.value).then((response: Brand[]) => setBrands(response)).catch(() => { })
     }
 
     return (
@@ -107,12 +94,19 @@ const BrandListRender = () => {
                     action={(e: React.ChangeEvent<HTMLInputElement>) =>
                         handleChange('description', e.target.value.toString())} />
 
-                {/* <InputComponent
-                    id="BrandName"
-                    label="Ativo: "
-                    type="text"
-                    className="search-filter"
-                    action={() => { }} /> */}
+                <InputSelect<Active>
+                    classname="search-filter"
+                    id="search-active"
+                    label="Exibir desativados"
+                    idKey="value"
+                    labelKey="description"
+                    onValueChange={(a: Active) => setShowActives(a.value ? { description: "Exibir", value: true } : { description: "Não exibir", value: false })}
+                    options={[
+                        { description: "Exibir", value: true },
+                        { description: "Não exibir", value: false }
+                    ]}
+                    value={showActives.value ? { description: "Exibir", value: true } : { description: "Não exibir", value: false }} />
+
 
             </div>
 
@@ -129,7 +123,6 @@ const BrandListRender = () => {
                     { attributeName: "description", label: "DESCRIÇÃO", gridType: "FLEX", width: "1" }
                 ]}
                 values={brands}
-                filter={filter}
                 onTableClick={handleTableClick}
                 selectedRow={brand}
 

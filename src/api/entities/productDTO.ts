@@ -5,6 +5,7 @@ import { Product } from "./product"
 import { Type } from "./type"
 
 export type ProductDTO = {
+    [x: string]: any
 
     id?: number,
     name: string,

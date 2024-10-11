@@ -1,9 +1,9 @@
 import { Group } from "../entities/group";
 import DefaultFetch from "../services/DefaultFetch"
 
-export const GETGroups = (name?: String): Promise<Group[]> => {
+export const GETGroups = (name?: String, active?: boolean): Promise<Group[]> => {
 
-    return DefaultFetch<Group[]>('GET', '/group', undefined, `?${name ? `name=${name}` : ''}`) as Promise<Group[]>;
+    return DefaultFetch<Group[]>('GET', '/group', undefined, `?${name ? `name=${name}&` : ''}${active ? `active=${active}&` : ''}`) as Promise<Group[]>;
 }
 
 export const GETGroup = (id: number): Promise<Group> => {
@@ -24,5 +24,5 @@ export function PUTGroup(group: Group): Promise<string> {
 
 export const StateGroup = (id: number): Promise<string> => {
 
-    return DefaultFetch<string>('PUT', '/group', undefined, id) as Promise<string>;
+    return DefaultFetch<string>('PUT', '/group', undefined, `/${id}`) as Promise<string>;
 }

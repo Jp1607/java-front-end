@@ -1,9 +1,9 @@
 import "../css/selectComp.css"
 
 type selectProps<T> = {
-    classname?: string;
-    label: string;
-    id: string;
+    classname?: string; //
+    label: string; //
+    id: string; //
     value: T;
     labelKey: keyof T;
     idKey: keyof T;
@@ -24,6 +24,7 @@ const InputSelect = <T,>({ classname, label, id, options, onValueChange, value, 
             }
         }
     }
+
     return (
 
         <div className={classname ? classname : 'input-select'}>
@@ -36,7 +37,7 @@ const InputSelect = <T,>({ classname, label, id, options, onValueChange, value, 
                 onChange={handleValueChange}
                 value={value !== undefined && value !== null ? value[idKey] as string : ''}>
                 <option style={{ display: 'none' }} value="" ></option>
-                <option value="" style={{color: 'red'}}> Remover </option>
+                <option value="" style={{ color: 'red' }}> Remover </option>
                 {
                     options.map((o: T, index: number) => {
                         return <option key={`select-${index}`} value={o[idKey] as string}>{o[labelKey] as string}</option>
@@ -47,4 +48,4 @@ const InputSelect = <T,>({ classname, label, id, options, onValueChange, value, 
     )
 }
 
-export default InputSelect
+export default InputSelect;

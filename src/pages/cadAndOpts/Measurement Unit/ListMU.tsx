@@ -7,9 +7,12 @@ import ActionsModal from "../../../components/modals/ActionsModal"
 import { GETMUs, StateMU } from "../../../api/requests/MURequests"
 import ButtonComponent from "../../../components/buttons/Button"
 import { capitalize } from "../../../api/Methods/capitalizeFunction"
+import Active from "../../../api/services/activeInterface"
+import InputSelect from "../../../components/inputs/selectInput"
 
 const MUListRender = () => {
 
+    const [showActives, setShowActives] = React.useState<Active>({ description: '', value: false });
     const [mus, setMUs] = React.useState<MU[]>([]);
     const [mu, setMU] = React.useState<MU>({
         description: "",
@@ -19,26 +22,14 @@ const MUListRender = () => {
 
     const requestGet = async () => {
 
-        await GETMUs().then((response: MU[]) => {
-            const capitalizedMUs = response.map((m: MU) => {
-                return {
-                    ...m,
-                    description: capitalize(m.description)
-                }
-            })
-            setMUs(capitalizedMUs);
-        }).catch(() => { });
+        await GETMUs().then((response: MU[]) => setMUs(response)).catch(() => { });
     }
 
     React.useEffect(() => {
 
         requestGet();
+
     }, []);
-
-    const filter = (r: MU): boolean => {
-
-        return (r.active ? false : true);
-    }
 
     const handleTableClick = (r: MU) => {
 
@@ -71,7 +62,7 @@ const MUListRender = () => {
 
     const handleSearch = () => {
 
-        GETMUs(mu.description).then((response: MU[]) => setMUs(response)).catch(() => { })
+        GETMUs(mu.description, showActives.value).then((response: MU[]) => setMUs(response)).catch(() => { })
     }
 
     return (
@@ -105,6 +96,20 @@ const MUListRender = () => {
                     action={(e: React.ChangeEvent<HTMLInputElement>) =>
                         handleChange('description', e.target.value.toString())} />
 
+                <InputSelect<Active>
+                    classname="search-filter"
+                    id="search-active"
+                    label="Exibir desativados"
+                    idKey="value"
+                    labelKey="description"
+                    onValueChange={(a: Active) => setShowActives(a.value ? { description: "Exibir", value: true } : { description: "Não exibir", value: false })}
+                    options={[
+                        { description: "Exibir", value: true },
+                        { description: "Não exibir", value: false }
+                    ]}
+                    value={showActives.value ? { description: "Exibir", value: true } : { description: "Não exibir", value: false }} />
+
+
             </div>
 
             <ButtonComponent
@@ -120,7 +125,6 @@ const MUListRender = () => {
                     { attributeName: "description", label: "DESCRIÇÃO", gridType: "FLEX", width: "1" }
                 ]}
                 values={mus}
-                filter={filter}
                 onTableClick={handleTableClick}
                 selectedRow={mu}
 

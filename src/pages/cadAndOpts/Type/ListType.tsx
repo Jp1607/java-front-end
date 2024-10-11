@@ -1,15 +1,18 @@
 import React from "react"
 import { Type } from "../../../api/entities/type"
-import { GETType, GETTypes, PUTType, StateType } from "../../../api/requests/typeRequests"
+import { GETTypes, StateType } from "../../../api/requests/typeRequests"
 import ButtonsBar from "../../../components/ButtonsBar"
 import InputComponent from "../../../components/inputs/InputComponent"
 import TableRender from "../../../components/tableRender"
 import ActionsModal from "../../../components/modals/ActionsModal"
 import ButtonComponent from "../../../components/buttons/Button"
 import { capitalize } from "../../../api/Methods/capitalizeFunction"
+import Active from "../../../api/services/activeInterface"
+import InputSelect from "../../../components/inputs/selectInput"
 
 const TypeListRender = () => {
 
+    const [showActives, setShowActives] = React.useState<Active>({ description: '', value: false });
     const [types, setTypes] = React.useState<Type[]>([]);
     const [type, setType] = React.useState<Type>({
         description: "",
@@ -19,15 +22,7 @@ const TypeListRender = () => {
 
     const requestGet = async () => {
 
-        await GETTypes().then((response: Type[]) => {
-            const capitalizedTypes = response.map((t: Type) => {
-                return {
-                    ...t,
-                    description: capitalize(t.description)
-                }
-            })
-            setTypes(capitalizedTypes);
-        }).catch(() => { });
+        await GETTypes().then((response: Type[]) => setTypes(response)).catch(() => { });
 
         console.log(types);
     }
@@ -37,11 +32,6 @@ const TypeListRender = () => {
         requestGet()
 
     }, []);
-
-    const filter = (r: Type): boolean => {
-
-        return (r.active ? false : true);
-    }
 
     const handleTableClick = (r: Type) => {
 
@@ -74,7 +64,7 @@ const TypeListRender = () => {
 
     const handleSearch = () => {
 
-        GETTypes(type.description).then((response: Type[]) => setTypes(response)).catch(() => { })
+        GETTypes(type.description, showActives.value).then((response: Type[]) => setTypes(response)).catch(() => { })
     }
 
     return (
@@ -107,6 +97,20 @@ const TypeListRender = () => {
                     className="search-filter"
                     action={(e: React.ChangeEvent<HTMLInputElement>) => handleChange('description', e.target.value.toString())} />
 
+                <InputSelect<Active>
+                    classname="search-filter"
+                    id="search-active"
+                    label="Exibir desativados"
+                    idKey="value"
+                    labelKey="description"
+                    onValueChange={(a: Active) => setShowActives(a.value ? { description: "Exibir", value: true } : { description: "Não exibir", value: false })}
+                    options={[
+                        { description: "Exibir", value: true },
+                        { description: "Não exibir", value: false }
+                    ]}
+                    value={showActives.value ? { description: "Exibir", value: true } : { description: "Não exibir", value: false }} />
+
+
             </div>
 
             <ButtonComponent
@@ -122,7 +126,6 @@ const TypeListRender = () => {
                     { attributeName: "description", label: "DESCRIÇÃO", gridType: "FLEX", width: "1" }
                 ]}
                 values={types}
-                filter={filter}
                 onTableClick={handleTableClick}
                 selectedRow={type}
 

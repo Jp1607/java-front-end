@@ -8,30 +8,18 @@ import InputComponent from "../../components/inputs/InputComponent";
 import { capitalize } from "../../api/Methods/capitalizeFunction";
 import ButtonComponent from "../../components/buttons/Button";
 import InputSelect from "../../components/inputs/selectInput";
+import Active from "../../api/services/activeInterface";
 
 const UserListRender = () => {
 
     const [show, setShow] = React.useState<boolean>(undefined)
-    const [showActives, setShowActives] = React.useState<boolean>(false);
     const [users, setUsers] = React.useState<User[]>([]);
-    const [user, setUser] = React.useState<User>({
-        name: '',
-        password: null,
-        active: false
-    });
+    const [user, setUser] = React.useState<User>({ name: '', password: null, active: false });
+    const [showActives, setShowActives] = React.useState<Active>({ description: '', value: false });
 
     const requestGet = async () => {
 
-        await GETUsers().then((response: User[]) => {
-            const capitalizedUsers =
-                response.map((u: User) => {
-                    return {
-                        ...u,
-                        name: capitalize(u.name)
-                    }
-                })
-            setUsers(capitalizedUsers)
-        }).catch(() => { })
+        await GETUsers().then((response: User[]) => setUsers(response)).catch(() => { })
     }
 
     React.useEffect(() => {
@@ -50,7 +38,13 @@ const UserListRender = () => {
         await GETUsers().
             then((response: User[]) => {
 
-                setUsers(response)
+                const capitalizedUsers = response.map((u: User) => {
+                    return {
+                        ...u,
+                        description: capitalize(u.name)
+                    }
+                })
+                setUsers(capitalizedUsers);
             }).
             catch(() => { })
     }
@@ -58,11 +52,6 @@ const UserListRender = () => {
     const handleClick = (row: User) => {
 
         setUser(row as User)
-    }
-
-    const handleFilter = (r: User): boolean => {
-
-        return (r.active == false ? true : false)
     }
 
     const handleChange = <T extends keyof User>(key: T, newValue: User[T]) => {
@@ -75,7 +64,7 @@ const UserListRender = () => {
 
     const handleSubmit = () => {
 
-        GETUsers(user.name).then((response: User[]) => setUsers(response)).catch(() => { })
+        GETUsers(user.name, showActives.value).then((response: User[]) => setUsers(response)).catch(() => { })
 
     }
 
@@ -98,7 +87,7 @@ const UserListRender = () => {
                     reloadAction={requestGet}
                 />
 
-                <div id="search-filters-container">
+                <div className="search-filters-container">
 
                     <InputComponent
                         id="srcName"
@@ -109,18 +98,18 @@ const UserListRender = () => {
                             handleChange('name', e.target.value.toString())}
                     />
 
-                    {/* <InputSelect
+                    <InputSelect<Active>
+                        classname="search-filter"
                         id="search-active"
-                        label="Exibir desativados:"
-                        options={}
-                        onValueChange={}/> */}
-
-                    <label id="Exibir desativados:">Exibir desativados</label>
-                    <select
-                        id="search-active">
-                        <option value="true">EXIBIR</option>
-                        <option value="false">NÃO EXIBIR</option>
-                    </select>
+                        label="Exibir desativados"
+                        idKey="value"
+                        labelKey="description"
+                        onValueChange={(a: Active) => setShowActives(a.value ? { description: "Exibir", value: true } : { description: "Não exibir", value: false })}
+                        options={[
+                            { description: "Exibir", value: true },
+                            { description: "Não exibir", value: false }
+                        ]}
+                        value={showActives.value ? { description: "Exibir", value: true } : { description: "Não exibir", value: false }} />
 
                 </div>
 
@@ -139,7 +128,6 @@ const UserListRender = () => {
                         { gridType: "FLEX", width: 1, attributeName: "name", label: "Nome" },
 
                     ]}
-                    filter={handleFilter}
                     onTableClick={handleClick}
                     selectedRow={user}
                     actionsLabel={user.active ? 'DESATIVAR' : 'ATIVAR'}

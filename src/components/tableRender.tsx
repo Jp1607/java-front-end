@@ -11,7 +11,7 @@ type Headers<T> = {
 
 type tableRender<T> = {
     values: T[];
-    filter?: (param: T) => boolean;
+    
     selectedRow?: T | null;
     headers?: Headers<T>[];
     actionsLabel?: string;
@@ -19,7 +19,7 @@ type tableRender<T> = {
     onClickActions?: () => void;
 }
 
-const TableRender = <T,>({ values, filter, selectedRow, headers, actionsLabel, onTableClick, onClickActions }: tableRender<T>): JSX.Element => {
+const TableRender = <T,>({ values, selectedRow, headers, actionsLabel, onTableClick, onClickActions }: tableRender<T>): JSX.Element => {
 
     const [indexRow, setIndexRow] = React.useState<number>(-1);
     let controlIndex = -1
@@ -100,10 +100,6 @@ const TableRender = <T,>({ values, filter, selectedRow, headers, actionsLabel, o
                         values.map((r: T, index: number) => {
 
 
-                            const flag: boolean = filter(r);
-                            if (!flag) {
-                                controlIndex++;
-
                                 return (
 
                                     <tr
@@ -116,7 +112,7 @@ const TableRender = <T,>({ values, filter, selectedRow, headers, actionsLabel, o
                                         className={
                                             index === indexRow ?
                                                 'selected-row' :
-                                                controlIndex % 2 === 0 ?
+                                                index % 2 === 0 ?
                                                     'even-row' :
                                                     'odd-row'
                                         }>
@@ -141,10 +137,7 @@ const TableRender = <T,>({ values, filter, selectedRow, headers, actionsLabel, o
                                                 )) : null
                                         }
                                     </tr>
-                                )
-                            }
-                            return null
-                        })}
+                                )})}
                 </tbody>
             </table>
         </div>

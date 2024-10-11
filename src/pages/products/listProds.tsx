@@ -1,7 +1,6 @@
 import ActionsModal from "../../components/modals/ActionsModal";
 import TableRender from "../../components/tableRender";
-import { useNavigate } from "react-router-dom";
-import React, { ChangeEvent, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import '../css/listPage.css';
 import ButtonsBar from "../../components/ButtonsBar";
 import InputComponent from "../../components/inputs/InputComponent";
@@ -11,7 +10,7 @@ import { capitalize } from "../../api/Methods/capitalizeFunction";
 import InputSelect from "../../components/inputs/selectInput";
 import ButtonComponent from "../../components/buttons/Button";
 import { Brand } from "../../api/entities/brand";
-import { GETBrand, GETBrands } from "../../api/requests/brandRequests";
+import { GETBrands } from "../../api/requests/brandRequests";
 import { Group } from "../../api/entities/group";
 import { Type } from "../../api/entities/type";
 import { MU } from "../../api/entities/MU";
@@ -19,15 +18,11 @@ import { GETGroups } from "../../api/requests/groupRequests";
 import { GETTypes } from "../../api/requests/typeRequests";
 import { GETMUs } from "../../api/requests/MURequests";
 import { Product } from "../../api/entities/product";
-;
-
+import Active from "../../api/services/activeInterface";
 
 const ProductListRender: React.FC = () => {
-
-    // const navigate = useNavigate();
-    // const [open, setOpen] = React.useState<boolean>(false);
-
-
+    
+    const [showActives, setShowActives] = React.useState<Active>({ description: '', value: false });
     const [openDelete, setOpenDelete] = React.useState<boolean>(false);
     const [brands, setBrands] = React.useState<Brand[]>([]);
     const [groups, setGroups] = React.useState<Group[]>([]);
@@ -57,24 +52,7 @@ const ProductListRender: React.FC = () => {
 
     const requestGetData = async () => {
 
-        await GETProducts().then((response: ProductDTO[]) => {
-            const capitalizedProducts: ProductDTO[] =
-                response.map((p: ProductDTO) => {
-                    return {
-                        ...p,
-                        description: capitalize(p.description),
-                        name: capitalize(p.name),
-                        brandDesc: capitalize(p.brandDesc),
-                        groupDesc: capitalize(p.groupDesc),
-                        typeDesc: capitalize(p.typeDesc),
-                        muDesc: capitalize(p.muDesc)
-
-                    }
-                })
-
-
-            setProducts(capitalizedProducts);
-        }).catch(() => { })
+        await GETProducts().then((response: ProductDTO[]) =>setProducts(response)).catch(() => { })
         await GETBrands().then((reponse: Brand[]) => (setBrands(reponse))).catch(() => { })
         await GETGroups().then((reponse: Group[]) => (setGroups(reponse))).catch(() => { })
         await GETTypes().then((reponse: Type[]) => (setTypes(reponse))).catch(() => { })
@@ -82,7 +60,6 @@ const ProductListRender: React.FC = () => {
     }
 
     useEffect(() => {
-
         requestGetData()
     }, [])
 
@@ -97,12 +74,6 @@ const ProductListRender: React.FC = () => {
         setOpenDelete(false);
     }
 
-    const filter = (r: ProductDTO): boolean => {
-
-        return (r.active == false ? true : false);
-
-    }
-
     const handleChange = <T extends keyof Product>(key: T, newValue: Product[T]) => {
 
         const COPY_PRODUCT: Product = Object.assign({}, product);
@@ -111,14 +82,13 @@ const ProductListRender: React.FC = () => {
 
     }
 
-    const handleSubmit = () => {
-        console.log('product', product);
+    const handleSubmit = () => {  console.log('product', product);
         const brandId = product.brand ? product.brand.id : null;
         const groupId = product.group ? product.group.id : null;
         const typeId = product.type ? product.type.id : null;
         const muId = product.mu ? product.mu.id : null;
-        GETProducts(product.name, product.barCode, brandId, groupId, typeId, muId).then((response: ProductDTO[]) => setProducts(response)).catch(() => { })
-        console.log(products)
+        GETProducts(product.name, product.barCode, brandId, groupId, typeId, muId, showActives.value).then((response: ProductDTO[]) => setProducts(response)).catch(() => { })
+        
     }
 
     return (
@@ -150,9 +120,6 @@ const ProductListRender: React.FC = () => {
 
                 <div id="search-filters-container">
 
-
-
-
                     <InputComponent
                         id="srcCod"
                         label="Código De Barras: "
@@ -160,19 +127,15 @@ const ProductListRender: React.FC = () => {
                         className="search-filter"
                         action={(e: React.ChangeEvent<HTMLInputElement>) =>
                             handleChange("barCode", parseInt(e.target.value))}
-                    // action={handleCodeChange} 
                     />
 
                     <InputComponent
                         id="srcName"
                         label="Nome: "
                         type="text"
-                        // value={searchItem}
                         className="search-filter"
                         action={(e: React.ChangeEvent<HTMLInputElement>) =>
                             handleChange("name", e.target.value.toString())}
-                    // action={handleNameChange}
-                    // placeHolder="Produto" 
                     />
 
                     <InputSelect<Brand>
@@ -219,21 +182,25 @@ const ProductListRender: React.FC = () => {
                         onValueChange={(m: MU) =>
                             handleChange('mu', m)} />
 
+                    <InputSelect<Active>
+                        classname="search-filter"
+                        id="search-active"
+                        label="Exibir desativados"
+                        idKey="value"
+                        labelKey="description"
+                        onValueChange={(a: Active) => setShowActives(a.value ? { description: "Exibir", value: true } : { description: "Não exibir", value: false })}
+                        options={[
+                            { description: "Exibir", value: true },
+                            { description: "Não exibir", value: false }
+                        ]}
+                        value={showActives.value ? { description: "Exibir", value: true } : { description: "Não exibir", value: false }} />
+
                     <ButtonComponent
                         action={handleSubmit}
                         id="sub-search"
                         label="BUSCAR"
                         type="button"
                     />
-
-
-                    {/* <InputSelect
-                    id="brandSelect"
-                    idKey="id"
-                    label="MARCA: "
-                    labelKey="description"
-                    onValueChange={(e: React.ChangeEvent<HTMLInputElement>) => 
-                    handleSearch('brandDesc', e)}/> */}
 
                 </div>
 
@@ -249,10 +216,7 @@ const ProductListRender: React.FC = () => {
                         { gridType: 'FLEX', attributeName: 'typeDesc', width: 1, label: 'Tipo' },
                         { gridType: 'FLEX', attributeName: 'muDesc', width: 1, label: 'Unidade de Medida' }
                     ]}
-
-
                     values={products}
-                    filter={filter}
                     selectedRow={productDTO}
                     onTableClick={handleTableClick}
                 // onClickActions={() => setOpen(true)}

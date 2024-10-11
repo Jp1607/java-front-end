@@ -1,15 +1,18 @@
 import React from "react"
 import { Group } from "../../../api/entities/group"
-import { GETGroup, GETGroups, PUTGroup, StateGroup } from "../../../api/requests/groupRequests"
+import { GETGroups, StateGroup } from "../../../api/requests/groupRequests"
 import ButtonsBar from "../../../components/ButtonsBar"
 import InputComponent from "../../../components/inputs/InputComponent"
 import TableRender from "../../../components/tableRender"
 import ActionsModal from "../../../components/modals/ActionsModal"
 import ButtonComponent from "../../../components/buttons/Button"
 import { capitalize } from "../../../api/Methods/capitalizeFunction"
+import Active from "../../../api/services/activeInterface"
+import InputSelect from "../../../components/inputs/selectInput"
 
 const GroupListRender = () => {
 
+    const [showActives, setShowActives] = React.useState<Active>({ description: '', value: false });
     const [groups, setGroups] = React.useState<Group[]>([]);
     const [group, setGroup] = React.useState<Group>({
         description: "",
@@ -19,15 +22,7 @@ const GroupListRender = () => {
 
     const requestGet = async () => {
 
-        await GETGroups().then((response: Group[]) => {
-            const capitalizedGroups = response.map((g: Group) => {
-                return {
-                    ...g,
-                    description: capitalize(g.description)
-                }
-            })
-            setGroups(capitalizedGroups);
-        }).catch(() => { });
+        await GETGroups().then((response: Group[]) => setGroups(response)).catch(() => { });
 
         console.log(groups);
     }
@@ -36,11 +31,6 @@ const GroupListRender = () => {
 
         requestGet()
     }, []);
-
-    const filter = (r: Group): boolean => {
-
-        return (r.active ? false : true);
-    }
 
     const handleTableClick = (r: Group) => {
 
@@ -73,7 +63,7 @@ const GroupListRender = () => {
 
     const handleSearch = () => {
 
-        GETGroups(group.description).then((response: Group[]) => setGroups(response)).catch(() => { })
+        GETGroups(group.description, showActives.value).then((response: Group[]) => setGroups(response)).catch(() => { })
     }
 
     return (
@@ -92,10 +82,10 @@ const GroupListRender = () => {
 
             <ButtonsBar
                 createPath="/createGroup"
-                excludeAction={handleShow} 
+                excludeAction={handleShow}
                 editIsPresent={true}
                 editPath={`/editGroup/${group.id}`}
-                reloadAction={requestGet}/>
+                reloadAction={requestGet} />
 
             <div className="search-filters-container">
 
@@ -105,7 +95,21 @@ const GroupListRender = () => {
                     type="text"
                     className="search-filter"
                     action={(e: React.ChangeEvent<HTMLInputElement>) =>
-                        handleChange('description', e.target.value.toString())}/>
+                        handleChange('description', e.target.value.toString())} />
+
+                <InputSelect<Active>
+                    classname="search-filter"
+                    id="search-active"
+                    label="Exibir desativados"
+                    idKey="value"
+                    labelKey="description"
+                    onValueChange={(a: Active) => setShowActives(a.value ? { description: "Exibir", value: true } : { description: "Não exibir", value: false })}
+                    options={[
+                        { description: "Exibir", value: true },
+                        { description: "Não exibir", value: false }
+                    ]}
+                    value={showActives.value ? { description: "Exibir", value: true } : { description: "Não exibir", value: false }} />
+
 
             </div>
 
@@ -122,7 +126,6 @@ const GroupListRender = () => {
                     { attributeName: "description", label: "DESCRIÇÃO", gridType: "FLEX", width: "1" }
                 ]}
                 values={groups}
-                filter={filter}
                 onTableClick={handleTableClick}
                 selectedRow={group}
 

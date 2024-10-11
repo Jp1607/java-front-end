@@ -1,9 +1,9 @@
 import { Brand } from "../entities/brand"
 import DefaultFetch from "../services/DefaultFetch"
 
-export const GETBrands = (name?: string): Promise<Brand[]> => {
+export const GETBrands = (name?: string, active?: boolean): Promise<Brand[]> => {
 
-    return DefaultFetch<Brand[]>('GET', '/brand', undefined, `?${name ? `name=${name}` : ''}`) as Promise<Brand[]>;
+    return DefaultFetch<Brand[]>('GET', '/brand', undefined, `?${name ? `name=${name}&` : ''}${active ? `active=${active}&` : ''}`) as Promise<Brand[]>;
 }
 
 export const GETBrand = (id: number): Promise<Brand> => {
@@ -24,5 +24,5 @@ export function PUTBrand(brand: Brand): Promise<string> {
 
 export const StateBrand = (id: number): Promise<string> => {
 
-    return DefaultFetch<string>('PUT', '/brand', undefined, id) as Promise<string>;
+    return DefaultFetch<string>('PUT', '/brand', undefined, `/${id}`) as Promise<string>;
 }
