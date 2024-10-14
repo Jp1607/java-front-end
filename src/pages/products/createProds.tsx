@@ -30,7 +30,6 @@ const CreateProds = () => {
 
     const { id } = useParams();
     const [willEdit, setWillEdit] = React.useState<Boolean>(false);
-    const [emptyParams, setEmptyParams] = React.useState<number>(0);
     const [open, setOpen] = React.useState<boolean>(false);
     const [product, setProduct] = React.useState<Product>({
         active: true,
@@ -42,7 +41,6 @@ const CreateProds = () => {
         name: '',
         type: null,
     })
-    // const [productDTO, setProductDTO] = React.useState<ProductDTO>(null)
     const [brands, setBrands] = React.useState<Brand[]>([])
     const [groups, setGroups] = React.useState<Group[]>([])
     const [types, setTypes] = React.useState<Type[]>([])
@@ -54,13 +52,11 @@ const CreateProds = () => {
         const FIELDS: string[] = [];
         for (let index = 0; index < MandatoryFields.length; index++) {
             const PRODUCT_FIELD = product[MandatoryFields[index].key];
-            console.log(MandatoryFields[index], PRODUCT_FIELD);
             if (PRODUCT_FIELD === undefined || PRODUCT_FIELD === '' || PRODUCT_FIELD === null) {
                 ret = false;
                 FIELDS.push(MandatoryFields[index].description);
             }
         }
-        console.log('return', ret);
         return { ret, fields: FIELDS };
     }
 
@@ -72,6 +68,7 @@ const CreateProds = () => {
     useEffect(() => {
 
         if (id) {
+            setWillEdit(true)
             requestGetProd()
         }
 
@@ -93,7 +90,6 @@ const CreateProds = () => {
             }
             else {
                 setFieldsError(RET.fields);
-                setEmptyParams(0)
                 setOpen(true)
             }
         } else {
@@ -107,7 +103,6 @@ const CreateProds = () => {
             }
             else {
                 setFieldsError(RET.fields);
-                setEmptyParams(0)
                 setOpen(true)
             }
         }
@@ -154,15 +149,16 @@ const CreateProds = () => {
                 action={(event: React.ChangeEvent<HTMLInputElement>) =>
                     handleChange('description', event.target.value.toString())} />
 
-            <InputComponent
-                label="CÓDIGO DE BARRAS: "
-                id="inputBarCode"
-                placeHolder="0123456789012"
-                type="number"
-
-                value={product && product.barCode ? product.barCode : ""}
-                action={(event: React.ChangeEvent<HTMLInputElement>) =>
-                    handleChange('barCode', parseInt(event.target.value.toString()))} />
+            {!id &&
+                <InputComponent
+                    label="CÓDIGO DE BARRAS: "
+                    id="inputBarCode"
+                    placeHolder="0123456789012"
+                    type="number"
+                    value={product && product.barCode ? product.barCode : ""}
+                    action={(event: React.ChangeEvent<HTMLInputElement>) =>
+                        handleChange('barCode', parseInt(event.target.value.toString()))} />
+            }
 
             <InputSelect<Brand>
                 id="brand-input"

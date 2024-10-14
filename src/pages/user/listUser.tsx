@@ -1,5 +1,5 @@
 import ActionsModal from "../../components/modals/ActionsModal";
-import TableRender from "../../components/tableRender"
+import TableRender, { Headers } from "../../components/tableRender"
 import React from "react";
 import { User } from "../../api/entities/user";
 import { GETUsers, PUTUser } from "../../api/requests/userRequests";
@@ -9,6 +9,11 @@ import { capitalize } from "../../api/Methods/capitalizeFunction";
 import ButtonComponent from "../../components/buttons/Button";
 import InputSelect from "../../components/inputs/selectInput";
 import Active from "../../api/services/activeInterface";
+
+const HEADERS: Headers<User>[] = [
+    { gridType: 'FLEX', attributeName: 'id', width: 1, label: 'Identificador' },
+    { gridType: 'FLEX', attributeName: 'name', width: 1, label: 'Nome' }
+]
 
 const UserListRender = () => {
 
@@ -68,6 +73,14 @@ const UserListRender = () => {
 
     }
 
+    const handleHeaders = React.useMemo((): Headers<User>[] => {
+        const h = Object.assign([], HEADERS);
+        if (showActives.value) {
+            h.push({ gridType: 'FLEX', attributeName: 'active', width: 1, label: 'Estado' });
+        }
+        return h;
+    }, [showActives])
+
     return (
 
         <div className="default-page">
@@ -76,6 +89,12 @@ const UserListRender = () => {
                 <ActionsModal
                     isOpen={show}
                     onClose={() => { setShow(false) }}
+                    title="ATENÇÃO!!"
+                    children={
+                        <p>
+                            Você tem certeza de que deeja excluir este usuário?
+                        </p>
+                    }
                     eventButtons={[
                         { label: user.active ? "DESATIVAR" : "ATIVAR", cb: handlePUT }
                     ]}
@@ -123,11 +142,7 @@ const UserListRender = () => {
                 <TableRender
 
                     values={users}
-                    headers={[
-                        { gridType: "FLEX", width: 1, attributeName: "id", label: "Identificador" },
-                        { gridType: "FLEX", width: 1, attributeName: "name", label: "Nome" },
-
-                    ]}
+                    headers={handleHeaders}
                     onTableClick={handleClick}
                     selectedRow={user}
                     actionsLabel={user.active ? 'DESATIVAR' : 'ATIVAR'}

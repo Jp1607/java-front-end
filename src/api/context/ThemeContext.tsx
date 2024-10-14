@@ -25,7 +25,6 @@ console.log(currentTheme)
             'light-theme' :
             'dark-theme')
 
-            console.log(document.documentElement.getAttribute('theme'))
     }, [currentTheme])
 
     return (

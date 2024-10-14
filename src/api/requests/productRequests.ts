@@ -10,7 +10,6 @@ export function GETProductById(id?: number): Promise<Product> {
 export function GETProducts(name?: string, barCode?: number, brandId?: number, groupId?: number, typeId?: number, muId?: number, active?: boolean): Promise<ProductDTO[]> {
     let urlParam: string = `?${name ? `name=${name}&` : ''}${barCode ? `barCode=${barCode}&` : ''}${brandId ? `brandId=${brandId}&` : ''}${groupId ? `groupId=${groupId}&` : ''}${typeId ? `typeId=${typeId}&` : ''}${muId ? `muId=${muId}&` : ''}${active ? `active=${active}&` : ''}`;
 
-    console.log('asudhasudhus', urlParam)
     return DefaultFetch<ProductDTO[]>('GET', '/product', undefined, urlParam) as Promise<ProductDTO[]>;
 }
 

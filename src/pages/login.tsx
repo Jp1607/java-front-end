@@ -7,7 +7,6 @@ import React, { FormEvent, useState } from "react";
 import * as LoginMethod from '../api/login/login';
 import '../components/css/modal.css';
 import './css/login.css';
-import LinkButton from "../components/buttons/LinkButton";
 
 const Login = () => {
 
@@ -18,8 +17,6 @@ const Login = () => {
         username: '',
         password: ''
     });
-
-    console.log('estou autenticado', auth.isAuthenticated);
 
     const handleUserChange = <T extends keyof LoginMethod.LoginForm>(key: T, newValue: LoginMethod.LoginForm[T]): void => {
 
@@ -41,7 +38,6 @@ const Login = () => {
         }).catch(() => {
 
             setShow(true)
-            console.log('error')
         })
     };
 

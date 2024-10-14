@@ -37,7 +37,7 @@ const ActionsModal: React.FC<ActionsModalProps> = ({ isOpen, children, title, ev
                 <div className="pop-up-body">
 
                     <div className="pop-up-content" >
-                         {children ? children : ""}
+                       {children ? children : ""}
                     </div>
 
                 </div>

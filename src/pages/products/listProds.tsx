@@ -1,12 +1,11 @@
 import ActionsModal from "../../components/modals/ActionsModal";
-import TableRender from "../../components/tableRender";
+import TableRender, { Headers } from "../../components/tableRender";
 import React, { useEffect, useState } from "react";
 import '../css/listPage.css';
 import ButtonsBar from "../../components/ButtonsBar";
 import InputComponent from "../../components/inputs/InputComponent";
 import { ProductDTO } from "../../api/entities/productDTO";
 import { GETProducts, StateProduct } from "../../api/requests/productRequests";
-import { capitalize } from "../../api/Methods/capitalizeFunction";
 import InputSelect from "../../components/inputs/selectInput";
 import ButtonComponent from "../../components/buttons/Button";
 import { Brand } from "../../api/entities/brand";
@@ -19,10 +18,23 @@ import { GETTypes } from "../../api/requests/typeRequests";
 import { GETMUs } from "../../api/requests/MURequests";
 import { Product } from "../../api/entities/product";
 import Active from "../../api/services/activeInterface";
+import { useNavigate } from "react-router-dom";
+
+const HEADERS: Headers<ProductDTO>[] = [
+    { gridType: 'FLEX', attributeName: 'id', width: 1, label: 'Código do produto' },
+    { gridType: 'FLEX', attributeName: 'name', width: 1, label: 'Produto' },
+    { gridType: 'FLEX', attributeName: 'description', width: 1, label: 'Descrição' },
+    { gridType: 'FLEX', attributeName: 'barCode', width: 1, label: 'Código de barras' },
+    { gridType: 'FLEX', attributeName: 'brandDesc', width: 1, label: 'Marca' },
+    { gridType: 'FLEX', attributeName: 'groupDesc', width: 1, label: 'Grupo' },
+    { gridType: 'FLEX', attributeName: 'typeDesc', width: 1, label: 'Tipo' },
+    { gridType: 'FLEX', attributeName: 'muDesc', width: 1, label: 'Unidade de Medida' }
+];
 
 const ProductListRender: React.FC = () => {
-    
-    const [showActives, setShowActives] = React.useState<Active>({ description: '', value: false });
+
+    const navigate = useNavigate();
+    const [showActives, setShowActives] = React.useState<Active>({ description: "Não exibir", value: false });
     const [openDelete, setOpenDelete] = React.useState<boolean>(false);
     const [brands, setBrands] = React.useState<Brand[]>([]);
     const [groups, setGroups] = React.useState<Group[]>([]);
@@ -52,7 +64,7 @@ const ProductListRender: React.FC = () => {
 
     const requestGetData = async () => {
 
-        await GETProducts().then((response: ProductDTO[]) =>setProducts(response)).catch(() => { })
+        await GETProducts().then((response: ProductDTO[]) => setProducts(response)).catch(() => { })
         await GETBrands().then((reponse: Brand[]) => (setBrands(reponse))).catch(() => { })
         await GETGroups().then((reponse: Group[]) => (setGroups(reponse))).catch(() => { })
         await GETTypes().then((reponse: Type[]) => (setTypes(reponse))).catch(() => { })
@@ -82,13 +94,42 @@ const ProductListRender: React.FC = () => {
 
     }
 
-    const handleSubmit = () => {  console.log('product', product);
+    const handleActiveChange = (param: Active) => {
+
+        if (param == null) {
+            setShowActives({ description: "Não exibir", value: false })
+        } else if (param) {
+            setShowActives({ description: "Exibir", value: true })
+        } else {
+            setShowActives({ description: "Nãp exibir", value: false })
+        }
+
+    }
+
+    const handleSubmit = () => {
         const brandId = product.brand ? product.brand.id : null;
         const groupId = product.group ? product.group.id : null;
         const typeId = product.type ? product.type.id : null;
         const muId = product.mu ? product.mu.id : null;
         GETProducts(product.name, product.barCode, brandId, groupId, typeId, muId, showActives.value).then((response: ProductDTO[]) => setProducts(response)).catch(() => { })
-        
+
+    }
+
+    const handleHeaders = React.useMemo((): Headers<ProductDTO>[] => {
+        const h = Object.assign([], HEADERS);
+        if (showActives.value) {
+            h.push({ gridType: 'FLEX', attributeName: 'active', width: 1, label: 'Estado' });
+        }
+        return h;
+    }, [showActives]);
+
+    const handleEdit = () => {
+
+        if (productDTO.id) {
+            navigate(`/editProd/${productDTO.id}`)
+        } else {
+            window.alert("Selecione um produto para edição válido")
+        }
     }
 
     return (
@@ -114,7 +155,7 @@ const ProductListRender: React.FC = () => {
                 <ButtonsBar
                     editIsPresent={true}
                     createPath="/createProd"
-                    editPath={`/editProd/${productDTO.id}`}
+                    editAction={handleEdit}
                     excludeAction={() => setOpenDelete(true)}
                     reloadAction={requestGetData} />
 
@@ -184,16 +225,16 @@ const ProductListRender: React.FC = () => {
 
                     <InputSelect<Active>
                         classname="search-filter"
-                        id="search-active"
-                        label="Exibir desativados"
+                        id="search-filter-active"
+                        label="Exibir desativados:"
                         idKey="value"
                         labelKey="description"
-                        onValueChange={(a: Active) => setShowActives(a.value ? { description: "Exibir", value: true } : { description: "Não exibir", value: false })}
+                        onValueChange={handleActiveChange}
                         options={[
                             { description: "Exibir", value: true },
                             { description: "Não exibir", value: false }
                         ]}
-                        value={showActives.value ? { description: "Exibir", value: true } : { description: "Não exibir", value: false }} />
+                        value={showActives} />
 
                     <ButtonComponent
                         action={handleSubmit}
@@ -205,21 +246,10 @@ const ProductListRender: React.FC = () => {
                 </div>
 
                 <TableRender<ProductDTO>
-
-                    headers={[
-                        { gridType: 'FLEX', attributeName: 'id', width: 1, label: 'Código do produto' },
-                        { gridType: 'FLEX', attributeName: 'name', width: 1, label: 'Produto' },
-                        { gridType: 'FLEX', attributeName: 'description', width: 1, label: 'Descrição' },
-                        { gridType: 'FLEX', attributeName: 'barCode', width: 1, label: 'Código de barras' },
-                        { gridType: 'FLEX', attributeName: 'brandDesc', width: 1, label: 'Marca' },
-                        { gridType: 'FLEX', attributeName: 'groupDesc', width: 1, label: 'Grupo' },
-                        { gridType: 'FLEX', attributeName: 'typeDesc', width: 1, label: 'Tipo' },
-                        { gridType: 'FLEX', attributeName: 'muDesc', width: 1, label: 'Unidade de Medida' }
-                    ]}
+                    headers={handleHeaders}
                     values={products}
                     selectedRow={productDTO}
                     onTableClick={handleTableClick}
-                // onClickActions={() => setOpen(true)}
                 />
             </div>
 

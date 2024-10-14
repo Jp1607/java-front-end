@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom"
 import ButtonComponent from "./buttons/Button"
 import LinkButton from "./buttons/LinkButton"
 import "./css/buttonsBar.css"
@@ -7,11 +8,22 @@ type ButtonsBarProps = {
     createPath: string;
     editIsPresent?: boolean;
     editPath?: string;
+    editAction?: () => void;
     reloadAction: () => void
     excludeAction: () => void;
 }
 
-const ButtonsBar: React.FC<ButtonsBarProps> = ({ createPath, editIsPresent, editPath, reloadAction, excludeAction }) => {
+const ButtonsBar: React.FC<ButtonsBarProps> = ({ createPath, editIsPresent, editPath, editAction, reloadAction, excludeAction }) => {
+
+    const navigate = useNavigate();
+
+    const edit = () => {
+        if (editAction) {
+            editAction()
+        } else {
+            navigate(editPath)
+        }
+    }
 
     return (
 
@@ -24,11 +36,10 @@ const ButtonsBar: React.FC<ButtonsBarProps> = ({ createPath, editIsPresent, edit
             />
 
             {editIsPresent &&
-                <LinkButton
-                    dest={editPath}
+                <ButtonComponent
                     label="EDITAR"
-                    style="button"
-                />
+                    type="button"
+                    action={edit} />
             }
 
             <ButtonComponent

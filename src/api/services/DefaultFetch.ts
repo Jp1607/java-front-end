@@ -2,13 +2,13 @@ import { interceptor } from "../context/AuthContext";
 import Configuration from "./Config";
 
 type Method = 'GET' | 'POST' | 'PUT' | 'DELETE';
-type Path = '/login' | 
-'/product' | '/product/edit' | 
-'/users' | 
-'/brand' | '/brand/edit' |
-'/group' | '/group/edit' |
-'/type' | '/type/edit' |
-'/mu' | '/mu/edit'; 
+type Path = '/login' |
+    '/product' | '/product/edit' |
+    '/users' |
+    '/brand' | '/brand/edit' |
+    '/group' | '/group/edit' |
+    '/type' | '/type/edit' |
+    '/mu' | '/mu/edit';
 
 function DefaultFetch<T>(method: Method, path: Path, body?: any, pathParam?: string | number): Promise<T | void> {
 
@@ -22,9 +22,6 @@ function DefaultFetch<T>(method: Method, path: Path, body?: any, pathParam?: str
                     pathParam === null ?
                     `${Configuration.url}${path}` :
                     `${Configuration.url}${path}${pathParam}`;
-
-            console.log('URL', Url)
-     
 
             const RequestBody: RequestInit = {
 
@@ -76,16 +73,16 @@ function DefaultFetch<T>(method: Method, path: Path, body?: any, pathParam?: str
             if (FETCH.headers.get('content-type') !== null) {
 
                 if (FETCH.headers.get('content-type') === 'application/json') {
-                    console.log(FETCH)
+
                     return resolve(await FETCH.json());
                 } else if (FETCH.headers.get('content-type')?.indexOf('text/plain') !== -1) {
 
-                    console.log(FETCH)
+
                     return resolve(await FETCH.text() as T);
                 }
             }
 
-            console.log(FETCH)
+
             return resolve();
         } catch (e) {
 

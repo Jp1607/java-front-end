@@ -24,7 +24,6 @@ const TypeListRender = () => {
 
         await GETTypes().then((response: Type[]) => setTypes(response)).catch(() => { });
 
-        console.log(types);
     }
 
     React.useEffect(() => {

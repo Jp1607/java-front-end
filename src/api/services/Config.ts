@@ -4,8 +4,6 @@ type HeadersDefault = HeadersInit & {
     "Content-Type": string;
 }
 
-console.log('Iniciou a configuração do headers');
-
 export interface Config {
 
     readonly url: string;

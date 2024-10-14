@@ -24,7 +24,6 @@ const GroupListRender = () => {
 
         await GETGroups().then((response: Group[]) => setGroups(response)).catch(() => { });
 
-        console.log(groups);
     }
 
     React.useEffect(() => {

@@ -27,13 +27,14 @@ const InputSelect = <T,>({ classname, label, id, options, onValueChange, value, 
 
     return (
 
-        <div className={classname ? classname : 'input-select'}>
+        <div className={classname ? classname : 'input-select'}
+            id={id}>
             <label>
                 {label}
             </label>
 
             <select
-                id={id}
+
                 onChange={handleValueChange}
                 value={value !== undefined && value !== null ? value[idKey] as string : ''}>
                 <option style={{ display: 'none' }} value="" ></option>

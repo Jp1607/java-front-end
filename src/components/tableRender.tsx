@@ -2,7 +2,7 @@ import '../components/css/modal.css';
 import './css/table.css'
 import React from "react";
 
-type Headers<T> = {
+export type Headers<T> = {
     attributeName: keyof T;
     label: string;
     gridType: "PX" | "FLEX";
@@ -11,7 +11,7 @@ type Headers<T> = {
 
 type tableRender<T> = {
     values: T[];
-    
+
     selectedRow?: T | null;
     headers?: Headers<T>[];
     actionsLabel?: string;
@@ -36,7 +36,6 @@ const TableRender = <T,>({ values, selectedRow, headers, actionsLabel, onTableCl
     }
 
     const handleValue = (value: any): string => {
-
         if (value === true) {
 
             return "ATIVO"
@@ -85,12 +84,6 @@ const TableRender = <T,>({ values, selectedRow, headers, actionsLabel, onTableCl
                                     (null)
                                 )
                         }
-                        {
-                            // onClickActions !== undefined &&
-                            // <th>
-                            //     OPÇÕES
-                            // </th>
-                        }
                     </tr>
 
                 </thead>
@@ -98,49 +91,77 @@ const TableRender = <T,>({ values, selectedRow, headers, actionsLabel, onTableCl
                 <tbody>
                     {
                         values.map((r: T, index: number) => {
+                            return (
+                                <tr
+                                    onClick={() => handleTableClick(r, index)}
+                                    key={`table-row-${index}`}
+                                    style={{ height: "50px" }}
+                                    className={
+                                        index === indexRow ?
+                                            'selected-row' :
+                                            index % 2 === 0 ?
+                                                'even-row' :
+                                                'odd-row'
+                                    }>
 
-
-                                return (
-
-                                    <tr
-                                        onClick={() => handleTableClick(r, index)}
-                                        // onMouseOver = {() => handleTableClick(r)}
-                                        key={`table-row-${index}`}
-                                        style={{ height: "50px" }}
-                                        // onMouseEnter={() => handleMouseEnter(index)}
-                                        // onMouseLeave={handleMouseLeave}
-                                        className={
-                                            index === indexRow ?
-                                                'selected-row' :
-                                                index % 2 === 0 ?
-                                                    'even-row' :
-                                                    'odd-row'
-                                        }>
-
-                                        {
-                                            typeof r === 'object' && r !== null ?
-
-                                                Object.entries(r).map(([key, value], idx: number) => (
-                                                    headers !== undefined ?
-
-                                                        (headers.find((h: Headers<T>) => h.attributeName === key) !== undefined ?
-
-                                                            (<td
-                                                                key={`table-row-cell-${idx}`}>
-                                                                {handleValue(value)}
-                                                            </td>) : (null)) :
-
-                                                        (<td
+                                    {
+                                        typeof r === 'object' && r !== null ?
+                                            (headers !== undefined ?
+                                                (
+                                                    <TableRow
+                                                        index={index}
+                                                        value={r}
+                                                        indexRow={indexRow}
+                                                        header={headers}
+                                                        handleValue={handleValue} />
+                                                )
+                                                :
+                                                (
+                                                    Object.entries(r).map(([key, value], idx: number) => (
+                                                        <td
                                                             key={`table-row-cell-${idx}`}>
                                                             {handleValue(value)}
-                                                        </td>)
-                                                )) : null
-                                        }
-                                    </tr>
-                                )})}
+                                                        </td>
+                                                    ))
+                                                ))
+                                            :
+                                            (null)
+                                    }
+                                </tr>
+                            )
+                        })}
                 </tbody>
             </table>
         </div>
+    )
+}
+
+type TableRowProps<T> = {
+    header: Headers<T>[];
+    index: number;
+    indexRow: number;
+    value: T;
+    handleValue: (value: any) => string;
+};
+
+const TableRow = <T,>({ header, index, indexRow, value, handleValue }: TableRowProps<T>): JSX.Element => {
+
+    return (
+        <>
+            {
+                header.map((h: Headers<T>, idx: number) => {
+                    return (
+                        <td key={`table-row-cell-${idx}`}>
+                            {value[h.attributeName] !== undefined ?
+                                (handleValue(value[h.attributeName]))
+                                :
+                                (null)
+                            }
+                        </td>
+                    )
+                })
+            }
+        </>
     )
 }
 
