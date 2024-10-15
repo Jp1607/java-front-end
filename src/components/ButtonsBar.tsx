@@ -8,18 +8,28 @@ type ButtonsBarProps = {
     createPath: string;
     editIsPresent?: boolean;
     editPath?: string;
+    viewPath?: string;
+    viewAction?: () => void;
     editAction?: () => void;
     reloadAction: () => void
     excludeAction: () => void;
 }
 
-const ButtonsBar: React.FC<ButtonsBarProps> = ({ createPath, editIsPresent, editPath, editAction, reloadAction, excludeAction }) => {
+const ButtonsBar: React.FC<ButtonsBarProps> = ({ createPath, editIsPresent, editPath, viewPath, viewAction, editAction, reloadAction, excludeAction }) => {
 
     const navigate = useNavigate();
 
     const edit = () => {
         if (editAction) {
             editAction()
+        } else {
+            navigate(editPath)
+        }
+    }
+
+    const view = () => {
+        if (viewAction) {
+            viewAction()
         } else {
             navigate(editPath)
         }
@@ -45,7 +55,7 @@ const ButtonsBar: React.FC<ButtonsBarProps> = ({ createPath, editIsPresent, edit
             <ButtonComponent
                 label="VISUALIZAR"
                 type="button"
-                action={() => { }} />
+                action={view} />
 
             <ButtonComponent
                 label="EXCLUIR"

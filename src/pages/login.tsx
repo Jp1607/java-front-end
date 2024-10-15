@@ -87,7 +87,6 @@ const Login = () => {
                             id="userCad"
                             label="USUÁRIO: "
                             type="text"
-                            placeHolder="User"
                             action={(event: React.ChangeEvent<HTMLInputElement>) => (handleUserChange('username', event.target.value.toString()))}
                         />
 
@@ -97,7 +96,6 @@ const Login = () => {
                             id="passCad"
                             label="SENHA: "
                             type="password"
-                            placeHolder="88888888"
                             action={(event: React.ChangeEvent<HTMLInputElement>) => (handleUserChange('password', event.target.value.toString()))}
                         />
 

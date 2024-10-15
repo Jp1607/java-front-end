@@ -8,10 +8,11 @@ type selectProps<T> = {
     labelKey: keyof T;
     idKey: keyof T;
     options: T[];
+    readonly?: boolean;
     onValueChange: (param: T) => void;
 }
 
-const InputSelect = <T,>({ classname, label, id, options, onValueChange, value, idKey, labelKey }: selectProps<T>) => {
+const InputSelect = <T,>({ classname, label, id, options, readonly, onValueChange, value, idKey, labelKey }: selectProps<T>) => {
 
     const handleValueChange = (event: React.ChangeEvent<HTMLSelectElement>): void => {
         if (event.target.value === '') {
@@ -21,6 +22,7 @@ const InputSelect = <T,>({ classname, label, id, options, onValueChange, value, 
 
             if (O) {
                 onValueChange(O);
+                console.log(O)
             }
         }
     }
@@ -34,11 +36,11 @@ const InputSelect = <T,>({ classname, label, id, options, onValueChange, value, 
             </label>
 
             <select
-
+                disabled={readonly}
                 onChange={handleValueChange}
                 value={value !== undefined && value !== null ? value[idKey] as string : ''}>
-                <option style={{ display: 'none' }} value="" ></option>
-                <option value="" style={{ color: 'red' }}> Remover </option>
+                {/* <option style={{ display: 'none' }} value="" ></option> */}
+                    {/* <option value="" style={{ color: 'red' }}>  </option> */}
                 {
                     options.map((o: T, index: number) => {
                         return <option key={`select-${index}`} value={o[idKey] as string}>{o[labelKey] as string}</option>

@@ -13,9 +13,9 @@ export function GETProducts(name?: string, barCode?: number, brandId?: number, g
     return DefaultFetch<ProductDTO[]>('GET', '/product', undefined, urlParam) as Promise<ProductDTO[]>;
 }
 
-export function POSTProduct(product: Product): Promise<string> {
+export function POSTProduct(product: Product): Promise<Response> {
 
-    return DefaultFetch<string>('POST', '/product', product) as Promise<string>;
+    return DefaultFetch<Response>('POST', '/product', product) as Promise<Response>;
 }
 
 export function PUTProduct(product: Product): Promise<string> {

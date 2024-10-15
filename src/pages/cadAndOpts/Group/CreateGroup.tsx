@@ -5,6 +5,7 @@ import { GETGroup, PUTGroup, POSTGroup } from "../../../api/requests/groupReques
 import ButtonComponent from "../../../components/buttons/Button";
 import LinkButton from "../../../components/buttons/LinkButton";
 import InputComponent from "../../../components/inputs/InputComponent";
+import ActionsModal from "../../../components/modals/ActionsModal";
 
 const MandatoryFields: Array<{ key: keyof Group, description: string }> = [
     { key: 'description', description: 'Nome do grupo' },
@@ -13,15 +14,18 @@ const MandatoryFields: Array<{ key: keyof Group, description: string }> = [
 const CreateGroups = () => {
 
     const { id } = useParams();
+    const { editId } = useParams();
+    const [readOnly, setReadOnly] = React.useState<boolean>(false)
     const [willEdit, setWillEdit] = React.useState<Boolean>(false);
-    const [emptyParams, setEmptyParams] = React.useState<number>(0);
+    const [open, setOpen] = React.useState<boolean>(false)
+    const [fieldsError, setFieldsError] = React.useState<String[]>([])
     const [group, setGroup] = React.useState<Group>(
         {
             description: '',
             active: false
         }
     )
-       
+
     const verifyEmpty = (group: Group): { ret: boolean, fields: string[] } => {
         let ret: boolean = true;
         const FIELDS: string[] = [];
@@ -35,22 +39,21 @@ const CreateGroups = () => {
         return { ret, fields: FIELDS };
     }
 
+    const requestGetGroup = (id: number) => {
+
+        GETGroup(id).then((response: Group) => setGroup(response)).catch(() => { })
+    }
+
     useEffect(() => {
 
-        if (id !== undefined) {
+        if (id) {
+            setWillEdit(true)
+            requestGetGroup(parseInt(id))
+        }
 
-            const getGroupBYId = async () => {
-
-                const groupById = await GETGroup(parseInt(id))
-
-                if (groupById) {
-
-                    setGroup(groupById as Group);
-                    setWillEdit(true);
-                }
-            }
-
-            getGroupBYId()
+        if (editId) {
+            setReadOnly(true);
+            requestGetGroup(parseInt(editId));
         }
     }, []);
 
@@ -61,18 +64,28 @@ const CreateGroups = () => {
         event.preventDefault();
 
         if (willEdit === true) {
-
-            PUTGroup(group).then((response: string) => console.log('sucesso!', response)).catch((e) => console.log(e));
-
+            const RET = verifyEmpty(group);
+            if (RET.ret) {
+                PUTGroup(group).then((response: string) => console.log('sucesso!', response)).catch((e) => console.log(e));
+                navigate('/listGroups')
+            }
+            else {
+                setFieldsError(RET.fields);
+                setOpen(true)
+            }
         } else {
+            const RET = verifyEmpty(group);
+            if (RET.ret) {
 
-            // if (verifyEmpty(group) === false) {
-            POSTGroup(group).then((response: string) =>
-                console.log('sucesso!', response)).catch((e) =>
-                    console.log(e));
-            // } else if (verifyEmpty(group) === true) {
-            //     window.alert('Você deve preencher todos os campos ')
-            // }
+                POSTGroup(group).then((response: string) =>
+                    console.log('sucesso!', response, group)).catch((e) =>
+                        console.log(e));
+                navigate('/listGroups')
+            }
+            else {
+                setFieldsError(RET.fields);
+                setOpen(true)
+            }
         }
 
         navigate('/listGroups');
@@ -101,11 +114,24 @@ const CreateGroups = () => {
 
         <form onSubmit={HandleSubmit} id="create-form">
 
+            <ActionsModal
+                isOpen={open}
+                onClose={() => { setOpen(false); setFieldsError([]); }}
+                title="ATENÇÃO"
+            >
+                <p>
+                    Há alguns campos obrigatórios não preenchidos!
+                    <br />
+                    {fieldsError.map((f: String) => (<>{`-Campo: ${f}.`}<br /></>))}
+                </p>
+            </ActionsModal>
+
             <InputComponent
                 label="GRUPO: "
                 id="inputDesc"
                 type="text"
                 value={group ? group.description : ""}
+                readonly={readOnly}
                 action={(event: React.ChangeEvent<HTMLInputElement>) =>
                     handleChange('description', event.target.value.toString())} />
 

@@ -45,16 +45,16 @@
 }
 
 #search-filter-active {
-
+    margin-top: 1%;
     box-sizing: border-box;
     font-size: 1rem;
-    margin: 0;
+    
     width: 15%;
 }
 
 #search-filter-active select {
 
-    box-sizing: border-box;
+    
     font-size: 1rem;
     margin: 0;
     width: 50%;
@@ -62,7 +62,7 @@
 }
 
 #sub-search {
-    
+
     width: 8%;
     height: 2rem;
     font-size: 1rem;

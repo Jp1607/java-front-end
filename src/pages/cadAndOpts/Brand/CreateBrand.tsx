@@ -5,6 +5,7 @@ import { GETBrand, PUTBrand, POSTBrand } from "../../../api/requests/brandReques
 import ButtonComponent from "../../../components/buttons/Button";
 import LinkButton from "../../../components/buttons/LinkButton";
 import InputComponent from "../../../components/inputs/InputComponent";
+import ActionsModal from "../../../components/modals/ActionsModal";
 
 const MandatoryFields: Array<{ key: keyof Brand, description: string }> = [
     { key: 'description', description: 'Nome da marca' },
@@ -13,8 +14,11 @@ const MandatoryFields: Array<{ key: keyof Brand, description: string }> = [
 const CreateBrands = () => {
 
     const { id } = useParams();
+    const { editId } = useParams();
+    const [readOnly, setReadOnly] = React.useState<boolean>(false)
     const [willEdit, setWillEdit] = React.useState<Boolean>(false);
-    const [emptyParams, setEmptyParams] = React.useState<number>(0);
+    const [open, setOpen] = React.useState<boolean>(false);
+    const [fieldsError, setFieldsError] = React.useState<string[]>([])
     const [brand, setBrand] = React.useState<Brand>(
         {
             description: '',
@@ -35,22 +39,21 @@ const CreateBrands = () => {
         return { ret, fields: FIELDS };
     }
 
+    const requestGetBrand = (id: number) => {
+
+        GETBrand(id).then((response: Brand) => setBrand(response)).catch(() => { })
+    }
+
     useEffect(() => {
 
-        if (id !== undefined) {
+        if (id) {
+            setWillEdit(true)
+            requestGetBrand(parseInt(id))
+        }
 
-            const getBrandBYId = async () => {
-
-                const brandById = await GETBrand(parseInt(id))
-
-                if (brandById) {
-
-                    setBrand(brandById as Brand);
-                    setWillEdit(true);
-                }
-            }
-
-            getBrandBYId()
+        if (editId) {
+            setReadOnly(true);
+            requestGetBrand(parseInt(editId));
         }
     }, []);
 
@@ -61,18 +64,28 @@ const CreateBrands = () => {
         event.preventDefault();
 
         if (willEdit === true) {
-
-            PUTBrand(brand).then((response: string) => console.log('sucesso!', response)).catch((e) => console.log(e));
-
+            const RET = verifyEmpty(brand);
+            if (RET.ret) {
+                PUTBrand(brand).then((response: string) => console.log('sucesso!', response)).catch((e) => console.log(e));
+                navigate('/listBrands')
+            }
+            else {
+                setFieldsError(RET.fields);
+                setOpen(true)
+            }
         } else {
+            const RET = verifyEmpty(brand);
+            if (RET.ret) {
 
-            // if (verifyEmpty(brand) === false) {
-            POSTBrand(brand).then((response: string) =>
-                console.log('sucesso!', response)).catch((e) =>
-                    console.log(e));
-            // } else if (verifyEmpty(brand) === true) {
-            //     window.alert('Você deve preencher todos os campos ')
-            // }
+                POSTBrand(brand).then((response: string) =>
+                    console.log('sucesso!', response, brand)).catch((e) =>
+                        console.log(e));
+                navigate('/listBrands')
+            }
+            else {
+                setFieldsError(RET.fields);
+                setOpen(true)
+            }
         }
 
         navigate('/listBrands')
@@ -101,11 +114,24 @@ const CreateBrands = () => {
 
         <form onSubmit={HandleSubmit} id="create-form">
 
+            <ActionsModal
+                isOpen={open}
+                onClose={() => { setOpen(false); setFieldsError([]); }}
+                title="ATENÇÃO"
+            >
+                <p>
+                    Há alguns campos obrigatórios não preenchidos!
+                    <br />
+                    {fieldsError.map((f: string) => (<>{`-Campo: ${f}.`}<br /></>))}
+                </p>
+            </ActionsModal>
+
             <InputComponent
                 label="MARCA: "
                 id="inputDesc"
                 type="text"
                 value={brand ? brand.description : ""}
+                readonly={readOnly}
                 action={(event: React.ChangeEvent<HTMLInputElement>) =>
                     handleChange('description', event.target.value.toString())} />
 

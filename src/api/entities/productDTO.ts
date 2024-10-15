@@ -24,7 +24,7 @@ export function ProductDTO(product: Product): ProductDTO {
         name: product.name ? product.name.charAt(0).toUpperCase(): "",
         description: product.description ? product.brand.description.charAt(0).toUpperCase() : "",
         barCode: product.barCode ? product.barCode : 0,
-        active: product.active ? product.active : false,
+        active: product.active.value ? product.active.value : false,
         brandDesc: product.brand.description ? product.brand.description.charAt(0).toUpperCase() : "",
         groupDesc: product.group.description ? product.group.description.charAt(0).toUpperCase() : "",
         typeDesc: product.type.description ? product.type.description.charAt(0).toUpperCase() : "",

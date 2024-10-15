@@ -61,8 +61,8 @@ function DefaultFetch<T>(method: Method, path: Path, body?: any, pathParam?: str
 
                             return reject(await FETCH.json());
                         } else if (FETCH.headers.get('content-type')?.indexOf('text/plain') !== -1) {
-
-                            return reject(await FETCH.text() as T);
+                            // console.log(await FETCH.text + FETCH.status)
+                            return reject(FETCH.status as T);
                         }
                     }
 

@@ -5,12 +5,20 @@ import { GETMU, PUTMu, POSTMU } from "../../../api/requests/MURequests";
 import ButtonComponent from "../../../components/buttons/Button";
 import LinkButton from "../../../components/buttons/LinkButton";
 import InputComponent from "../../../components/inputs/InputComponent";
+import ActionsModal from "../../../components/modals/ActionsModal";
+
+const MandatoryFields: Array<{ key: keyof MU, description: string }> = [
+    { key: 'description', description: 'Unidade' },
+];
 
 const CreateMUs = () => {
 
     const { id } = useParams();
+    const { editId } = useParams();
+    const [readOnly, setReadOnly] = React.useState<boolean>(false)
     const [willEdit, setWillEdit] = React.useState<Boolean>(false);
-    const [emptyParams, setEmptyParams] = React.useState<number>(0);
+    const [fieldsError, setFieldsError] = React.useState<String[]>([]);
+    const [open, setOpen] = React.useState<boolean>(false)
     const [mu, setMU] = React.useState<MU>(
         {
             description: '',
@@ -18,44 +26,36 @@ const CreateMUs = () => {
         }
     )
 
-    // const verifyEmpty = (mu: MU): boolean => {
+    const verifyEmpty = (mu: MU): { ret: boolean, fields: string[] } => {
+        let ret: boolean = true;
+        const FIELDS: string[] = [];
+        for (let index = 0; index < MandatoryFields.length; index++) {
+            const MU = mu[MandatoryFields[index].key];
+            if (MU === undefined || MU === '' || MU === null) {
+                ret = false;
+                FIELDS.push(MandatoryFields[index].description);
+            }
+        }
+        return { ret, fields: FIELDS };
+    }
 
-    //     const prodParamsArray = Object.entries(mu)
-    //     prodParamsArray.forEach(([key, value]) => {
+    const requestGetMu = (id: number) => {
 
-    //         if (value === null || value === undefined || value === "") {
-    //             console.log(value)
-    //             setEmptyParams((emptyParams) => (emptyParams + 1));
-
-    //             console.log(emptyParams)
-    //         }
-    //     })
-
-    //     if (emptyParams > 0) {
-    //         return true;
-    //     } else {
-    //         return false
-    //     }
-    //     console.log(emptyParams)
-    // }
+        GETMU(id).then((response: MU) => setMU(response)).catch(() => { })
+    }
 
     useEffect(() => {
 
-        if (id !== undefined) {
-
-            const getMUBYId = async () => {
-
-                const muById = await GETMU(parseInt(id))
-
-                if (muById) {
-
-                    setMU(muById as MU);
-                    setWillEdit(true);
-                }
-            }
-
-            getMUBYId()
+        if (id) {
+            setWillEdit(true)
+            requestGetMu(parseInt(id))
         }
+
+        if (editId) {
+            setReadOnly(true);
+            requestGetMu(parseInt(editId));
+        }
+
     }, []);
 
     const navigate = useNavigate()
@@ -65,18 +65,26 @@ const CreateMUs = () => {
         event.preventDefault();
 
         if (willEdit === true) {
-
-            PUTMu(mu).then((response: string) => console.log('sucesso!', response)).catch((e: any) => console.log(e));
-
+            const RET = verifyEmpty(mu);
+            if (RET.ret) {
+                PUTMu(mu).then((response: string) => console.log('sucesso!', response)).catch((e) => console.log(e));
+                navigate('/listMUs')
+            }
+            else {
+                setFieldsError(RET.fields);
+                setOpen(true)
+            }
         } else {
+            const RET = verifyEmpty(mu);
+            if (RET.ret) {
 
-            // if (verifyEmpty(mu) === false) {
-            POSTMU(mu).then((response: string) =>
-                console.log('sucesso!', response)).catch((e) =>
-                    console.log(e));
-            // } else if (verifyEmpty(mu) === true) {
-            //     window.alert('Você deve preencher todos os campos ')
-            // }
+                POSTMU(mu).catch(() => { });
+                navigate('/listGroups')
+            }
+            else {
+                setFieldsError(RET.fields);
+                setOpen(true)
+            }
         }
 
         navigate('/listMUs');
@@ -105,11 +113,24 @@ const CreateMUs = () => {
 
         <form onSubmit={HandleSubmit} id="create-form">
 
+            <ActionsModal
+                isOpen={open}
+                onClose={() => { setOpen(false); setFieldsError([]); }}
+                title="ATENÇÃO"
+            >
+                <p>
+                    Há alguns campos obrigatórios não preenchidos!
+                    <br />
+                    {fieldsError.map((f: String) => (<>{`-Campo: ${f}.`}<br /></>))}
+                </p>
+            </ActionsModal>
+
             <InputComponent
                 label="UNIDADE DE MEDIDA: "
                 id="inputDesc"
                 type="text"
                 value={mu ? mu.description : ""}
+                readonly={readOnly}
                 action={(event: React.ChangeEvent<HTMLInputElement>) =>
                     handleChange('description', event.target.value.toString())} />
 

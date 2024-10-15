@@ -18,6 +18,8 @@ import { GETTypes } from "../../api/requests/typeRequests";
 import { ProductDTO } from "../../api/entities/productDTO";
 import { verify } from "crypto";
 import ActionsModal from "../../components/modals/ActionsModal";
+import Active from "../../api/services/activeInterface";
+import { rejects } from "assert";
 
 const MandatoryFields: Array<{ key: keyof Product, description: string }> = [
     { key: 'name', description: 'Nome do produto' },
@@ -29,10 +31,11 @@ const CreateProds = () => {
     const navigate = useNavigate();
 
     const { id } = useParams();
+    const { editId } = useParams();
     const [willEdit, setWillEdit] = React.useState<Boolean>(false);
     const [open, setOpen] = React.useState<boolean>(false);
     const [product, setProduct] = React.useState<Product>({
-        active: true,
+        active: null,
         barCode: null,
         brand: null,
         description: '',
@@ -46,6 +49,7 @@ const CreateProds = () => {
     const [types, setTypes] = React.useState<Type[]>([])
     const [MUs, setMUs] = React.useState<MU[]>([]);
     const [fieldsError, setFieldsError] = React.useState<string[]>([]);
+    const [readOnly, setReadOnly] = React.useState<boolean>(false);
 
     const verifyEmpty = (product: Product): { ret: boolean, fields: string[] } => {
         let ret: boolean = true;
@@ -60,16 +64,22 @@ const CreateProds = () => {
         return { ret, fields: FIELDS };
     }
 
-    const requestGetProd = () => {
+    const requestGetProd = (id: number) => {
 
-        GETProductById(parseInt(id)).then((response: Product) => setProduct(response)).catch(() => { })
+        GETProductById(id).then((response: Product) => setProduct(response)).catch(() => { })
     }
 
     useEffect(() => {
 
+
         if (id) {
             setWillEdit(true)
-            requestGetProd()
+            requestGetProd(parseInt(id))
+        }
+
+        if (editId) {
+            setReadOnly(true);
+            requestGetProd(parseInt(editId));
         }
 
         GETBrands().then((response: Brand[]) => (setBrands(response)))
@@ -85,7 +95,7 @@ const CreateProds = () => {
         if (willEdit === true) {
             const RET = verifyEmpty(product);
             if (RET.ret) {
-                PUTProduct(product).then((response: string) => console.log('sucesso!', response)).catch((e) => console.log(e));
+                PUTProduct(product).then((value) => (console.log(value)), (reason) => console.log(reason)).catch((e) => console.log(e));
                 navigate('/listProds')
             }
             else {
@@ -96,10 +106,14 @@ const CreateProds = () => {
             const RET = verifyEmpty(product);
             if (RET.ret) {
 
-                POSTProduct(product).then((response: string) =>
-                    console.log('sucesso!', response, product)).catch((e) =>
+                POSTProduct(product)
+                    .then((response: Response) => {
+                        console.log(response.status)
+                    }, (reason: Response) => {
+                        console.log(reason)
+                    })
+                    .catch((e) =>
                         console.log(e));
-                navigate('/listProds')
             }
             else {
                 setFieldsError(RET.fields);
@@ -137,6 +151,7 @@ const CreateProds = () => {
                 placeHolder="Nome do produto"
                 type="text"
                 value={product ? product.name : ""}
+                readonly={readOnly}
                 action={(event: React.ChangeEvent<HTMLInputElement>) =>
                     handleChange('name', event.target.value.toString())} />
 
@@ -146,19 +161,21 @@ const CreateProds = () => {
                 placeHolder="Descrição do produto"
                 type="text"
                 value={product ? product.description : ""}
+                readonly={readOnly}
                 action={(event: React.ChangeEvent<HTMLInputElement>) =>
                     handleChange('description', event.target.value.toString())} />
 
-            {!id &&
-                <InputComponent
-                    label="CÓDIGO DE BARRAS: "
-                    id="inputBarCode"
-                    placeHolder="0123456789012"
-                    type="number"
-                    value={product && product.barCode ? product.barCode : ""}
-                    action={(event: React.ChangeEvent<HTMLInputElement>) =>
-                        handleChange('barCode', parseInt(event.target.value.toString()))} />
-            }
+
+            <InputComponent
+                label="CÓDIGO DE BARRAS: "
+                id="inputBarCode"
+                placeHolder="0123456789012"
+                type="number"
+                value={product && product.barCode ? product.barCode : ""}
+                readonly={readOnly}
+                action={(event: React.ChangeEvent<HTMLInputElement>) =>
+                    handleChange('barCode', parseInt(event.target.value.toString()))} />
+
 
             <InputSelect<Brand>
                 id="brand-input"
@@ -166,9 +183,9 @@ const CreateProds = () => {
                 onValueChange={(value: Brand) => handleChange('brand', value)}
                 idKey="id"
                 labelKey="description"
-                value={product !== null ? product.brand : null}
+                readonly={readOnly}
+                value={readOnly ? product.brand : product !== null ? product.brand : null}
                 options={brands} />
-
 
             <InputSelect<Group>
                 id="group-input"
@@ -176,7 +193,8 @@ const CreateProds = () => {
                 onValueChange={(value: Group) => handleChange('group', value)}
                 idKey="id"
                 labelKey="description"
-                value={product !== null ? product.group : null}
+                readonly={readOnly}
+                value={readOnly ? product.group : product !== null ? product.group : null}
                 options={groups} />
 
             <InputSelect<Type>
@@ -185,7 +203,8 @@ const CreateProds = () => {
                 onValueChange={(value: Type) => handleChange('type', value)}
                 idKey="id"
                 labelKey="description"
-                value={product !== null ? product.type : null}
+                readonly={readOnly}
+                value={readOnly ? product.type : product !== null ? product.type : null}
                 options={types} />
 
             <InputSelect<MU>
@@ -194,18 +213,33 @@ const CreateProds = () => {
                 onValueChange={(value: MU) => handleChange('mu', value)}
                 idKey="id"
                 labelKey="description"
-                value={product !== null ? product.mu : null}
+                readonly={readOnly}
+                value={readOnly ? product.mu : product !== null ? product.mu : null}
                 options={MUs} />
 
+            <InputSelect<Active>
+                id="mu-input"
+                label="UNIDADES DE MEDIDA"
+                onValueChange={(value: Active) => handleChange('active', value)}
+                idKey="value"
+                labelKey="description"
+                readonly={readOnly}
+                value={readOnly ? product.active : product !== null ? product.active : null}
+                options={[
+                    { description: "Exibir", value: true },
+                    { description: "Não exibir", value: false }
+                ]} />
 
-            <ButtonComponent
-                label={willEdit ? "ALTERAR" : "CRIAR"}
-                type="submit"
-                action={HandleSubmit} />
+            {!editId &&
+                <ButtonComponent
+                    label={willEdit ? "ALTERAR" : "CRIAR"}
+                    type="submit"
+                    action={HandleSubmit} />
+            }
 
             <LinkButton
                 dest="/listProds"
-                label="CANCELAR"
+                label={editId ? "VOLTAR" : "CANCELAR"}
                 style="button" />
         </form>
     )

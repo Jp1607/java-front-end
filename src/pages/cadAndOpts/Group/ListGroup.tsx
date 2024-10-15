@@ -9,6 +9,7 @@ import ButtonComponent from "../../../components/buttons/Button"
 import { capitalize } from "../../../api/Methods/capitalizeFunction"
 import Active from "../../../api/services/activeInterface"
 import InputSelect from "../../../components/inputs/selectInput"
+import { useNavigate } from "react-router-dom"
 
 const HEADERS: Headers<Group>[] = [
     { gridType: 'FLEX', attributeName: 'id', width: 1, label: 'Identificador' },
@@ -16,6 +17,8 @@ const HEADERS: Headers<Group>[] = [
 ]
 
 const GroupListRender = () => {
+
+    const navigate = useNavigate();
 
     const [showActives, setShowActives] = React.useState<Active>({ description: '', value: false });
     const [groups, setGroups] = React.useState<Group[]>([]);
@@ -78,6 +81,23 @@ const GroupListRender = () => {
         GETGroups(group.description, showActives.value).then((response: Group[]) => setGroups(response)).catch(() => { })
     }
 
+    const handleView = () => {
+
+        if (group.id) {
+            navigate(`/viewGroup/${group.id}`)
+        } else {
+            window.alert("Selecione um grupo válido")
+        }
+    }
+    const handleEdit = () => {
+
+        if (group.id) {
+            navigate(`/editGroup/${group.id}`)
+        } else {
+            window.alert("Selecione um grupo válido")
+        }
+    }
+
     return (
 
         <div>
@@ -96,7 +116,8 @@ const GroupListRender = () => {
                 createPath="/createGroup"
                 excludeAction={handleShow}
                 editIsPresent={true}
-                editPath={`/editGroup/${group.id}`}
+                editAction={handleEdit}
+                viewAction={() => handleView}
                 reloadAction={requestGet} />
 
             <div className="search-filters-container">

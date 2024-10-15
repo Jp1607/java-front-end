@@ -8,6 +8,7 @@ import ActionsModal from "../../../components/modals/ActionsModal"
 import ButtonComponent from "../../../components/buttons/Button"
 import Active from "../../../api/services/activeInterface"
 import InputSelect from "../../../components/inputs/selectInput"
+import { useNavigate } from "react-router-dom"
 
 const HEADERS: Headers<Brand>[] = [
     { gridType: 'FLEX', attributeName: 'id', width: 1, label: 'Identificador' },
@@ -15,6 +16,8 @@ const HEADERS: Headers<Brand>[] = [
 ]
 
 const BrandListRender = () => {
+
+    const navigate = useNavigate();
 
     const [show, setShow] = React.useState<boolean>(false);
     const [showActives, setShowActives] = React.useState<Active>({ description: '', value: false });
@@ -76,6 +79,23 @@ const BrandListRender = () => {
         GETBrands(brand.description, showActives.value).then((response: Brand[]) => setBrands(response)).catch(() => { })
     }
 
+    const handleView = () => {
+
+        if (brand.id) {
+            navigate(`/viewBrand/${brand.id}`)
+        } else {
+            window.alert("Selecione uma marca para válida")
+        }
+    }
+    const handleEdit = () => {
+
+        if (brand.id) {
+            navigate(`/editBrand/${brand.id}`)
+        } else {
+            window.alert("Selecione uma marca válida")
+        }
+    }
+
     return (
 
         <div>
@@ -94,7 +114,8 @@ const BrandListRender = () => {
                 createPath="/createBrand"
                 excludeAction={handleShow}
                 editIsPresent={true}
-                editPath={`/editBrand/${brand.id}`}
+                editAction={handleEdit}
+                viewAction={handleView}
                 reloadAction={requestGet} />
 
             <div className="search-filters-container">

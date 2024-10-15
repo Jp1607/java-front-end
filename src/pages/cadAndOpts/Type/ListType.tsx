@@ -9,6 +9,7 @@ import ButtonComponent from "../../../components/buttons/Button"
 import { capitalize } from "../../../api/Methods/capitalizeFunction"
 import Active from "../../../api/services/activeInterface"
 import InputSelect from "../../../components/inputs/selectInput"
+import { useNavigate } from "react-router-dom"
 
 const HEADERS: Headers<Type>[] = [
     { gridType: 'FLEX', attributeName: 'id', width: 1, label: 'Identificador' },
@@ -16,6 +17,8 @@ const HEADERS: Headers<Type>[] = [
 ]
 
 const TypeListRender = () => {
+
+    const navigate = useNavigate();
 
     const [showActives, setShowActives] = React.useState<Active>({ description: '', value: false });
     const [types, setTypes] = React.useState<Type[]>([]);
@@ -79,6 +82,23 @@ const TypeListRender = () => {
         GETTypes(type.description, showActives.value).then((response: Type[]) => setTypes(response)).catch(() => { })
     }
 
+    const handleView = () => {
+
+        if (type.id) {
+            navigate(`/viewType/${type.id}`)
+        } else {
+            window.alert("Selecione um tipo válido")
+        }
+    }
+    const handleEdit = () => {
+
+        if (type.id) {
+            navigate(`/editType/${type.id}`)
+        } else {
+            window.alert("Selecione um tipo válido")
+        }
+    }
+
     return (
 
         <div>
@@ -97,7 +117,8 @@ const TypeListRender = () => {
                 createPath="/createType"
                 excludeAction={handleShow}
                 editIsPresent={true}
-                editPath={`/editType/${type.id}`}
+                editAction={handleEdit}
+                viewAction={handleView}
                 reloadAction={requestGet} />
 
             <div className="search-filters-container">

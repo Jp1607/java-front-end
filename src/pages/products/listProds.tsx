@@ -94,17 +94,21 @@ const ProductListRender: React.FC = () => {
 
     }
 
-    const handleActiveChange = (param: Active) => {
+    // const handleActiveChange = (param: Active) => {
 
-        if (param == null) {
-            setShowActives({ description: "Não exibir", value: false })
-        } else if (param) {
-            setShowActives({ description: "Exibir", value: true })
-        } else {
-            setShowActives({ description: "Nãp exibir", value: false })
-        }
+    //     console.log(param)
 
-    }
+    //     if (param == null) {
+    //         setShowActives({ description: "Não exibir", value: false })
+    //     } else if (param.value) {
+    //         setShowActives({ description: "Exibir", value: true })
+    //     } else if (!param.value){
+    //         console.log("executou")
+    //         setShowActives({ description: "Não exibir", value: false })
+    //         console.log(showActives)
+    //     }
+
+    // }
 
     const handleSubmit = () => {
         const brandId = product.brand ? product.brand.id : null;
@@ -132,6 +136,15 @@ const ProductListRender: React.FC = () => {
         }
     }
 
+    const handleView = () => {
+
+        if (productDTO.id) {
+            navigate(`/viewProd/${productDTO.id}`)
+        } else {
+            window.alert("Selecione um produto para visualização válido")
+        }
+    }
+
     return (
         <>
 
@@ -145,7 +158,7 @@ const ProductListRender: React.FC = () => {
             >
 
                 <p>
-                    Você tem certeza de que deseja deletar este produto?
+                    Você tem certeza de que deseja deletar este produto? Ele será marcado no banco de dados e não poderá mais ser acessado.
                 </p>
 
             </ActionsModal>
@@ -156,13 +169,23 @@ const ProductListRender: React.FC = () => {
                     editIsPresent={true}
                     createPath="/createProd"
                     editAction={handleEdit}
+                    viewAction={handleView}
                     excludeAction={() => setOpenDelete(true)}
                     reloadAction={requestGetData} />
 
                 <div id="search-filters-container">
 
+                <InputComponent
+                        id="srcId"
+                        label="Código Do Produto: "
+                        type="number"
+                        className="search-filter"
+                        action={(e: React.ChangeEvent<HTMLInputElement>) =>
+                            handleChange("id", parseInt(e.target.value))}
+                    />
+
                     <InputComponent
-                        id="srcCod"
+                        id="srcBarCod"
                         label="Código De Barras: "
                         type="number"
                         className="search-filter"
@@ -229,12 +252,13 @@ const ProductListRender: React.FC = () => {
                         label="Exibir desativados:"
                         idKey="value"
                         labelKey="description"
-                        onValueChange={handleActiveChange}
+                        onValueChange={(active: Active) =>
+                            handleChange('active', active)}
                         options={[
                             { description: "Exibir", value: true },
                             { description: "Não exibir", value: false }
                         ]}
-                        value={showActives} />
+                        value={product ? product.active : null}/>
 
                     <ButtonComponent
                         action={handleSubmit}

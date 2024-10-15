@@ -9,6 +9,7 @@ import { capitalize } from "../../api/Methods/capitalizeFunction";
 import ButtonComponent from "../../components/buttons/Button";
 import InputSelect from "../../components/inputs/selectInput";
 import Active from "../../api/services/activeInterface";
+import { useNavigate } from "react-router-dom";
 
 const HEADERS: Headers<User>[] = [
     { gridType: 'FLEX', attributeName: 'id', width: 1, label: 'Identificador' },
@@ -16,6 +17,8 @@ const HEADERS: Headers<User>[] = [
 ]
 
 const UserListRender = () => {
+
+    const navigate = useNavigate();
 
     const [show, setShow] = React.useState<boolean>(undefined)
     const [users, setUsers] = React.useState<User[]>([]);
@@ -73,6 +76,15 @@ const UserListRender = () => {
 
     }
 
+    const handleView = () => {
+
+        if (user.id) {
+            navigate(`/viewUser/${user.id}`)
+        } else {
+            window.alert("Selecione um usuário para visualização válido")
+        }
+    }
+
     const handleHeaders = React.useMemo((): Headers<User>[] => {
         const h = Object.assign([], HEADERS);
         if (showActives.value) {
@@ -103,6 +115,7 @@ const UserListRender = () => {
                 <ButtonsBar
                     createPath="/createUser"
                     excludeAction={() => setShow(true)}
+                    viewAction={handleView}
                     reloadAction={requestGet}
                 />
 

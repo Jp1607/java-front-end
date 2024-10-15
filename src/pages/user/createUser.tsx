@@ -1,12 +1,13 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { User } from "../../api/entities/user"
 import ThemeToggler from "../../components/buttons/themeToggle"
 import InputComponent from "../../components/inputs/InputComponent"
-import { POSTUser } from "../../api/requests/userRequests"
+import { GETUserById, POSTUser } from "../../api/requests/userRequests"
 import '../css/login.css';
 import ButtonComponent from "../../components/buttons/Button"
-import { useNavigate } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import ActionsModal from "../../components/modals/ActionsModal"
+import LinkButton from "../../components/buttons/LinkButton"
 
 const MandatoryFields: Array<{ key: keyof User, description: string }> = [
     { key: 'name', description: 'Nome do usuário' },
@@ -14,10 +15,13 @@ const MandatoryFields: Array<{ key: keyof User, description: string }> = [
 
 const CreateUser = () => {
 
+    const { id } = useParams();
+    const { editId } = useParams();
     const navigate = useNavigate();
     const [open, setOpen] = React.useState<boolean>(false);
     const [fieldsError, setFieldsError] = React.useState<string[]>([]);
     const [user, setUser] = React.useState<User>(null)
+    const [readOnly, setReadOnly] = React.useState<boolean>(false)
 
     const handleChange = <T extends keyof User>(key: T, newValue: User[T]) => {
 
@@ -28,6 +32,23 @@ const CreateUser = () => {
 
         }))
     }
+
+    const requestGetUser = (id: number) => {
+
+        GETUserById(id).then((response: User) => setUser(response)).catch(() => { })
+    }
+
+    useEffect(() => {
+        // if (id) {
+        //     setWillEdit(true)
+        //     requestGetProd(parseInt(id))
+        // }
+
+        if (editId) {
+            setReadOnly(true);
+            requestGetUser(parseInt(editId));
+        }
+    }, [])
 
     const verifyEmpty = (user: User): { ret: boolean, fields: string[] } => {
         let ret: boolean = true;
@@ -51,12 +72,12 @@ const CreateUser = () => {
             setFieldsError(RET.fields);
             setOpen(true);
         }
-        navigate('listUsers')
+        navigate('/listUsers')
     }
 
     return (
 
-        <div id="login-page">
+        <form onSubmit={handleSubmit} id="create-form">
 
             <ActionsModal
                 isOpen={open}
@@ -70,41 +91,24 @@ const CreateUser = () => {
                 </p>
             </ActionsModal>
 
-            <div id="login-page-container">
-                <div id="login-page-header">
+            <InputComponent
+                label="NOME: "
+                id="inputDesc"
+                type="text"
+                value={user ? user.name : ""}
+                action={(event: React.ChangeEvent<HTMLInputElement>) =>
+                    handleChange('name', event.target.value.toString())} />
 
-                    <h1 id="login-title">
+            <ButtonComponent
+                label="CRIAR"
+                type="submit"
+                action={handleSubmit} />
 
-                        NOVO
-
-                    </h1>
-
-                    <ThemeToggler />
-
-                </div>
-
-                <form onSubmit={handleSubmit} id="login-form">
-
-                    <InputComponent
-                        id="userNameInput"
-                        label="Nome: "
-                        type="text"
-                        action={(event: React.ChangeEvent<HTMLInputElement>) => handleChange("name", event.target.value.toString())} />
-
-                    <InputComponent
-                        id="userPassInput"
-                        label="Senha:"
-                        type="password"
-                        action={(event: React.ChangeEvent<HTMLInputElement>) => handleChange("password", parseInt(event.target.value))} />
-
-                    <ButtonComponent
-                        id="subCad"
-                        label="ENVIAR"
-                        type="submit"
-                        action={handleSubmit} />
-                </form>
-            </div>
-        </div>
+            <LinkButton
+                dest="/listUsers"
+                label="CANCELAR"
+                style="button" />
+        </form>
     )
 }
 

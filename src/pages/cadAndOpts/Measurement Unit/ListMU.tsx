@@ -9,6 +9,7 @@ import ButtonComponent from "../../../components/buttons/Button"
 import { capitalize } from "../../../api/Methods/capitalizeFunction"
 import Active from "../../../api/services/activeInterface"
 import InputSelect from "../../../components/inputs/selectInput"
+import { useNavigate } from "react-router-dom"
 
 const HEADERS: Headers<MU>[] = [
     { gridType: 'FLEX', attributeName: 'id', width: 1, label: 'Identificador' },
@@ -16,6 +17,8 @@ const HEADERS: Headers<MU>[] = [
 ]
 
 const MUListRender = () => {
+
+    const navigate = useNavigate();
 
     const [showActives, setShowActives] = React.useState<Active>({ description: '', value: false });
     const [mus, setMUs] = React.useState<MU[]>([]);
@@ -78,6 +81,23 @@ const MUListRender = () => {
         GETMUs(mu.description, showActives.value).then((response: MU[]) => setMUs(response)).catch(() => { })
     }
 
+    const handleView = () => {
+
+        if (mu.id) {
+            navigate(`/viewMU/${mu.id}`)
+        } else {
+            window.alert("Selecione uma unidade válida")
+        }
+    }
+    const handleEdit = () => {
+
+        if (mu.id) {
+            navigate(`/editMU/${mu.id}`)
+        } else {
+            window.alert("Selecione uma unidade válida")
+        }
+    }
+
     return (
 
         <div>
@@ -96,7 +116,8 @@ const MUListRender = () => {
                 createPath="/createMU"
                 excludeAction={handleShow}
                 editIsPresent={true}
-                editPath={`/editMu/${mu.id}`}
+                editAction={handleEdit}
+                viewAction={handleView}
                 reloadAction={requestGet} />
 
             <div className="search-filters-container">
