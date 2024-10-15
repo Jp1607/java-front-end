@@ -6,6 +6,10 @@ import ButtonComponent from "../../../components/buttons/Button";
 import LinkButton from "../../../components/buttons/LinkButton";
 import InputComponent from "../../../components/inputs/InputComponent";
 
+const MandatoryFields: Array<{ key: keyof Brand, description: string }> = [
+    { key: 'description', description: 'Nome da marca' },
+];
+
 const CreateBrands = () => {
 
     const { id } = useParams();
@@ -18,26 +22,18 @@ const CreateBrands = () => {
         }
     )
 
-    // const verifyEmpty = (brand: Brand): boolean => {
-
-    //     const prodParamsArray = Object.entries(brand)
-    //     prodParamsArray.forEach(([key, value]) => {
-
-    //         if (value === null || value === undefined || value === "") {
-    //             console.log(value)
-    //             setEmptyParams((emptyParams) => (emptyParams + 1));
-
-    //             console.log(emptyParams)
-    //         }
-    //     })
-
-    //     if (emptyParams > 0) {
-    //         return true;
-    //     } else {
-    //         return false
-    //     }
-    //     console.log(emptyParams)
-    // }
+    const verifyEmpty = (brand: Brand): { ret: boolean, fields: string[] } => {
+        let ret: boolean = true;
+        const FIELDS: string[] = [];
+        for (let index = 0; index < MandatoryFields.length; index++) {
+            const BRAND = brand[MandatoryFields[index].key];
+            if (BRAND === undefined || BRAND === '' || BRAND === null) {
+                ret = false;
+                FIELDS.push(MandatoryFields[index].description);
+            }
+        }
+        return { ret, fields: FIELDS };
+    }
 
     useEffect(() => {
 

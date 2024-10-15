@@ -3,12 +3,17 @@ import { Group } from "../../../api/entities/group"
 import { GETGroups, StateGroup } from "../../../api/requests/groupRequests"
 import ButtonsBar from "../../../components/ButtonsBar"
 import InputComponent from "../../../components/inputs/InputComponent"
-import TableRender from "../../../components/tableRender"
+import TableRender, {Headers} from "../../../components/tableRender"
 import ActionsModal from "../../../components/modals/ActionsModal"
 import ButtonComponent from "../../../components/buttons/Button"
 import { capitalize } from "../../../api/Methods/capitalizeFunction"
 import Active from "../../../api/services/activeInterface"
 import InputSelect from "../../../components/inputs/selectInput"
+
+const HEADERS: Headers<Group>[] = [
+    { gridType: 'FLEX', attributeName: 'id', width: 1, label: 'Identificador' },
+    { gridType: 'FLEX', attributeName: 'description', width: 1, label: 'Nome' }
+]
 
 const GroupListRender = () => {
 
@@ -59,6 +64,14 @@ const GroupListRender = () => {
         setGroup(COPY_GROUP);
 
     }
+
+    const handleHeaders = React.useMemo((): Headers<Group>[] => {
+        const h = Object.assign([], HEADERS);
+        if (showActives.value) {
+            h.push({ gridType: 'FLEX', attributeName: 'active', width: 1, label: 'Estado' });
+        }
+        return h;
+    }, [showActives])
 
     const handleSearch = () => {
 
@@ -120,10 +133,7 @@ const GroupListRender = () => {
             />
 
             <TableRender
-                headers={[
-                    { attributeName: "id", label: "CÓDIGO", gridType: "FLEX", width: "1" },
-                    { attributeName: "description", label: "DESCRIÇÃO", gridType: "FLEX", width: "1" }
-                ]}
+                headers={handleHeaders}
                 values={groups}
                 onTableClick={handleTableClick}
                 selectedRow={group}

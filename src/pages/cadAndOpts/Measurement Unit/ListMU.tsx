@@ -2,13 +2,18 @@ import React from "react"
 import { MU } from "../../../api/entities/MU"
 import ButtonsBar from "../../../components/ButtonsBar"
 import InputComponent from "../../../components/inputs/InputComponent"
-import TableRender from "../../../components/tableRender"
+import TableRender, {Headers} from "../../../components/tableRender"
 import ActionsModal from "../../../components/modals/ActionsModal"
 import { GETMUs, StateMU } from "../../../api/requests/MURequests"
 import ButtonComponent from "../../../components/buttons/Button"
 import { capitalize } from "../../../api/Methods/capitalizeFunction"
 import Active from "../../../api/services/activeInterface"
 import InputSelect from "../../../components/inputs/selectInput"
+
+const HEADERS: Headers<MU>[] = [
+    { gridType: 'FLEX', attributeName: 'id', width: 1, label: 'Identificador' },
+    { gridType: 'FLEX', attributeName: 'description', width: 1, label: 'Nome' }
+]
 
 const MUListRender = () => {
 
@@ -59,6 +64,14 @@ const MUListRender = () => {
         setMU(COPY_MU);
 
     }
+
+    const handleHeaders = React.useMemo((): Headers<MU>[] => {
+        const h = Object.assign([], HEADERS);
+        if (showActives.value) {
+            h.push({ gridType: 'FLEX', attributeName: 'active', width: 1, label: 'Estado' });
+        }
+        return h;
+    }, [showActives])
 
     const handleSearch = () => {
 
@@ -120,10 +133,7 @@ const MUListRender = () => {
             />
 
             <TableRender
-                headers={[
-                    { attributeName: "id", label: "CÓDIGO", gridType: "FLEX", width: "1" },
-                    { attributeName: "description", label: "DESCRIÇÃO", gridType: "FLEX", width: "1" }
-                ]}
+                headers={handleHeaders}
                 values={mus}
                 onTableClick={handleTableClick}
                 selectedRow={mu}

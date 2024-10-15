@@ -6,6 +6,10 @@ import ButtonComponent from "../../../components/buttons/Button";
 import LinkButton from "../../../components/buttons/LinkButton";
 import InputComponent from "../../../components/inputs/InputComponent";
 
+const MandatoryFields: Array<{ key: keyof Group, description: string }> = [
+    { key: 'description', description: 'Nome do grupo' },
+];
+
 const CreateGroups = () => {
 
     const { id } = useParams();
@@ -17,27 +21,19 @@ const CreateGroups = () => {
             active: false
         }
     )
-
-    // const verifyEmpty = (group: Group): boolean => {
-
-    //     const prodParamsArray = Object.entries(group)
-    //     prodParamsArray.forEach(([key, value]) => {
-
-    //         if (value === null || value === undefined || value === "") {
-    //             console.log(value)
-    //             setEmptyParams((emptyParams) => (emptyParams + 1));
-
-    //             console.log(emptyParams)
-    //         }
-    //     })
-
-    //     if (emptyParams > 0) {
-    //         return true;
-    //     } else {
-    //         return false
-    //     }
-    //     console.log(emptyParams)
-    // }
+       
+    const verifyEmpty = (group: Group): { ret: boolean, fields: string[] } => {
+        let ret: boolean = true;
+        const FIELDS: string[] = [];
+        for (let index = 0; index < MandatoryFields.length; index++) {
+            const GROUP = group[MandatoryFields[index].key];
+            if (GROUP === undefined || GROUP === '' || GROUP === null) {
+                ret = false;
+                FIELDS.push(MandatoryFields[index].description);
+            }
+        }
+        return { ret, fields: FIELDS };
+    }
 
     useEffect(() => {
 

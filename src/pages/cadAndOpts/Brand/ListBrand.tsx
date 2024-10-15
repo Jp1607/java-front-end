@@ -3,11 +3,16 @@ import { Brand } from "../../../api/entities/brand"
 import { GETBrands, StateBrand } from "../../../api/requests/brandRequests"
 import ButtonsBar from "../../../components/ButtonsBar"
 import InputComponent from "../../../components/inputs/InputComponent"
-import TableRender from "../../../components/tableRender"
+import TableRender, {Headers} from "../../../components/tableRender"
 import ActionsModal from "../../../components/modals/ActionsModal"
 import ButtonComponent from "../../../components/buttons/Button"
 import Active from "../../../api/services/activeInterface"
 import InputSelect from "../../../components/inputs/selectInput"
+
+const HEADERS: Headers<Brand>[] = [
+    { gridType: 'FLEX', attributeName: 'id', width: 1, label: 'Identificador' },
+    { gridType: 'FLEX', attributeName: 'description', width: 1, label: 'Nome' }
+]
 
 const BrandListRender = () => {
 
@@ -57,6 +62,14 @@ const BrandListRender = () => {
         setBrand(COPY_BRAND);
 
     }
+
+    const handleHeaders = React.useMemo((): Headers<Brand>[] => {
+        const h = Object.assign([], HEADERS);
+        if (showActives.value) {
+            h.push({ gridType: 'FLEX', attributeName: 'active', width: 1, label: 'Estado' });
+        }
+        return h;
+    }, [showActives])
 
     const handleSearch = () => {
 
@@ -118,10 +131,7 @@ const BrandListRender = () => {
             />
 
             <TableRender
-                headers={[
-                    { attributeName: "id", label: "CÓDIGO", gridType: "FLEX", width: "1" },
-                    { attributeName: "description", label: "DESCRIÇÃO", gridType: "FLEX", width: "1" }
-                ]}
+                headers={handleHeaders}
                 values={brands}
                 onTableClick={handleTableClick}
                 selectedRow={brand}
