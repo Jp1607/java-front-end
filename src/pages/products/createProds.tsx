@@ -24,6 +24,7 @@ import { rejects } from "assert";
 const MandatoryFields: Array<{ key: keyof Product, description: string }> = [
     { key: 'name', description: 'Nome do produto' },
     { key: 'barCode', description: 'Código de barras' },
+    { key: 'active', description: 'Ativo' }
 ];
 
 const CreateProds = () => {
@@ -31,12 +32,12 @@ const CreateProds = () => {
     const navigate = useNavigate();
 
     const { id } = useParams();
-    const { editId } = useParams();
+    const { viewId } = useParams();
     const [willEdit, setWillEdit] = React.useState<Boolean>(false);
     const [open, setOpen] = React.useState<boolean>(false);
     const [product, setProduct] = React.useState<Product>({
-        active: null,
-        barCode: null,
+        active: true,
+        barCode: '',
         brand: null,
         description: '',
         group: null,
@@ -77,9 +78,9 @@ const CreateProds = () => {
             requestGetProd(parseInt(id))
         }
 
-        if (editId) {
+        if (viewId) {
             setReadOnly(true);
-            requestGetProd(parseInt(editId));
+            requestGetProd(parseInt(viewId));
         }
 
         GETBrands().then((response: Brand[]) => (setBrands(response)))
@@ -95,8 +96,12 @@ const CreateProds = () => {
         if (willEdit === true) {
             const RET = verifyEmpty(product);
             if (RET.ret) {
-                PUTProduct(product).then((value) => (console.log(value)), (reason) => console.log(reason)).catch((e) => console.log(e));
-                navigate('/listProds')
+
+                PUTProduct(product).then(() => {
+                    navigate('/listProds')
+                }, (reason) =>
+                    console.log(reason))
+
             }
             else {
                 setFieldsError(RET.fields);
@@ -106,14 +111,8 @@ const CreateProds = () => {
             const RET = verifyEmpty(product);
             if (RET.ret) {
 
-                POSTProduct(product)
-                    .then((response: Response) => {
-                        console.log(response.status)
-                    }, (reason: Response) => {
-                        console.log(reason)
-                    })
-                    .catch((e) =>
-                        console.log(e));
+                POSTProduct(product).then(() => { navigate('/listProds') }).catch((e) => window.alert(e));
+
             }
             else {
                 setFieldsError(RET.fields);
@@ -174,7 +173,7 @@ const CreateProds = () => {
                 value={product && product.barCode ? product.barCode : ""}
                 readonly={readOnly}
                 action={(event: React.ChangeEvent<HTMLInputElement>) =>
-                    handleChange('barCode', parseInt(event.target.value.toString()))} />
+                    handleChange('barCode', event.target.value.toString())} />
 
 
             <InputSelect<Brand>
@@ -218,19 +217,24 @@ const CreateProds = () => {
                 options={MUs} />
 
             <InputSelect<Active>
-                id="mu-input"
-                label="UNIDADES DE MEDIDA"
-                onValueChange={(value: Active) => handleChange('active', value)}
+                id="active-input"
+                label="ATIVO"
+                onValueChange={(value: Active) => handleChange('active', value.value)}
                 idKey="value"
                 labelKey="description"
                 readonly={readOnly}
-                value={readOnly ? product.active : product !== null ? product.active : null}
+                value={readOnly ? product.active ? { description: "Exibir", value: true } :
+                    { description: "Não exibir", value: false }
+                    :
+                    product !== null ? product.active ? { description: "Exibir", value: true } :
+                        { description: "Não exibir", value: false }
+                        : null}
                 options={[
                     { description: "Exibir", value: true },
                     { description: "Não exibir", value: false }
                 ]} />
 
-            {!editId &&
+            {!viewId &&
                 <ButtonComponent
                     label={willEdit ? "ALTERAR" : "CRIAR"}
                     type="submit"
@@ -239,7 +243,7 @@ const CreateProds = () => {
 
             <LinkButton
                 dest="/listProds"
-                label={editId ? "VOLTAR" : "CANCELAR"}
+                label={viewId ? "VOLTAR" : "CANCELAR"}
                 style="button" />
         </form>
     )

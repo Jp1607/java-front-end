@@ -11,11 +11,6 @@ import InputSelect from "../../components/inputs/selectInput";
 import Active from "../../api/services/activeInterface";
 import { useNavigate } from "react-router-dom";
 
-const HEADERS: Headers<User>[] = [
-    { gridType: 'FLEX', attributeName: 'id', width: 1, label: 'Identificador' },
-    { gridType: 'FLEX', attributeName: 'name', width: 1, label: 'Nome' }
-]
-
 const UserListRender = () => {
 
     const navigate = useNavigate();
@@ -85,14 +80,6 @@ const UserListRender = () => {
         }
     }
 
-    const handleHeaders = React.useMemo((): Headers<User>[] => {
-        const h = Object.assign([], HEADERS);
-        if (showActives.value) {
-            h.push({ gridType: 'FLEX', attributeName: 'active', width: 1, label: 'Estado' });
-        }
-        return h;
-    }, [showActives])
-
     return (
 
         <div className="default-page">
@@ -119,7 +106,7 @@ const UserListRender = () => {
                     reloadAction={requestGet}
                 />
 
-                <div className="search-filters-container">
+                <form onSubmit={handleSubmit} className="search-filters-container">
 
                     <InputComponent
                         id="srcName"
@@ -143,7 +130,7 @@ const UserListRender = () => {
                         ]}
                         value={showActives.value ? { description: "Exibir", value: true } : { description: "Não exibir", value: false }} />
 
-                </div>
+                </form>
 
                 <ButtonComponent
                     action={handleSubmit}
@@ -155,7 +142,10 @@ const UserListRender = () => {
                 <TableRender
 
                     values={users}
-                    headers={handleHeaders}
+                    headers={[
+                        { gridType: 'FLEX', attributeName: 'id', width: 1, label: 'Identificador' },
+                        { gridType: 'FLEX', attributeName: 'name', width: 1, label: 'Nome' }
+                    ]}
                     onTableClick={handleClick}
                     selectedRow={user}
                     actionsLabel={user.active ? 'DESATIVAR' : 'ATIVAR'}

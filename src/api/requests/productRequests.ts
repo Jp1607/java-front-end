@@ -7,15 +7,15 @@ export function GETProductById(id?: number): Promise<Product> {
     return DefaultFetch<Product>('GET', '/product', undefined, `/${id}`) as Promise<Product>;
 }
 
-export function GETProducts(name?: string, barCode?: number, brandId?: number, groupId?: number, typeId?: number, muId?: number, active?: boolean): Promise<ProductDTO[]> {
+export function GETProducts(name?: string, barCode?: string, brandId?: number, groupId?: number, typeId?: number, muId?: number, active?: boolean): Promise<ProductDTO[]> {
     let urlParam: string = `?${name ? `name=${name}&` : ''}${barCode ? `barCode=${barCode}&` : ''}${brandId ? `brandId=${brandId}&` : ''}${groupId ? `groupId=${groupId}&` : ''}${typeId ? `typeId=${typeId}&` : ''}${muId ? `muId=${muId}&` : ''}${active ? `active=${active}&` : ''}`;
 
     return DefaultFetch<ProductDTO[]>('GET', '/product', undefined, urlParam) as Promise<ProductDTO[]>;
 }
 
-export function POSTProduct(product: Product): Promise<Response> {
+export function POSTProduct(product: Product): Promise<string> {
 
-    return DefaultFetch<Response>('POST', '/product', product) as Promise<Response>;
+    return DefaultFetch<string>('POST', '/product', product) as Promise<string>;
 }
 
 export function PUTProduct(product: Product): Promise<string> {

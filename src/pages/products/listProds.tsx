@@ -20,17 +20,6 @@ import { Product } from "../../api/entities/product";
 import Active from "../../api/services/activeInterface";
 import { useNavigate } from "react-router-dom";
 
-const HEADERS: Headers<ProductDTO>[] = [
-    { gridType: 'FLEX', attributeName: 'id', width: 1, label: 'Código do produto' },
-    { gridType: 'FLEX', attributeName: 'name', width: 1, label: 'Produto' },
-    { gridType: 'FLEX', attributeName: 'description', width: 1, label: 'Descrição' },
-    { gridType: 'FLEX', attributeName: 'barCode', width: 1, label: 'Código de barras' },
-    { gridType: 'FLEX', attributeName: 'brandDesc', width: 1, label: 'Marca' },
-    { gridType: 'FLEX', attributeName: 'groupDesc', width: 1, label: 'Grupo' },
-    { gridType: 'FLEX', attributeName: 'typeDesc', width: 1, label: 'Tipo' },
-    { gridType: 'FLEX', attributeName: 'muDesc', width: 1, label: 'Unidade de Medida' }
-];
-
 const ProductListRender: React.FC = () => {
 
     const navigate = useNavigate();
@@ -54,7 +43,7 @@ const ProductListRender: React.FC = () => {
     const [productDTO, setProductDTO] = useState<ProductDTO>({
         name: '',
         description: "",
-        barCode: 0,
+        barCode: '',
         active: false,
         brandDesc: '',
         groupDesc: '',
@@ -119,14 +108,6 @@ const ProductListRender: React.FC = () => {
 
     }
 
-    const handleHeaders = React.useMemo((): Headers<ProductDTO>[] => {
-        const h = Object.assign([], HEADERS);
-        if (showActives.value) {
-            h.push({ gridType: 'FLEX', attributeName: 'active', width: 1, label: 'Estado' });
-        }
-        return h;
-    }, [showActives]);
-
     const handleEdit = () => {
 
         if (productDTO.id) {
@@ -173,9 +154,9 @@ const ProductListRender: React.FC = () => {
                     excludeAction={() => setOpenDelete(true)}
                     reloadAction={requestGetData} />
 
-                <div id="search-filters-container">
+                <form onSubmit={handleSubmit} id="search-filters-container">
 
-                <InputComponent
+                    <InputComponent
                         id="srcId"
                         label="Código Do Produto: "
                         type="number"
@@ -190,7 +171,7 @@ const ProductListRender: React.FC = () => {
                         type="number"
                         className="search-filter"
                         action={(e: React.ChangeEvent<HTMLInputElement>) =>
-                            handleChange("barCode", parseInt(e.target.value))}
+                            handleChange("barCode", e.target.value.toString())}
                     />
 
                     <InputComponent
@@ -253,12 +234,14 @@ const ProductListRender: React.FC = () => {
                         idKey="value"
                         labelKey="description"
                         onValueChange={(active: Active) =>
-                            handleChange('active', active)}
+                            handleChange('active', active.value)}
                         options={[
                             { description: "Exibir", value: true },
                             { description: "Não exibir", value: false }
                         ]}
-                        value={product ? product.active : null}/>
+                        value={product !== null ?
+                            product.active ? { description: "Exibir", value: true } :
+                                { description: "Não exibir", value: false } : null} />
 
                     <ButtonComponent
                         action={handleSubmit}
@@ -267,10 +250,19 @@ const ProductListRender: React.FC = () => {
                         type="button"
                     />
 
-                </div>
+                </form>
 
                 <TableRender<ProductDTO>
-                    headers={handleHeaders}
+                    headers={[
+                        { gridType: 'FLEX', attributeName: 'id', width: 1, label: 'Código do produto' },
+                        { gridType: 'FLEX', attributeName: 'name', width: 1, label: 'Produto' },
+                        { gridType: 'FLEX', attributeName: 'description', width: 1, label: 'Descrição' },
+                        { gridType: 'FLEX', attributeName: 'barCode', width: 1, label: 'Código de barras' },
+                        { gridType: 'FLEX', attributeName: 'brandDesc', width: 1, label: 'Marca' },
+                        { gridType: 'FLEX', attributeName: 'groupDesc', width: 1, label: 'Grupo' },
+                        { gridType: 'FLEX', attributeName: 'typeDesc', width: 1, label: 'Tipo' },
+                        { gridType: 'FLEX', attributeName: 'muDesc', width: 1, label: 'Unidade de Medida' }
+                    ]}
                     values={products}
                     selectedRow={productDTO}
                     onTableClick={handleTableClick}

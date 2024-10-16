@@ -14,7 +14,7 @@ const MandatoryFields: Array<{ key: keyof Group, description: string }> = [
 const CreateGroups = () => {
 
     const { id } = useParams();
-    const { editId } = useParams();
+    const { viewId } = useParams();
     const [readOnly, setReadOnly] = React.useState<boolean>(false)
     const [willEdit, setWillEdit] = React.useState<Boolean>(false);
     const [open, setOpen] = React.useState<boolean>(false)
@@ -51,9 +51,9 @@ const CreateGroups = () => {
             requestGetGroup(parseInt(id))
         }
 
-        if (editId) {
+        if (viewId) {
             setReadOnly(true);
-            requestGetGroup(parseInt(editId));
+            requestGetGroup(parseInt(viewId));
         }
     }, []);
 
@@ -135,10 +135,11 @@ const CreateGroups = () => {
                 action={(event: React.ChangeEvent<HTMLInputElement>) =>
                     handleChange('description', event.target.value.toString())} />
 
-            <ButtonComponent
-                label="CRIAR"
-                type="submit"
-                action={HandleSubmit} />
+            {!viewId &&
+                <ButtonComponent
+                    label={willEdit ? "ALTERAR" : "CRIAR"}
+                    type="submit"
+                    action={HandleSubmit} />}
 
             <LinkButton
                 dest="/listGroups"

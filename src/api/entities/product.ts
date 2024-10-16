@@ -1,4 +1,3 @@
-import Active from "../services/activeInterface"
 import { Brand } from "./brand"
 import { Group } from "./group"
 import { MU } from "./MU"
@@ -9,8 +8,8 @@ export type Product = {
     id?: number,
     name: string,
     description: string,
-    barCode: number,
-    active: Active,
+    barCode: string,
+    active: boolean,
     brand: Brand,
     group: Group,
     type: Type,

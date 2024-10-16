@@ -14,7 +14,7 @@ const MandatoryFields: Array<{ key: keyof Brand, description: string }> = [
 const CreateBrands = () => {
 
     const { id } = useParams();
-    const { editId } = useParams();
+    const { viewId } = useParams();
     const [readOnly, setReadOnly] = React.useState<boolean>(false)
     const [willEdit, setWillEdit] = React.useState<Boolean>(false);
     const [open, setOpen] = React.useState<boolean>(false);
@@ -51,9 +51,9 @@ const CreateBrands = () => {
             requestGetBrand(parseInt(id))
         }
 
-        if (editId) {
+        if (viewId) {
             setReadOnly(true);
-            requestGetBrand(parseInt(editId));
+            requestGetBrand(parseInt(viewId));
         }
     }, []);
 
@@ -135,10 +135,12 @@ const CreateBrands = () => {
                 action={(event: React.ChangeEvent<HTMLInputElement>) =>
                     handleChange('description', event.target.value.toString())} />
 
-            <ButtonComponent
-                label="CRIAR"
-                type="submit"
-                action={HandleSubmit} />
+            {!viewId &&
+                <ButtonComponent
+                    label={willEdit ? "ALTERAR" : "CRIAR"}
+                    type="submit"
+                    action={HandleSubmit} />
+            }
 
             <LinkButton
                 dest="/listBrands"

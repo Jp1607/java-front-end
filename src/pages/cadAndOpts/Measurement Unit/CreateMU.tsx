@@ -14,7 +14,7 @@ const MandatoryFields: Array<{ key: keyof MU, description: string }> = [
 const CreateMUs = () => {
 
     const { id } = useParams();
-    const { editId } = useParams();
+    const { viewId } = useParams();
     const [readOnly, setReadOnly] = React.useState<boolean>(false)
     const [willEdit, setWillEdit] = React.useState<Boolean>(false);
     const [fieldsError, setFieldsError] = React.useState<String[]>([]);
@@ -51,9 +51,9 @@ const CreateMUs = () => {
             requestGetMu(parseInt(id))
         }
 
-        if (editId) {
+        if (viewId) {
             setReadOnly(true);
-            requestGetMu(parseInt(editId));
+            requestGetMu(parseInt(viewId));
         }
 
     }, []);
@@ -134,10 +134,11 @@ const CreateMUs = () => {
                 action={(event: React.ChangeEvent<HTMLInputElement>) =>
                     handleChange('description', event.target.value.toString())} />
 
-            <ButtonComponent
-                label="CRIAR"
-                type="submit"
-                action={HandleSubmit} />
+            {!viewId &&
+                <ButtonComponent
+                    label={willEdit ? "ALTERAR" : "CRIAR"}
+                    type="submit"
+                    action={HandleSubmit} />}
 
             <LinkButton
                 dest="/listMUs"

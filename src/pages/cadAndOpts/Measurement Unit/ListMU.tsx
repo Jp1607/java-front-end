@@ -11,11 +11,6 @@ import Active from "../../../api/services/activeInterface"
 import InputSelect from "../../../components/inputs/selectInput"
 import { useNavigate } from "react-router-dom"
 
-const HEADERS: Headers<MU>[] = [
-    { gridType: 'FLEX', attributeName: 'id', width: 1, label: 'Identificador' },
-    { gridType: 'FLEX', attributeName: 'description', width: 1, label: 'Nome' }
-]
-
 const MUListRender = () => {
 
     const navigate = useNavigate();
@@ -68,14 +63,6 @@ const MUListRender = () => {
 
     }
 
-    const handleHeaders = React.useMemo((): Headers<MU>[] => {
-        const h = Object.assign([], HEADERS);
-        if (showActives.value) {
-            h.push({ gridType: 'FLEX', attributeName: 'active', width: 1, label: 'Estado' });
-        }
-        return h;
-    }, [showActives])
-
     const handleSearch = () => {
 
         GETMUs(mu.description, showActives.value).then((response: MU[]) => setMUs(response)).catch(() => { })
@@ -120,7 +107,7 @@ const MUListRender = () => {
                 viewAction={handleView}
                 reloadAction={requestGet} />
 
-            <div className="search-filters-container">
+            <form onSubmit={handleSearch} className="search-filters-container">
 
                 <InputComponent
                     id="MUName"
@@ -144,7 +131,7 @@ const MUListRender = () => {
                     value={showActives.value ? { description: "Exibir", value: true } : { description: "Não exibir", value: false }} />
 
 
-            </div>
+            </form>
 
             <ButtonComponent
                 action={handleSearch}
@@ -154,7 +141,10 @@ const MUListRender = () => {
             />
 
             <TableRender
-                headers={handleHeaders}
+                headers={[
+                    { gridType: 'FLEX', attributeName: 'id', width: 1, label: 'Identificador' },
+                    { gridType: 'FLEX', attributeName: 'description', width: 1, label: 'Nome' }
+                ]}
                 values={mus}
                 onTableClick={handleTableClick}
                 selectedRow={mu}

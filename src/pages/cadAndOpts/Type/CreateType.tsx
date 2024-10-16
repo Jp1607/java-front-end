@@ -14,7 +14,7 @@ const MandatoryFields: Array<{ key: keyof Type, description: string }> = [
 const CreateTypes = () => {
 
     const { id } = useParams();
-    const { editId } = useParams();
+    const { viewId } = useParams();
     const [willEdit, setWillEdit] = React.useState<Boolean>(false);
     const [open, setOpen] = React.useState<boolean>(false);
     const [fieldsError, setFieldsError] = React.useState<String[]>([])
@@ -52,11 +52,11 @@ const CreateTypes = () => {
             requestGetType(parseInt(id))
         }
 
-        if (editId) {
+        if (viewId) {
             setReadOnly(true);
-            requestGetType(parseInt(editId));
+            requestGetType(parseInt(viewId));
         }
-        
+
     }, []);
 
     const navigate = useNavigate()
@@ -137,10 +137,11 @@ const CreateTypes = () => {
                 action={(event: React.ChangeEvent<HTMLInputElement>) =>
                     handleChange('description', event.target.value.toString())} />
 
-            <ButtonComponent
-                label="CRIAR"
-                type="submit"
-                action={HandleSubmit} />
+            {!viewId &&
+                <ButtonComponent
+                    label={willEdit ? "ALTERAR" : "CRIAR"}
+                    type="submit"
+                    action={HandleSubmit} />}
 
             <LinkButton
                 dest="/listTypes"

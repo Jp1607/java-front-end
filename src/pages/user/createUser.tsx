@@ -16,7 +16,7 @@ const MandatoryFields: Array<{ key: keyof User, description: string }> = [
 const CreateUser = () => {
 
     const { id } = useParams();
-    const { editId } = useParams();
+    const { viewId } = useParams();
     const navigate = useNavigate();
     const [open, setOpen] = React.useState<boolean>(false);
     const [fieldsError, setFieldsError] = React.useState<string[]>([]);
@@ -44,9 +44,9 @@ const CreateUser = () => {
         //     requestGetProd(parseInt(id))
         // }
 
-        if (editId) {
+        if (viewId) {
             setReadOnly(true);
-            requestGetUser(parseInt(editId));
+            requestGetUser(parseInt(viewId));
         }
     }, [])
 
@@ -99,10 +99,11 @@ const CreateUser = () => {
                 action={(event: React.ChangeEvent<HTMLInputElement>) =>
                     handleChange('name', event.target.value.toString())} />
 
-            <ButtonComponent
-                label="CRIAR"
-                type="submit"
-                action={handleSubmit} />
+            {!viewId &&
+                <ButtonComponent
+                    label={"CRIAR"}
+                    type="submit"
+                    action={handleSubmit} />}
 
             <LinkButton
                 dest="/listUsers"

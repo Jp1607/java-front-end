@@ -11,11 +11,6 @@ import Active from "../../../api/services/activeInterface"
 import InputSelect from "../../../components/inputs/selectInput"
 import { useNavigate } from "react-router-dom"
 
-const HEADERS: Headers<Group>[] = [
-    { gridType: 'FLEX', attributeName: 'id', width: 1, label: 'Identificador' },
-    { gridType: 'FLEX', attributeName: 'description', width: 1, label: 'Nome' }
-]
-
 const GroupListRender = () => {
 
     const navigate = useNavigate();
@@ -68,14 +63,6 @@ const GroupListRender = () => {
 
     }
 
-    const handleHeaders = React.useMemo((): Headers<Group>[] => {
-        const h = Object.assign([], HEADERS);
-        if (showActives.value) {
-            h.push({ gridType: 'FLEX', attributeName: 'active', width: 1, label: 'Estado' });
-        }
-        return h;
-    }, [showActives])
-
     const handleSearch = () => {
 
         GETGroups(group.description, showActives.value).then((response: Group[]) => setGroups(response)).catch(() => { })
@@ -120,7 +107,7 @@ const GroupListRender = () => {
                 viewAction={() => handleView}
                 reloadAction={requestGet} />
 
-            <div className="search-filters-container">
+            <form onSubmit={handleSearch} className="search-filters-container">
 
                 <InputComponent
                     id="GroupName"
@@ -144,7 +131,7 @@ const GroupListRender = () => {
                     value={showActives.value ? { description: "Exibir", value: true } : { description: "Não exibir", value: false }} />
 
 
-            </div>
+            </form>
 
             <ButtonComponent
                 action={handleSearch}
@@ -154,7 +141,10 @@ const GroupListRender = () => {
             />
 
             <TableRender
-                headers={handleHeaders}
+                headers={[
+                    { gridType: 'FLEX', attributeName: 'id', width: 1, label: 'Identificador' },
+                    { gridType: 'FLEX', attributeName: 'description', width: 1, label: 'Nome' }
+                ]}
                 values={groups}
                 onTableClick={handleTableClick}
                 selectedRow={group}

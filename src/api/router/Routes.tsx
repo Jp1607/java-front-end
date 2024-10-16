@@ -26,36 +26,36 @@ const Routers = () => {
                 <Route path='/listProds' element={<ProductListRender />} />
                 <Route path='/createProd' element={<CreateProds />} />
                 <Route path='/editProd/:id' element={<CreateProds />} />
-                <Route path='/viewProd/:editId' element={<CreateProds />} />
+                <Route path='/viewProd/:viewId' element={<CreateProds />} />
 
                 {/* User endpoints */}
                 <Route path='/listUsers' element={<UserListRender />} />
                 <Route path='/createUser' element={<CreateUser />} />
-                <Route path='/viewUser/:editId' element={<CreateUser />} />
+                <Route path='/viewUser/:viewId' element={<CreateUser />} />
 
                 {/* Brand endpoints */}
                 <Route path='/listBrands' element={<BrandListRender />} />
                 <Route path='/createBrand' element={<CreateBrands />} />
                 <Route path='/editBrand/:id' element={<CreateBrands />} />
-                <Route path='/viewBrand/:editId' element={<CreateBrands />} />
+                <Route path='/viewBrand/:viewId' element={<CreateBrands />} />
 
                 {/* Group endpoints */}
                 <Route path='/listGroups' element={<GroupListRender />} />
                 <Route path='/createGroup' element={<CreateGroups />} />
                 <Route path='/editGroup/:id' element={<CreateGroups />} />
-                <Route path='/viewGroup/:editId' element={<CreateGroups />} />
+                <Route path='/viewGroup/:viewId' element={<CreateGroups />} />
 
                 {/* Type endpoints */}
                 <Route path='/listTypes' element={<TypeListRender />} />
                 <Route path='/createType' element={<CreateTypes />} />
                 <Route path='/editType/:id' element={<CreateTypes />} />
-                <Route path='/viewType/:editId' element={<CreateTypes />} />
+                <Route path='/viewType/:viewId' element={<CreateTypes />} />
 
                 {/* Measurement units endpoints */}
                 <Route path='/listMUs' element={<MUListRender />} />
                 <Route path='/createMU' element={<CreateMUs />} />
                 <Route path='/editMU/:id' element={<CreateMUs />} />
-                <Route path='/viewMU/:editId' element={<CreateMUs />} />
+                <Route path='/viewMU/:viewId' element={<CreateMUs />} />
 
                 <Route path="/*" element={<PageNotFound />} />
             </Route>

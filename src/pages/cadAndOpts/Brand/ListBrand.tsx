@@ -10,11 +10,6 @@ import Active from "../../../api/services/activeInterface"
 import InputSelect from "../../../components/inputs/selectInput"
 import { useNavigate } from "react-router-dom"
 
-const HEADERS: Headers<Brand>[] = [
-    { gridType: 'FLEX', attributeName: 'id', width: 1, label: 'Identificador' },
-    { gridType: 'FLEX', attributeName: 'description', width: 1, label: 'Nome' }
-]
-
 const BrandListRender = () => {
 
     const navigate = useNavigate();
@@ -66,14 +61,6 @@ const BrandListRender = () => {
 
     }
 
-    const handleHeaders = React.useMemo((): Headers<Brand>[] => {
-        const h = Object.assign([], HEADERS);
-        if (showActives.value) {
-            h.push({ gridType: 'FLEX', attributeName: 'active', width: 1, label: 'Estado' });
-        }
-        return h;
-    }, [showActives])
-
     const handleSearch = () => {
 
         GETBrands(brand.description, showActives.value).then((response: Brand[]) => setBrands(response)).catch(() => { })
@@ -118,7 +105,7 @@ const BrandListRender = () => {
                 viewAction={handleView}
                 reloadAction={requestGet} />
 
-            <div className="search-filters-container">
+            <form onSubmit={handleSearch} className="search-filters-container">
 
                 <InputComponent
                     id="BrandId"
@@ -142,7 +129,7 @@ const BrandListRender = () => {
                     value={showActives.value ? { description: "Exibir", value: true } : { description: "Não exibir", value: false }} />
 
 
-            </div>
+            </form>
 
             <ButtonComponent
                 action={handleSearch}
@@ -152,7 +139,10 @@ const BrandListRender = () => {
             />
 
             <TableRender
-                headers={handleHeaders}
+                headers={[
+                    { gridType: 'FLEX', attributeName: 'id', width: 1, label: 'Identificador' },
+                    { gridType: 'FLEX', attributeName: 'description', width: 1, label: 'Nome' }
+                ]}
                 values={brands}
                 onTableClick={handleTableClick}
                 selectedRow={brand}
