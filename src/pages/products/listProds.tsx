@@ -100,11 +100,12 @@ const ProductListRender: React.FC = () => {
     // }
 
     const handleSubmit = () => {
+        console.log(product)
         const brandId = product.brand ? product.brand.id : null;
         const groupId = product.group ? product.group.id : null;
         const typeId = product.type ? product.type.id : null;
         const muId = product.mu ? product.mu.id : null;
-        GETProducts(product.name, product.barCode, brandId, groupId, typeId, muId, showActives.value).then((response: ProductDTO[]) => setProducts(response)).catch(() => { })
+        GETProducts(product.id, product.name, product.barCode, brandId, groupId, typeId, muId, product.active).then((response: ProductDTO[]) => setProducts(response)).catch(() => { })
 
     }
 
