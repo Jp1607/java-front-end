@@ -13,6 +13,8 @@ import CreateGroups from "../../pages/cadAndOpts/Group/CreateGroup"
 import CreateTypes from "../../pages/cadAndOpts/Type/CreateType"
 import CreateMUs from "../../pages/cadAndOpts/Measurement Unit/CreateMU"
 import CreateUser from "../../pages/user/createUser"
+import ListStorage from "../../pages/Storages/listStorage"
+import CreateStorage from "../../pages/Storages/createStorage"
 
 const Routers = () => {
 
@@ -56,6 +58,12 @@ const Routers = () => {
                 <Route path='/createMU' element={<CreateMUs />} />
                 <Route path='/editMU/:id' element={<CreateMUs />} />
                 <Route path='/viewMU/:viewId' element={<CreateMUs />} />
+
+                {/* Storage endpoints */}
+                <Route path='/listStorages' element={<ListStorage />} />
+                <Route path='/createStorage' element={<CreateStorage />} />
+                <Route path='/editStorage/:editID' element={<CreateStorage />} />
+                <Route path='/viewStorage/:viewID' element={<CreateStorage />} />
 
                 <Route path="/*" element={<PageNotFound />} />
             </Route>

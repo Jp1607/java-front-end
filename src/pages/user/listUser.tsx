@@ -147,9 +147,6 @@ const UserListRender = () => {
                         { gridType: 'FLEX', attributeName: 'name', width: 1, label: 'Nome' }
                     ]}
                     onTableClick={handleClick}
-                    selectedRow={user}
-                    actionsLabel={user.active ? 'DESATIVAR' : 'ATIVAR'}
-                    onClickActions={() => (setShow(true))}
                 />
 
             </div>

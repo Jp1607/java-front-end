@@ -5,14 +5,14 @@ import "./css/buttonsBar.css"
 
 type ButtonsBarProps = {
 
-    createPath: string;
+    createPath?: string;
     editIsPresent?: boolean;
     editPath?: string;
     viewPath?: string;
     viewAction?: () => void;
     editAction?: () => void;
     reloadAction: () => void
-    excludeAction: () => void;
+    excludeAction?: () => void;
 }
 
 const ButtonsBar: React.FC<ButtonsBarProps> = ({ createPath, editIsPresent, editPath, viewPath, viewAction, editAction, reloadAction, excludeAction }) => {

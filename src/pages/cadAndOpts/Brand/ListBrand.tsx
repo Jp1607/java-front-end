@@ -145,8 +145,6 @@ const BrandListRender = () => {
                 ]}
                 values={brands}
                 onTableClick={handleTableClick}
-                selectedRow={brand}
-
             />
 
         </div>

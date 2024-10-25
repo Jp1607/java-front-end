@@ -147,8 +147,6 @@ const TypeListRender = () => {
                 ]}
                 values={types}
                 onTableClick={handleTableClick}
-                selectedRow={type}
-
             />
 
         </div>

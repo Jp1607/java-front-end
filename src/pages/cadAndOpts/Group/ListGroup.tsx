@@ -147,8 +147,6 @@ const GroupListRender = () => {
                 ]}
                 values={groups}
                 onTableClick={handleTableClick}
-                selectedRow={group}
-
             />
 
         </div>

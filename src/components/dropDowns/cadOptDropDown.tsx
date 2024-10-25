@@ -1,10 +1,10 @@
 import Collapsible from "react-collapsible"
-import LinkButton from "./LinkButton"
+import LinkButton from "../buttons/LinkButton"
 import "../css/button.css"
-import ButtonComponent from "./Button"
+import ButtonComponent from "../buttons/Button"
 import React from "react"
 
-const DropDown = () => {
+const CadOptDropDown = () => {
 
 const [symbol, setSymbol] = React.useState<string>("+")
 
@@ -39,4 +39,4 @@ const handleSymbol = () => {
     )
 }
 
-export default DropDown
+export default CadOptDropDown

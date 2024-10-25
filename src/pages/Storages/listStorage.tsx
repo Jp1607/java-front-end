@@ -2,15 +2,15 @@ import React, { useEffect } from "react";
 import { StorageCenter } from "../../api/entities/storage";
 import TableRender from "../../components/tableRender"
 import ButtonsBar from "../../components/ButtonsBar";
-import { getStorages, stateStorage } from "../../api/requests/storageRequests";
+import { getStorages, PUTExcludeStorage, } from "../../api/requests/storageRequests";
 import { useNavigate } from "react-router-dom";
 import ActionsModal from "../../components/modals/ActionsModal";
 import InputComponent from "../../components/inputs/InputComponent";
 import InputSelect from "../../components/inputs/selectInput";
 import Active from "../../api/services/activeInterface";
-import "./css/listPage.css";
+import "../css/listPage.css";
 
-const listStorage = () => {
+const ListStorage = () => {
 
     const navigate = useNavigate();
     const [openDeleteModal, setOpenDeleteModal] = React.useState<boolean>(false);
@@ -55,8 +55,8 @@ const listStorage = () => {
         getStorages(storage.id, storage.name, storage.active);
     }
 
-    const handleState = (id: number) => {
-        stateStorage(id).then(() => setOpenDeleteModal(false)).catch(() => { })
+    const handleExclude = (id: number) => {
+        PUTExcludeStorage(id).then(() => setOpenDeleteModal(false)).catch(() => { })
     }
 
     const handleTableClick = (param: StorageCenter) => {
@@ -71,9 +71,13 @@ const listStorage = () => {
                 title="Atenção!"
                 closeLabel="Cancelar"
                 eventButtons={[
-                    { label: "DELETAR", cb: () => handleState(storage.id) }
+                    { label: "DELETAR", cb: () => handleExclude(storage.id) }
                 ]}
-            ></ActionsModal>
+            >
+                <p>
+                    Você tem certeza de que deseja excluir este armazém? Ele não poderá mais ser recuperado.
+                </p>
+            </ActionsModal>
             <div onSubmit={handleSubmit} id="search-filters-container">
 
                 <InputComponent
@@ -122,7 +126,7 @@ const listStorage = () => {
                 values={storages}
                 headers={[
                     { gridType: 'FLEX', attributeName: 'id', width: 1, label: 'Código' },
-                    { gridType: 'FLEX', attributeName: 'name', width: 1, label: 'Npme' },
+                    { gridType: 'FLEX', attributeName: 'name', width: 1, label: 'Nome' },
                 ]}
                 onTableClick={handleTableClick}
             />
@@ -130,4 +134,4 @@ const listStorage = () => {
     )
 }
 
-export default listStorage;
+export default ListStorage;

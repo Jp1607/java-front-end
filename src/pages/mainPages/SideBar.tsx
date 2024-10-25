@@ -2,7 +2,8 @@ import React from "react";
 import LinkButton from "../../components/buttons/LinkButton"
 import OpenSb from "../../components/buttons/OpenSB"
 import "../css/sideBar.css"
-import DropDown from "../../components/buttons/DropDown";
+import CadOptDropDown from "../../components/dropDowns/cadOptDropDown";
+import StockManagerDropDown from "../../components/dropDowns/stockManager";
 
 const SideBar = () => {
 
@@ -30,11 +31,9 @@ const SideBar = () => {
                     dest="/listUsers"
                     label="LISTA DE USUÁRIOS" />
 
-                <DropDown />
+                <CadOptDropDown />
 
-                {/* <LinkButton
-                        dest="/createUser"
-                        label="CRIAR USUÁRIO"/> */}
+                <StockManagerDropDown />
             </div>
 
             <div

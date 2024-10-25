@@ -93,31 +93,19 @@ const CreateProds = () => {
 
         event.preventDefault();
 
-        if (willEdit === true) {
-            const RET = verifyEmpty(product);
-            if (RET.ret) {
-
+        const RET = verifyEmpty(product);
+        if (RET.ret) {
+            if (willEdit === true) {
                 PUTProduct(product).then(() => {
                     navigate('/listProds')
                 }, (reason) =>
                     console.log(reason))
-
-            }
-            else {
-                setFieldsError(RET.fields);
-                setOpen(true)
+            } else {
+                POSTProduct(product).then(() => { navigate('/listProds') }).catch((e) => window.alert(e));
             }
         } else {
-            const RET = verifyEmpty(product);
-            if (RET.ret) {
-
-                POSTProduct(product).then(() => { navigate('/listProds') }).catch((e) => window.alert(e));
-
-            }
-            else {
-                setFieldsError(RET.fields);
-                setOpen(true)
-            }
+            setFieldsError(RET.fields);
+            setOpen(true)
         }
     }
 
@@ -136,6 +124,7 @@ const CreateProds = () => {
                 isOpen={open}
                 onClose={() => { setOpen(false); setFieldsError([]); }}
                 title="ATENÇÃO"
+                closeLabel="FECHAR"
             >
                 <p>
                     Há alguns campos obrigatórios não preenchidos!

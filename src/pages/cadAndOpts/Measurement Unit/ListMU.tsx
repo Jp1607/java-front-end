@@ -147,8 +147,6 @@ const MUListRender = () => {
                 ]}
                 values={mus}
                 onTableClick={handleTableClick}
-                selectedRow={mu}
-
             />
 
         </div>

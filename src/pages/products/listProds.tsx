@@ -28,7 +28,7 @@ const ProductListRender: React.FC = () => {
     const [groups, setGroups] = React.useState<Group[]>([]);
     const [types, setTypes] = React.useState<Type[]>([]);
     const [MUs, setMUs] = React.useState<MU[]>([]);
-    const [products, setProducts] = useState([])
+    const [products, setProducts] = useState<ProductDTO[]>([])
     const [product, setProduct] = React.useState<Product>({
         active: null,
         barCode: null,
@@ -251,7 +251,6 @@ const ProductListRender: React.FC = () => {
                     onTableClick={handleTableClick}
                 />
             </div>
-
         </>
     )
 }
