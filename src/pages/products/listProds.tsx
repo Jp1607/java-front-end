@@ -23,7 +23,6 @@ import { useNavigate } from "react-router-dom";
 const ProductListRender: React.FC = () => {
 
     const navigate = useNavigate();
-    const [showActives, setShowActives] = React.useState<Active>({ description: "Não exibir", value: false });
     const [openDelete, setOpenDelete] = React.useState<boolean>(false);
     const [brands, setBrands] = React.useState<Brand[]>([]);
     const [groups, setGroups] = React.useState<Group[]>([]);
@@ -82,22 +81,6 @@ const ProductListRender: React.FC = () => {
         setProduct(COPY_PRODUCT);
 
     }
-
-    // const handleActiveChange = (param: Active) => {
-
-    //     console.log(param)
-
-    //     if (param == null) {
-    //         setShowActives({ description: "Não exibir", value: false })
-    //     } else if (param.value) {
-    //         setShowActives({ description: "Exibir", value: true })
-    //     } else if (!param.value){
-    //         console.log("executou")
-    //         setShowActives({ description: "Não exibir", value: false })
-    //         console.log(showActives)
-    //     }
-
-    // }
 
     const handleSubmit = () => {
         console.log(product)
@@ -265,7 +248,6 @@ const ProductListRender: React.FC = () => {
                         { gridType: 'FLEX', attributeName: 'muDesc', width: 1, label: 'Unidade de Medida' }
                     ]}
                     values={products}
-                    selectedRow={productDTO}
                     onTableClick={handleTableClick}
                 />
             </div>

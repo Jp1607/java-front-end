@@ -11,15 +11,11 @@ export type Headers<T> = {
 
 type tableRender<T> = {
     values: T[];
-
-    selectedRow?: T | null;
     headers?: Headers<T>[];
-    actionsLabel?: string;
     onTableClick?: (param: T) => void;
-    onClickActions?: () => void;
 }
 
-const TableRender = <T,>({ values, selectedRow, headers, actionsLabel, onTableClick, onClickActions }: tableRender<T>): JSX.Element => {
+const TableRender = <T,>({ values, headers, onTableClick}: tableRender<T>): JSX.Element => {
 
     const [indexRow, setIndexRow] = React.useState<number>(-1);
     let controlIndex = -1

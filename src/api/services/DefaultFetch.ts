@@ -8,7 +8,8 @@ type Path = '/login' |
     '/brand' | '/brand/edit' |
     '/group' | '/group/edit' |
     '/type' | '/type/edit' |
-    '/mu' | '/mu/edit';
+    '/mu' | '/mu/edit' | 
+    '/storage' | '/storage/exclude';
 
 function DefaultFetch<T>(method: Method, path: Path, body?: any, pathParam?: string | number): Promise<T | void> {
 

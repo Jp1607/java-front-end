@@ -1,1 +1,1 @@
-export type Path = '/product' | '/users';
+// export type Path = '/product' | '/users';

@@ -2,9 +2,9 @@ import { ProductDTO } from "../entities/productDTO";
 import { Product } from "../entities/product";
 import DefaultFetch from "../services/DefaultFetch";
 
-export function GETProductById(id?: number): Promise<Product> {
+export function GETProductById(id: number): Promise<Product> {
 
-    return DefaultFetch<Product>('GET', '/product', undefined, `/${id}`) as Promise<Product>;
+    return DefaultFetch<Product>('GET', '/product', undefined, `?${id ? `id=${id}` : '' }`) as Promise<Product>;
 }
 
 export function GETProducts(id?: number, name?: string, barCode?: string, brandId?: number, groupId?: number, typeId?: number, muId?: number, active?: boolean): Promise<ProductDTO[]> {

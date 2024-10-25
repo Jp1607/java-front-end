@@ -1,0 +1,133 @@
+import React, { useEffect } from "react";
+import { StorageCenter } from "../../api/entities/storage";
+import TableRender from "../../components/tableRender"
+import ButtonsBar from "../../components/ButtonsBar";
+import { getStorages, stateStorage } from "../../api/requests/storageRequests";
+import { useNavigate } from "react-router-dom";
+import ActionsModal from "../../components/modals/ActionsModal";
+import InputComponent from "../../components/inputs/InputComponent";
+import InputSelect from "../../components/inputs/selectInput";
+import Active from "../../api/services/activeInterface";
+import "./css/listPage.css";
+
+const listStorage = () => {
+
+    const navigate = useNavigate();
+    const [openDeleteModal, setOpenDeleteModal] = React.useState<boolean>(false);
+    const [storages, setStorages] = React.useState<StorageCenter[]>([]);
+    const [storage, setStorage] = React.useState<StorageCenter>({
+        name: '',
+        active: null,
+        excluded: null
+    });
+
+    const fetchStorages = async () => {
+        await getStorages().then((response: StorageCenter[]) => setStorages(response)).catch(() => { })
+    }
+
+    useEffect(() => {
+        fetchStorages();
+    }, [])
+
+    const handleEdit = () => {
+        if (storage.id) {
+            navigate(`/editStorage/${storage.id}`);
+        } else {
+            window.alert("Selecione um armazem válido para edição!")
+        }
+    }
+
+    const handleView = () => {
+        if (storage.id) {
+            navigate(`/viewStorage/${storage.id}`);
+        } else {
+            window.alert("Selecione um armazem válido para visualização!")
+        }
+    }
+
+    const handleChange = <T extends keyof StorageCenter>(key: T, newValue: StorageCenter[T]) => {
+        const COPY_STORAGE: StorageCenter = Object.assign({}, storage);
+        COPY_STORAGE[key] = newValue;
+        setStorage(COPY_STORAGE);
+    }
+
+    const handleSubmit = () => {
+        getStorages(storage.id, storage.name, storage.active);
+    }
+
+    const handleState = (id: number) => {
+        stateStorage(id).then(() => setOpenDeleteModal(false)).catch(() => { })
+    }
+
+    const handleTableClick = (param: StorageCenter) => {
+        setStorage(param);
+    }
+    return (
+
+        <div>
+            <ActionsModal
+                isOpen={openDeleteModal}
+                onClose={() => setOpenDeleteModal(false)}
+                title="Atenção!"
+                closeLabel="Cancelar"
+                eventButtons={[
+                    { label: "DELETAR", cb: () => handleState(storage.id) }
+                ]}
+            ></ActionsModal>
+            <div onSubmit={handleSubmit} id="search-filters-container">
+
+                <InputComponent
+                    className="search-filter"
+                    id="search-id"
+                    label="Código:"
+                    type="text"
+                    action={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        handleChange("id", parseInt(e.target.value))}
+                />
+
+                <InputComponent
+                    className="search-filter"
+                    id="search-name"
+                    label="Name:"
+                    type="text"
+                    action={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        handleChange("name", e.target.value.toString())}
+                />
+
+                <InputSelect<Active>
+                    classname="search-filter"
+                    id="search-filter-active"
+                    label="Exibir desativados:"
+                    idKey="value"
+                    labelKey="description"
+                    onValueChange={(active: Active) =>
+                        handleChange('active', active.value)}
+                    options={[
+                        { description: "Exibir", value: true },
+                        { description: "Não exibir", value: false }
+                    ]}
+                    value={storage !== null ?
+                        storage.active ? { description: "Exibir", value: true } :
+                            { description: "Não exibir", value: false } : null} />
+            </div>
+            <ButtonsBar
+                createPath="/createStorage"
+                reloadAction={fetchStorages}
+                excludeAction={() => setOpenDeleteModal(true)}
+                editAction={handleEdit}
+                editIsPresent={true}
+                viewAction={handleView}
+            />
+            <TableRender
+                values={storages}
+                headers={[
+                    { gridType: 'FLEX', attributeName: 'id', width: 1, label: 'Código' },
+                    { gridType: 'FLEX', attributeName: 'name', width: 1, label: 'Npme' },
+                ]}
+                onTableClick={handleTableClick}
+            />
+        </div>
+    )
+}
+
+export default listStorage;

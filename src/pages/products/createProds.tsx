@@ -147,7 +147,6 @@ const CreateProds = () => {
             <InputComponent
                 label="NOME:"
                 id="inputName"
-                placeHolder="Nome do produto"
                 type="text"
                 value={product ? product.name : ""}
                 readonly={readOnly}
@@ -157,7 +156,6 @@ const CreateProds = () => {
             <InputComponent
                 label="DESCRIÇÃO: "
                 id="inputDesc"
-                placeHolder="Descrição do produto"
                 type="text"
                 value={product ? product.description : ""}
                 readonly={readOnly}
@@ -168,7 +166,6 @@ const CreateProds = () => {
             <InputComponent
                 label="CÓDIGO DE BARRAS: "
                 id="inputBarCode"
-                placeHolder="0123456789012"
                 type="number"
                 value={product && product.barCode ? product.barCode : ""}
                 readonly={readOnly}
