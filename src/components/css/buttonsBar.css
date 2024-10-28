@@ -1,6 +1,7 @@
-#buttons-bar-container {
+.buttons-bar-container {
 
     display: flex;
+    margin-top: 1%;
     width: 100%;
 }
 

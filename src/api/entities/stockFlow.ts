@@ -6,6 +6,6 @@ export type StockFlow = {
     prodId: number,
     storageId: number,
     qnt: number,
-    type: string,
+    flow: string,
     date: Date
 }

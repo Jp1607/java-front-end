@@ -1,6 +1,6 @@
 import "../css/inputComp.css"
 
-type inputType = 'text' | 'number' | 'password'
+type inputType = 'text' | 'number' | 'password' | 'date'
 
 type inputProps = {
 

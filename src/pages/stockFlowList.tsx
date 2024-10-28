@@ -10,7 +10,7 @@ import InputSelect from "../components/inputs/selectInput";
 import ActionsModal from "../components/modals/ActionsModal";
 import TableRender from "../components/tableRender";
 
-const listStockFlow = () => {
+const ListStockFlow = () => {
 
     const navigate = useNavigate();
     const [stockFlows, setStockFlows] = React.useState<StockFlow[]>([]);
@@ -18,7 +18,7 @@ const listStockFlow = () => {
         prodId: 0,
         storageId: 0,
         qnt: 0,
-        type: null,
+        flow: null,
         date: null
     });
     const [stockFlowDTO, setStockFlowDTO] = React.useState<StockFlowDTO>({
@@ -62,32 +62,6 @@ const listStockFlow = () => {
         <div>
             <div onSubmit={handleSubmit} id="search-filters-container">
 
-                <InputComponent
-                    className="search-filter"
-                    id="search-type"
-                    label="Direção:"
-                    type="text"
-                    action={(e: React.ChangeEvent<HTMLInputElement>) =>
-                        handleChange("type", e.target.value.toString())}
-                />
-
-                <InputComponent
-                    className="search-filter"
-                    id="search-initial-date"
-                    label="Data inicial:"
-                    type="text"
-                    action={(e: React.ChangeEvent<HTMLInputElement>) =>
-                        handleChange("date1", e.target.value.toString())}
-                />
-
-                <InputComponent
-                    className="search-filter"
-                    id="search-final-date"
-                    label="Data final:"
-                    type="text"
-                    action={(e: React.ChangeEvent<HTMLInputElement>) =>
-                        handleChange("date2", e.target.value.toString())}
-                />
 
                 <InputComponent
                     className="search-filter"
@@ -102,8 +76,8 @@ const listStockFlow = () => {
                 <InputComponent
                     className="search-filter"
                     id="search-name"
-                    label="Name:"
-                    type="text"
+                    label="Data inicial:"
+                    type="date"
                     action={(e: React.ChangeEvent<HTMLInputElement>) =>
                         handleChange("date2", e.target.value.toString())}
                 />
@@ -111,12 +85,20 @@ const listStockFlow = () => {
                 <InputComponent
                     className="search-filter"
                     id="search-name"
-                    label="Name:"
-                    type="text"
+                    label="Data final:"
+                    type="date"
                     action={(e: React.ChangeEvent<HTMLInputElement>) =>
                         handleChange("date1", e.target.value.toString())}
                 />
 
+                <InputComponent
+                    className="search-filter"
+                    id="search-type"
+                    label="Direção:"
+                    type="text"
+                    action={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        handleChange("type", e.target.value.toString())}
+                />
             </div>
             <ButtonsBar
                 reloadAction={fetchStockFlows}
@@ -129,7 +111,7 @@ const listStockFlow = () => {
                     { gridType: 'FLEX', attributeName: 'prodId', width: 1, label: 'ID Produto' },
                     { gridType: 'FLEX', attributeName: 'storageId', width: 1, label: 'ID Centro de armazenamento' },
                     { gridType: 'FLEX', attributeName: 'qnt', width: 1, label: 'Quantidade' },
-                    { gridType: 'FLEX', attributeName: 'type', width: 1, label: 'Tipo' },
+                    { gridType: 'FLEX', attributeName: 'flow', width: 1, label: 'Tipo' },
                     { gridType: 'FLEX', attributeName: 'date', width: 1, label: 'Data' }
                 ]}
                 onTableClick={handleTableClick}
@@ -138,4 +120,4 @@ const listStockFlow = () => {
     )
 }
 
-export default listStockFlow;
+export default ListStockFlow;

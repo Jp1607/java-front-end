@@ -1,6 +1,6 @@
 export type StorageCenter = {
     id?: number,
-    name: string,
+    description: string,
     active: boolean,
     excluded: boolean
 }

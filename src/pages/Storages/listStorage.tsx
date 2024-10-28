@@ -16,7 +16,7 @@ const ListStorage = () => {
     const [openDeleteModal, setOpenDeleteModal] = React.useState<boolean>(false);
     const [storages, setStorages] = React.useState<StorageCenter[]>([]);
     const [storage, setStorage] = React.useState<StorageCenter>({
-        name: '',
+        description: '',
         active: null,
         excluded: null
     });
@@ -52,7 +52,7 @@ const ListStorage = () => {
     }
 
     const handleSubmit = () => {
-        getStorages(storage.id, storage.name, storage.active);
+        getStorages(storage.id, storage.description, storage.active);
     }
 
     const handleExclude = (id: number) => {
@@ -95,7 +95,7 @@ const ListStorage = () => {
                     label="Name:"
                     type="text"
                     action={(e: React.ChangeEvent<HTMLInputElement>) =>
-                        handleChange("name", e.target.value.toString())}
+                        handleChange("description", e.target.value.toString())}
                 />
 
                 <InputSelect<Active>
@@ -126,7 +126,7 @@ const ListStorage = () => {
                 values={storages}
                 headers={[
                     { gridType: 'FLEX', attributeName: 'id', width: 1, label: 'Código' },
-                    { gridType: 'FLEX', attributeName: 'name', width: 1, label: 'Nome' },
+                    { gridType: 'FLEX', attributeName: 'description', width: 1, label: 'Nome' },
                 ]}
                 onTableClick={handleTableClick}
             />

@@ -10,7 +10,7 @@ import ButtonComponent from "../../components/buttons/Button";
 import ActionsModal from "../../components/modals/ActionsModal";
 
 const MandatoryFields: Array<{ key: keyof StorageCenter, description: string }> = [
-    { key: 'name', description: 'Nome' },
+    { key: 'description', description: 'Nome' },
     { key: 'active', description: 'Ativo' }
 ];
 
@@ -24,7 +24,7 @@ const CreateStorage = () => {
     const [willEdit, setWillEdit] = React.useState<boolean>(false);
     const [readOnly, setReadOnly] = React.useState<boolean>(false);
     const [storage, setStorage] = React.useState<StorageCenter>({
-        name: '',
+        description: '',
         active: null,
         excluded: null
     });
@@ -98,8 +98,8 @@ const CreateStorage = () => {
                     label="Nome:"
                     type="text"
                     action={(event: React.ChangeEvent<HTMLInputElement>) =>
-                        handleChange('name', event.target.value.toString())}
-                    value={storage ? storage.name : ''}
+                        handleChange('description', event.target.value.toString())}
+                    value={storage ? storage.description : ''}
                     readonly={readOnly}
                 />
 

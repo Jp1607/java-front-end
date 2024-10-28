@@ -15,6 +15,7 @@ import CreateMUs from "../../pages/cadAndOpts/Measurement Unit/CreateMU"
 import CreateUser from "../../pages/user/createUser"
 import ListStorage from "../../pages/Storages/listStorage"
 import CreateStorage from "../../pages/Storages/createStorage"
+import ListStockFlow from "../../pages/stockFlowList"
 
 const Routers = () => {
 
@@ -64,6 +65,9 @@ const Routers = () => {
                 <Route path='/createStorage' element={<CreateStorage />} />
                 <Route path='/editStorage/:editID' element={<CreateStorage />} />
                 <Route path='/viewStorage/:viewID' element={<CreateStorage />} />
+
+                {/* Stock flow endpoints */}
+                <Route path='/listStocksFlow' element={<ListStockFlow />} />
 
                 <Route path="/*" element={<PageNotFound />} />
             </Route>
