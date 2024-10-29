@@ -2,7 +2,7 @@ import { useNavigate, useParams } from "react-router-dom"
 import InputComponent from "../../components/inputs/InputComponent"
 import React, { useEffect } from "react";
 import { StorageCenter } from "../../api/entities/storage";
-import { getStorage, getStorages, POSTStorage, PUTEditStorage } from "../../api/requests/storageRequests";
+import { GETStorage, GETStorages, POSTStorage, PUTEditStorage } from "../../api/requests/storageRequests";
 import Active from "../../api/services/activeInterface";
 import InputSelect from "../../components/inputs/selectInput";
 import LinkButton from "../../components/buttons/LinkButton";
@@ -31,12 +31,12 @@ const CreateStorage = () => {
 
     useEffect(() => {
         if (editID) {
-            getStorage(storage.id).then((response: StorageCenter) => {
+            GETStorage(storage.id).then((response: StorageCenter) => {
                 setWillEdit(true);
                 setStorage(response)
             }).catch(() => { });
         } else if (viewID) {
-            getStorage(storage.id).then((response: StorageCenter) => {
+            GETStorage(storage.id).then((response: StorageCenter) => {
                 setStorage(response);
                 setReadOnly(true)
             }).catch(() => { });

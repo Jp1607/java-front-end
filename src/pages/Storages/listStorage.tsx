@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { StorageCenter } from "../../api/entities/storage";
 import TableRender from "../../components/tableRender"
 import ButtonsBar from "../../components/ButtonsBar";
-import { getStorages, PUTExcludeStorage, } from "../../api/requests/storageRequests";
+import { GETStorages, PUTExcludeStorage, } from "../../api/requests/storageRequests";
 import { useNavigate } from "react-router-dom";
 import ActionsModal from "../../components/modals/ActionsModal";
 import InputComponent from "../../components/inputs/InputComponent";
@@ -22,7 +22,7 @@ const ListStorage = () => {
     });
 
     const fetchStorages = async () => {
-        await getStorages().then((response: StorageCenter[]) => setStorages(response)).catch(() => { })
+        await GETStorages().then((response: StorageCenter[]) => setStorages(response)).catch(() => { })
     }
 
     useEffect(() => {
@@ -52,7 +52,7 @@ const ListStorage = () => {
     }
 
     const handleSubmit = () => {
-        getStorages(storage.id, storage.description, storage.active);
+        GETStorages(storage.id, storage.description, storage.active);
     }
 
     const handleExclude = (id: number) => {

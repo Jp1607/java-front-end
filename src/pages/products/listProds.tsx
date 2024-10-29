@@ -37,7 +37,8 @@ const ProductListRender: React.FC = () => {
         group: null,
         mu: null,
         name: null,
-        type: null
+        type: null,
+        storage: null
     })
     const [productDTO, setProductDTO] = useState<ProductDTO>({
         name: '',
@@ -47,7 +48,8 @@ const ProductListRender: React.FC = () => {
         brandDesc: '',
         groupDesc: '',
         typeDesc: '',
-        muDesc: ''
+        muDesc: '',
+        storageId: 0
     })
 
     const requestGetData = async () => {

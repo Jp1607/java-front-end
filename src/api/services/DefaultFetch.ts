@@ -10,7 +10,8 @@ type Path = '/login' |
     '/type' | '/type/edit' |
     '/mu' | '/mu/edit' | 
     '/storage' | '/storage/exclude' | '/storage/edit' |
-    '/stock_flow' | '/stock_flow/exclude' | '/stock_flow/edit';
+    '/stock_flow' | '/stock_flow/exclude' | '/stock_flow/edit' |
+    '/sale/sell';
 
 function DefaultFetch<T>(method: Method, path: Path, body?: any, pathParam?: string | number): Promise<T | void> {
 

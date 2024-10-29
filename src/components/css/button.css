@@ -33,9 +33,6 @@
 }
 
 .link-button {
-
-  /* overflow-wrap: normal;
-  text-overflow: ellipsis; */
   overflow: hidden;
   white-space: pre-wrap;
   background-color: var(--login-button-bg);
@@ -57,8 +54,8 @@
 
 }
 
-.collapsible-trigger button{
-  
+.collapsible-trigger button {
+
   content: '\002B';
   width: 100%;
   border-top: 0;
@@ -66,7 +63,7 @@
   border-radius: 0%;
 }
 
-.collapsible-trigger-open button{
+.collapsible-trigger-open button {
 
   content: "\2212";
   width: 100%;
@@ -75,67 +72,12 @@
   border-radius: 0%;
 }
 
- /* .collapsible  {
-
-  overflow: hidden;
-  white-space: pre-wrap; 
-  background-color: var(--login-button-bg);
-  color: var(--login-button-font);
-  width: 100%;
-  height: 3.5rem;
-   border-left: solid var(--login-button-border) 1.5px;
-  border-bottom: solid var(--login-button-border) 1.5px; 
-   border-right: 0;
-  border-top: 0;
-  font-size: 1.2rem;
-  font-weight: 530;
-  cursor: pointer; 
-} */
-/* 
-.collapsible-trigger {
-
-  overflow: hidden;
-  white-space: pre-wrap;
-  background-color: var(--login-button-bg);
-  color: var(--login-button-font);
-  width: 100%;
-  height: 3.5rem;
-  border-left: solid var(--login-button-border) 1.5px;
-  border-bottom: solid var(--login-button-border) 1.5px;
-  border-right: 0;
-  border-top: 0;
-  font-size: 1.2rem;
-  font-weight: 530;
-  cursor: pointer;
-
-  
-}
-
-.collapsible-trigger-open {
-
-  overflow: hidden;
-  white-space: pre-wrap;
-  background-color: var(--login-button-bg);
-  color: var(--login-button-font);
-  width: 100%;
-  height: 3.5rem;
-  border-left: solid var(--login-button-border) 1.5px;
-  border-bottom: solid var(--login-button-border) 1.5px;
-  border-right: 0;
-  border-top: 0;
-  font-size: 1.2rem;
-  font-weight: 530;
-  cursor: pointer;
-
-  
-} */
-
 #open-side-bar {
-
+  display: flex;
   background-color: var(--login-button-bg);
   color: var(--login-button-font);
-  width: 1.5vw;
-  height: 3rem;
+  width: 1.2vw;
+  height: 2rem;
   margin: 0;
   border-right: solid var(--login-button-border) 1.5px;
   border-bottom: solid var(--login-button-border) 1.5px;
@@ -144,4 +86,6 @@
   font-size: 1.2rem;
   font-weight: 530;
   cursor: pointer;
+  align-content: center;
+  justify-content: center;
 }

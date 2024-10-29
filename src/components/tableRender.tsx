@@ -1,4 +1,5 @@
 import '../components/css/modal.css';
+import ButtonComponent from './buttons/Button';
 import './css/table.css'
 import React from "react";
 
@@ -13,9 +14,11 @@ type tableRender<T> = {
     values: T[];
     headers?: Headers<T>[];
     onTableClick?: (param: T) => void;
+    productAction?: (param: boolean, row: T) => void
+    count?: number
 }
 
-const TableRender = <T,>({ values, headers, onTableClick}: tableRender<T>): JSX.Element => {
+const TableRender = <T,>({ values, headers, onTableClick, productAction, count}: tableRender<T>): JSX.Element => {
 
     const [indexRow, setIndexRow] = React.useState<number>(-1);
     let controlIndex = -1
@@ -29,6 +32,13 @@ const TableRender = <T,>({ values, headers, onTableClick}: tableRender<T>): JSX.
         }
 
         setIndexRow(index)
+    }
+
+    const handleProductAction = (param: boolean, row: T) => {
+
+        if(productAction) {
+        productAction(param, row)
+        }
     }
 
     const handleValue = (value: any): string => {
@@ -107,9 +117,11 @@ const TableRender = <T,>({ values, headers, onTableClick}: tableRender<T>): JSX.
                                                     <TableRow
                                                         index={index}
                                                         value={r}
+                                                        count={count}
                                                         indexRow={indexRow}
                                                         header={headers}
-                                                        handleValue={handleValue} />
+                                                        handleValue={handleValue}
+                                                        prodAction={(param: boolean) => handleProductAction(param, r)} />
                                                 )
                                                 :
                                                 (
@@ -136,14 +148,34 @@ type TableRowProps<T> = {
     header: Headers<T>[];
     index: number;
     indexRow: number;
+    count: number;
     value: T;
+    prodAction: (param: boolean) => void;
     handleValue: (value: any) => string;
 };
 
-const TableRow = <T,>({ header, index, indexRow, value, handleValue }: TableRowProps<T>): JSX.Element => {
+const TableRow = <T,>({ header, index, indexRow, value, count, handleValue, prodAction }: TableRowProps<T>): JSX.Element => {
 
     return (
         <>
+        <td>
+            {/* if add, true; if sub, false */}
+            <ButtonComponent
+            type='button'
+            label='-'
+            action={() => prodAction(false)}
+            
+            />
+            {count}
+            <ButtonComponent
+            type='button'
+            label='+'
+            action={() => {
+                prodAction(true)
+            }}
+            
+            />
+        </td>
             {
                 header.map((h: Headers<T>, idx: number) => {
                     return (

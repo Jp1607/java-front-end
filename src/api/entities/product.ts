@@ -14,4 +14,5 @@ export type Product = {
     group: Group,
     type: Type,
     mu: MU
+    storage: Storage
 }
