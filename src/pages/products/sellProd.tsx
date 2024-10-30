@@ -7,16 +7,20 @@ import { ProductDTO } from "../../api/entities/productDTO";
 import InputComponent from "../../components/inputs/InputComponent";
 import { GETStorages } from "../../api/requests/storageRequests";
 import { SaleItem } from "../../api/entities/sellItem";
-import { Discount } from "../../api/services/discountType";
 import ButtonComponent from "../../components/buttons/Button";
 import TableRender from "../../components/tableRender";
 import ActionsModal from "../../components/modals/ActionsModal";
+import { Discount } from "../../api/services/DiscountType";
+import "../css/sellProd.css"
 
 const SellProd = () => {
 
     const [open, setOpen] = React.useState<boolean>(false);
     const [count, setCount] = React.useState<number>(0);
     const [products, setProducts] = React.useState<ProductDTO[]>([]);
+    const [subtotal, setSubtotal] = React.useState<number>(0);
+    const [finalValue, setFinalValue] = React.useState<number>(0);
+    const [totalQnt, setTotalQnt] = React.useState<number>(0);
     const [storages, setStorages] = React.useState<StorageCenter[]>([]);
     const [discount, setDiscount] = React.useState<Discount>();
     const [saleItems, setSaleItems] = React.useState<SaleItem[]>([]);
@@ -41,7 +45,10 @@ const SellProd = () => {
         barCode: '',
         name: '',
         description: '',
-        storageId: 0
+        storageId: 0,
+        currentStock: 0,
+        negativeStock: '',
+        price: 0
     });
 
     useEffect(() => {
@@ -75,57 +82,30 @@ const SellProd = () => {
 
     return (
         <div>
-            {/* <InputSelect<ProductDTO>
-                id="select-prod"
-                label="Produto"
-                idKey="id"
-                labelKey="name"
-                value={product ? product : null}
-                options={products}
-                onValueChange={(product: ProductDTO) =>
-                    handleChange('productId', product.id)}
-            />
+            <div id="header">
 
-            <InputSelect<StorageCenter>
-                id="select-storage"
-                label="Centro de armazenamento"
-                idKey="id"
-                labelKey="description"
-                value={storage ? storage : null}
-                options={storages}
-                onValueChange={(storage: StorageCenter) =>
-                    handleChange('storageCenterId', storage.id)}
-            />
+                <InputSelect<Discount>
+                    id="select-discount"
+                    label="Desconto"
+                    idKey="id"
+                    labelKey="type"
+                    value={discount ? discount : null}
+                    options={[
+                        { id: 0, type: "PERCENTAGE" },
+                        { id: 1, type: "DECIMAL" }
+                    ]}
+                    onValueChange={(discount: Discount) =>
+                        handleChange('discountType', discount.type)}
+                />
 
-            <InputSelect<Discount>
-                id="select-discount"
-                label="Desconto"
-                idKey="id"
-                labelKey="type"
-                value={discount ? discount : null}
-                options={[
-                    { id: 0, type: "PERCENTAGE" },
-                    { id: 1, type: "DECIMAL" }
-                ]}
-                onValueChange={(discount: Discount) =>
-                    handleChange('discountType', discount.type)}
-            />
+                <InputComponent
+                    id="input-value"
+                    label="Valor do desconto"
+                    type="number"
+                    action={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        handleChange("discountValue", parseInt(e.target.value))} />
 
-            <InputComponent
-                id="input-qnt"
-                label="Quantidade"
-                type="number"
-                action={(e: React.ChangeEvent<HTMLInputElement>) =>
-                    handleChange("quantity", parseInt(e.target.value))}
-            />
-
-            <InputComponent
-                id="input-value"
-                label="Valor do desconto"
-                type="number"
-                action={(e: React.ChangeEvent<HTMLInputElement>) =>
-                    handleChange("discountValue", parseInt(e.target.value))} /> */}
-
+            </div>
             <ActionsModal
                 isOpen={open}
                 onClose={() => setOpen(false)}
@@ -154,13 +134,20 @@ const SellProd = () => {
                 productAction={handleAction}
 
             />
+            <div id="footer">
 
-            <ButtonComponent
-                id="sub-sell"
-                label="FINALIZAR VENDA"
-                type="submit"
-                action={handleSubmit} />
+                <ButtonComponent
+                    id="sub-sell"
+                    label="FINALIZAR VENDA"
+                    type="submit"
+                    action={handleSubmit} />
 
+                <label className="label-sale"> Subtotal da venda: {subtotal} </label>
+                <label className="label-sale"> Valor final: {finalValue} </label>
+                <label className="label-sale"> Quantidade de itens: {totalQnt} </label>
+            </div>
         </div>
     )
 }
+
+export default SellProd;

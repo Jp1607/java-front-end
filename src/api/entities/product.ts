@@ -15,4 +15,5 @@ export type Product = {
     type: Type,
     mu: MU
     storage: Storage
+    killed: number;
 }

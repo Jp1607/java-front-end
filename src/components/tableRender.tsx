@@ -18,7 +18,7 @@ type tableRender<T> = {
     count?: number
 }
 
-const TableRender = <T,>({ values, headers, onTableClick, productAction, count}: tableRender<T>): JSX.Element => {
+const TableRender = <T,>({ values, headers, onTableClick, productAction, count }: tableRender<T>): JSX.Element => {
 
     const [indexRow, setIndexRow] = React.useState<number>(-1);
     let controlIndex = -1
@@ -36,8 +36,8 @@ const TableRender = <T,>({ values, headers, onTableClick, productAction, count}:
 
     const handleProductAction = (param: boolean, row: T) => {
 
-        if(productAction) {
-        productAction(param, row)
+        if (productAction) {
+            productAction(param, row)
         }
     }
 
@@ -121,7 +121,7 @@ const TableRender = <T,>({ values, headers, onTableClick, productAction, count}:
                                                         indexRow={indexRow}
                                                         header={headers}
                                                         handleValue={handleValue}
-                                                        prodAction={(param: boolean) => handleProductAction(param, r)} />
+                                                        prodAction={productAction ? (param: boolean) => handleProductAction(param, r) : null} />
                                                 )
                                                 :
                                                 (
@@ -158,24 +158,28 @@ const TableRow = <T,>({ header, index, indexRow, value, count, handleValue, prod
 
     return (
         <>
-        <td>
-            {/* if add, true; if sub, false */}
-            <ButtonComponent
-            type='button'
-            label='-'
-            action={() => prodAction(false)}
-            
-            />
-            {count}
-            <ButtonComponent
-            type='button'
-            label='+'
-            action={() => {
-                prodAction(true)
-            }}
-            
-            />
-        </td>
+            {prodAction &&
+                <td>
+                    {/* if add, true; if sub, false */}
+                    <ButtonComponent
+                        style='add-sub-button'
+                        type='button'
+                        label='-'
+                        action={() => prodAction(false)}
+
+                    />
+                    {count}
+                    <ButtonComponent
+                        style='add-sub-button'
+                        type='button'
+                        label='+'
+                        action={() => {
+                            prodAction(true)
+                        }}
+
+                    />
+                </td>
+            }
             {
                 header.map((h: Headers<T>, idx: number) => {
                     return (

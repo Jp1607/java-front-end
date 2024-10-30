@@ -3,9 +3,9 @@ export interface Discount {
     type: string
 }
 
-const DiscountType: Discount[] = [
-    { id: 0, type: "PERCENTAGE" },
-    { id: 1, type: "DECIMAL" }
-]
+// const DiscountType: Discount[] = [
+//     { id: 0, type: "PERCENTAGE" },
+//     { id: 1, type: "DECIMAL" }
+// ]
 
-export default DiscountType;
+export default Discount;

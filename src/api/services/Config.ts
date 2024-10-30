@@ -11,7 +11,7 @@ export interface Config {
 }
 
 const Configuration: Config = {
-    url: 'http://192.168.0.79:8080',
+    url: 'http://localhost:8080',
     headers: {
 
         "Content-Type": "application/json",

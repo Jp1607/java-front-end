@@ -48,6 +48,20 @@
   cursor: pointer;
 }
 
+.add-sub-button{
+
+  background-color: transparent;
+  color: var(--login-button-font);
+  border: none;
+  margin-right: 1%;
+  margin-left: 1%;
+  font-size: 1.2rem;
+  width: 10%;
+  height: 50%;
+  cursor: pointer;
+
+}
+
 .linkButton:hover {
 
   opacity: 0.7;
