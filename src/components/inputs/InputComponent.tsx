@@ -20,7 +20,7 @@ const InputComponent: React.FC<inputProps> = ({ label, id, type, className, labe
 
     return (
 
-        <div className= {className ? className : "input-component"}>
+        <div className= {className ? className : "input-component"} id={id}>
 
             <label className={labelStyle}>
                 {label}
@@ -29,7 +29,6 @@ const InputComponent: React.FC<inputProps> = ({ label, id, type, className, labe
             <input
             readOnly={readonly}
             className={inputStyle}
-                id={id}
                 type={type}
                 value={value}
                 placeholder={placeHolder}

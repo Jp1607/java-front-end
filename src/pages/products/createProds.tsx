@@ -44,7 +44,8 @@ const CreateProds = () => {
         mu: null,
         name: '',
         type: null,
-        storage: null
+        storage: null,
+        killed: null
     })
     const [brands, setBrands] = React.useState<Brand[]>([])
     const [groups, setGroups] = React.useState<Group[]>([])

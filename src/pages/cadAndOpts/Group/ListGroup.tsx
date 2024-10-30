@@ -19,7 +19,8 @@ const GroupListRender = () => {
     const [groups, setGroups] = React.useState<Group[]>([]);
     const [group, setGroup] = React.useState<Group>({
         description: "",
-        active: false
+        active: false,
+        killed: 0
     });
     const [show, setShow] = React.useState<boolean>(false);
 

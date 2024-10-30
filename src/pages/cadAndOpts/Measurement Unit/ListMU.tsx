@@ -19,7 +19,8 @@ const MUListRender = () => {
     const [mus, setMUs] = React.useState<MU[]>([]);
     const [mu, setMU] = React.useState<MU>({
         description: "",
-        active: false
+        active: false,
+        killed: 0
     });
     const [show, setShow] = React.useState<boolean>(false);
 

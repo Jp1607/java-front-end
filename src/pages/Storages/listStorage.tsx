@@ -9,6 +9,7 @@ import InputComponent from "../../components/inputs/InputComponent";
 import InputSelect from "../../components/inputs/selectInput";
 import Active from "../../api/services/activeInterface";
 import "../css/listPage.css";
+import ButtonComponent from "../../components/buttons/Button";
 
 const ListStorage = () => {
 
@@ -78,7 +79,7 @@ const ListStorage = () => {
                     Você tem certeza de que deseja excluir este armazém? Ele não poderá mais ser recuperado.
                 </p>
             </ActionsModal>
-            <div onSubmit={handleSubmit} id="search-filters-container">
+            <form onSubmit={handleSubmit} id="search-filters-container">
 
                 <InputComponent
                     className="search-filter"
@@ -113,7 +114,13 @@ const ListStorage = () => {
                     value={storage !== null ?
                         storage.active ? { description: "Exibir", value: true } :
                             { description: "Não exibir", value: false } : null} />
-            </div>
+            </form>
+            <ButtonComponent
+            id="sub-list"
+            label="BUSCAR"
+            type="submit"
+            style="button"
+            action={handleSubmit}/>
             <ButtonsBar
                 createPath="/createStorage"
                 reloadAction={fetchStorages}

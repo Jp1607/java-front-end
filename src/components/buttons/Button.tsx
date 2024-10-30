@@ -2,7 +2,7 @@ import React from "react";
 import "../css/button.css"
 
 type buttonType = 'submit' | 'button'
-export type buttonStyle = 'button' | 'link-button'
+export type buttonStyle = 'button' | 'link-button' | 'add-sub-button'
 
 type buttonProps = {
 

@@ -19,7 +19,8 @@ const TypeListRender = () => {
     const [types, setTypes] = React.useState<Type[]>([]);
     const [type, setType] = React.useState<Type>({
         description: "",
-        active: false
+        active: false,
+        killed: 0
     });
     const [show, setShow] = React.useState<boolean>(false);
 

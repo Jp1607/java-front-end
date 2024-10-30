@@ -38,7 +38,8 @@ const ProductListRender: React.FC = () => {
         mu: null,
         name: null,
         type: null,
-        storage: null
+        storage: null,
+        killed: null
     })
     const [productDTO, setProductDTO] = useState<ProductDTO>({
         name: '',
@@ -49,7 +50,11 @@ const ProductListRender: React.FC = () => {
         groupDesc: '',
         typeDesc: '',
         muDesc: '',
-        storageId: 0
+        storageId: 0,
+        currentStock: 0,
+        negativeStock: '',
+        price: 0,
+        count: 0                                                                
     })
 
     const requestGetData = async () => {
@@ -247,7 +252,10 @@ const ProductListRender: React.FC = () => {
                         { gridType: 'FLEX', attributeName: 'brandDesc', width: 1, label: 'Marca' },
                         { gridType: 'FLEX', attributeName: 'groupDesc', width: 1, label: 'Grupo' },
                         { gridType: 'FLEX', attributeName: 'typeDesc', width: 1, label: 'Tipo' },
-                        { gridType: 'FLEX', attributeName: 'muDesc', width: 1, label: 'Unidade de Medida' }
+                        { gridType: 'FLEX', attributeName: 'muDesc', width: 1, label: 'Unidade de Medida' },
+                        { gridType: 'FLEX', attributeName: 'price', width: 1, label: 'Preço' },
+                        { gridType: 'FLEX', attributeName: 'currentStock', width: 1, label: 'Em estoque' },
+                        { gridType: 'FLEX', attributeName: 'negativeStock', width: 1, label: 'Permite estoque negativo' }
                     ]}
                     values={products}
                     onTableClick={handleTableClick}

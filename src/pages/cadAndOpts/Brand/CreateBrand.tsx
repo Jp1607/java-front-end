@@ -22,7 +22,8 @@ const CreateBrands = () => {
     const [brand, setBrand] = React.useState<Brand>(
         {
             description: '',
-            active: false
+            active: false,
+            killed: 0
         }
     )
 

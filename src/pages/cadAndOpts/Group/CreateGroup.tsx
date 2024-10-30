@@ -22,7 +22,8 @@ const CreateGroups = () => {
     const [group, setGroup] = React.useState<Group>(
         {
             description: '',
-            active: false
+            active: false,
+            killed: 0
         }
     )
 

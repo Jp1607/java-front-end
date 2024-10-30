@@ -23,7 +23,8 @@ const CreateTypes = () => {
     const [type, setType] = React.useState<Type>(
         {
             description: '',
-            active: false
+            active: false,
+            killed: 0
         }
     )
 

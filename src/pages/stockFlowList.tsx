@@ -9,6 +9,7 @@ import InputComponent from "../components/inputs/InputComponent";
 import InputSelect from "../components/inputs/selectInput";
 import ActionsModal from "../components/modals/ActionsModal";
 import TableRender from "../components/tableRender";
+import ButtonComponent from "../components/buttons/Button";
 
 const ListStockFlow = () => {
 
@@ -51,7 +52,7 @@ const ListStockFlow = () => {
     }
 
     const handleSubmit = () => {
-        getStockFlows(stockFlowDTO.type, stockFlowDTO.date1, stockFlowDTO.date2, stockFlowDTO.storageId);
+        getStockFlows(stockFlowDTO.type, stockFlowDTO.date1, stockFlowDTO.date2, stockFlowDTO.storageId).then((response: StockFlow[]) => setStockFlows(response)).catch(() => { });
     }
 
     const handleTableClick = (param: StockFlow) => {
@@ -60,7 +61,7 @@ const ListStockFlow = () => {
     return (
 
         <div>
-            <div onSubmit={handleSubmit} id="search-filters-container">
+            <form onSubmit={handleSubmit} id="search-filters-container">
 
 
                 <InputComponent
@@ -79,7 +80,7 @@ const ListStockFlow = () => {
                     label="Data inicial:"
                     type="date"
                     action={(e: React.ChangeEvent<HTMLInputElement>) =>
-                        handleChange("date2", e.target.value.toString())}
+                        handleChange("date1", e.target.value.toString())}
                 />
 
                 <InputComponent
@@ -88,7 +89,7 @@ const ListStockFlow = () => {
                     label="Data final:"
                     type="date"
                     action={(e: React.ChangeEvent<HTMLInputElement>) =>
-                        handleChange("date1", e.target.value.toString())}
+                        handleChange("date2", e.target.value.toString())}
                 />
 
                 <InputComponent
@@ -99,10 +100,15 @@ const ListStockFlow = () => {
                     action={(e: React.ChangeEvent<HTMLInputElement>) =>
                         handleChange("type", e.target.value.toString())}
                 />
-            </div>
+            </form>
             <ButtonsBar
                 reloadAction={fetchStockFlows}
                 viewAction={handleView}
+            />
+            <ButtonComponent
+                label="BUSCAR"
+                type="submit"
+                action={handleSubmit}
             />
             <TableRender<StockFlow>
                 values={stockFlows}

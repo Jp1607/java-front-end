@@ -22,7 +22,7 @@ const StockActionsDropDown = () => {
                 triggerClassName="collapsible-trigger"
                 triggerOpenedClassName="collapsible-trigger-open">
                 <LinkButton
-                    dest="/sell"
+                    dest="/sellItem"
                     label="Venda" />
                 <LinkButton
                     dest="/buy"

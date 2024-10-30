@@ -22,7 +22,8 @@ const CreateMUs = () => {
     const [mu, setMU] = React.useState<MU>(
         {
             description: '',
-            active: false
+            active: false,
+            killed: 0
         }
     )
 

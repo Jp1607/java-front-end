@@ -1,0 +1,26 @@
+#select-discount {
+    width: 25%;
+    margin-right: 5%;
+}
+
+#input-value {
+    width: 25%;
+}
+
+#sub-sell {
+    margin-right: 7%;
+}
+
+.label-sale {
+    font-size: 1.6rem;
+    margin-right: 5%;
+    width: 20%;
+}
+
+#footer {
+    display: flex;
+}
+
+#header {
+    display: flex;
+}

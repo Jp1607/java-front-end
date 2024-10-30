@@ -14,6 +14,7 @@ export type Product = {
     brand: Brand,
     group: Group,
     type: Type,
-    mu: MU
-    storage: StorageCenter
+    mu: MU,
+    storage: StorageCenter,
+    killed: number;
 }

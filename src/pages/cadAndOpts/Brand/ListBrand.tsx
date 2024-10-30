@@ -19,7 +19,8 @@ const BrandListRender = () => {
     const [brands, setBrands] = React.useState<Brand[]>([]);
     const [brand, setBrand] = React.useState<Brand>({
         description: "",
-        active: false
+        active: false,
+        killed: 0
     });
 
     const requestGet = async () => {
