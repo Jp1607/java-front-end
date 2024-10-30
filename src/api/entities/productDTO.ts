@@ -15,7 +15,8 @@ export type ProductDTO = {
     brandDesc: string,
     groupDesc: string,
     typeDesc: string,
-    muDesc: string
+    muDesc: string,
+    storageId: number
 }
 
 export function ProductDTO(product: Product): ProductDTO {
@@ -28,7 +29,8 @@ export function ProductDTO(product: Product): ProductDTO {
         brandDesc: product.brand.description ? product.brand.description.charAt(0).toUpperCase() : "",
         groupDesc: product.group.description ? product.group.description.charAt(0).toUpperCase() : "",
         typeDesc: product.type.description ? product.type.description.charAt(0).toUpperCase() : "",
-        muDesc: product.mu.description ? product.mu.description.charAt(0).toUpperCase() : ""
+        muDesc: product.mu.description ? product.mu.description.charAt(0).toUpperCase() : "",
+        storageId: product.storage ? product.storage.id : null
     }
 
 }

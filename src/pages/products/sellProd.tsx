@@ -75,56 +75,6 @@ const SellProd = () => {
 
     return (
         <div>
-            {/* <InputSelect<ProductDTO>
-                id="select-prod"
-                label="Produto"
-                idKey="id"
-                labelKey="name"
-                value={product ? product : null}
-                options={products}
-                onValueChange={(product: ProductDTO) =>
-                    handleChange('productId', product.id)}
-            />
-
-            <InputSelect<StorageCenter>
-                id="select-storage"
-                label="Centro de armazenamento"
-                idKey="id"
-                labelKey="description"
-                value={storage ? storage : null}
-                options={storages}
-                onValueChange={(storage: StorageCenter) =>
-                    handleChange('storageCenterId', storage.id)}
-            />
-
-            <InputSelect<Discount>
-                id="select-discount"
-                label="Desconto"
-                idKey="id"
-                labelKey="type"
-                value={discount ? discount : null}
-                options={[
-                    { id: 0, type: "PERCENTAGE" },
-                    { id: 1, type: "DECIMAL" }
-                ]}
-                onValueChange={(discount: Discount) =>
-                    handleChange('discountType', discount.type)}
-            />
-
-            <InputComponent
-                id="input-qnt"
-                label="Quantidade"
-                type="number"
-                action={(e: React.ChangeEvent<HTMLInputElement>) =>
-                    handleChange("quantity", parseInt(e.target.value))}
-            />
-
-            <InputComponent
-                id="input-value"
-                label="Valor do desconto"
-                type="number"
-                action={(e: React.ChangeEvent<HTMLInputElement>) =>
-                    handleChange("discountValue", parseInt(e.target.value))} /> */}
 
             <ActionsModal
                 isOpen={open}
@@ -135,7 +85,39 @@ const SellProd = () => {
                 ]}
                 title="FINALIZAR COMPRA"
             >
+                <InputSelect<StorageCenter>
+                    id="select-storage"
+                    label="Centro de armazenamento"
+                    idKey="id"
+                    labelKey="description"
+                    value={storage ? storage : null}
+                    options={storages}
+                    onValueChange={(storage: StorageCenter) =>
+                        handleChange('storageCenterId', storage.id)}
+                />
 
+                <InputSelect<Discount>
+                    id="select-discount"
+                    label="Desconto"
+                    idKey="id"
+                    labelKey="type"
+                    value={discount ? discount : null}
+                    options={[
+                        { id: 0, type: "PERCENTAGE" },
+                        { id: 1, type: "DECIMAL" }
+                    ]}
+                    onValueChange={(discount: Discount) =>
+                        handleChange('discountType', discount.type)}
+                />
+
+
+                <InputComponent
+                    id="input-value"
+                    label="Valor do desconto"
+                    type="number"
+                    action={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        handleChange("discountValue", parseInt(e.target.value))}
+                />
             </ActionsModal>
 
             <TableRender<ProductDTO>

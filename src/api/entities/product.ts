@@ -1,6 +1,7 @@
 import { Brand } from "./brand"
 import { Group } from "./group"
 import { MU } from "./MU"
+import { StorageCenter } from "./storage"
 import { Type } from "./type"
 
 export type Product = {
@@ -14,5 +15,5 @@ export type Product = {
     group: Group,
     type: Type,
     mu: MU
-    storage: Storage
+    storage: StorageCenter
 }
