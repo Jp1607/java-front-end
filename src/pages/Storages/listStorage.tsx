@@ -115,12 +115,7 @@ const ListStorage = () => {
                         storage.active ? { description: "Exibir", value: true } :
                             { description: "Não exibir", value: false } : null} />
             </form>
-            <ButtonComponent
-            id="sub-list"
-            label="BUSCAR"
-            type="submit"
-            style="button"
-            action={handleSubmit}/>
+        
             <ButtonsBar
                 createPath="/createStorage"
                 reloadAction={fetchStorages}

@@ -136,6 +136,7 @@ const TableRender = <T,>({ values, headers, onTableClick, productAction, count }
                 <tbody>
                     {
                         values.map((r: T, index: number) => {
+                            
                             return (
                                 <tr
                                     onClick={() => handleTableClick(r, index)}
