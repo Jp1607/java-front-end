@@ -13,6 +13,8 @@ import ActionsModal from "../../components/modals/ActionsModal";
 import { Discount } from "../../api/services/DiscountType";
 import "../css/sellProd.css"
 import { POSTSell } from "../../api/requests/saleRequest";
+import SaleItemComponent from "../../components/saleItemComponent";
+import Payment from "../../api/paymentType";
 
 const SellProd = () => {
 
@@ -23,14 +25,15 @@ const SellProd = () => {
     const [totalQnt, setTotalQnt] = React.useState<number>(0);
     const [storages, setStorages] = React.useState<StorageCenter[]>([]);
     const [discount, setDiscount] = React.useState<Discount>();
-    const [discountValue, setDiscountValue] = React.useState<number>();
+    const [discountValue, setDiscountValue] = React.useState<number>(0);
+    const [payment, setPayment] = React.useState<Payment>();
     const [saleItemsList, setSalesItemsList] = React.useState<SaleItem[]>([])
     const [saleItem, setSaleItem] = React.useState<SaleItem>({
-        // discountType: '',
-        //  discountValue: 0,
+        discountType: '',
+        discountValue: 0,
         productId: 0,
-         quantity: 0,
-         storageCenterId: 0
+        quantity: 0,
+        storageCenterId: 0
     });
     const [storage, setStorage] = React.useState<StorageCenter>({
         active: false,
@@ -63,25 +66,25 @@ const SellProd = () => {
         const COPY_ITEM: SaleItem = Object.assign({}, saleItem);
         COPY_ITEM[key] = newValue;
         setSaleItem(COPY_ITEM);
-        
+
     }
-    
+
     const handleSubmit = () => {
-        POSTSell(saleItemsList, discount, discountValue).then((response: String) => console.log(response)).catch(() => {})
+        POSTSell(saleItemsList, payment.type).then((response: String) => console.log(response)).catch(() => { })
         console.log(saleItemsList)
     }
-    
+
     const handleAction = (param: boolean, product: ProductDTO) => {
-        setSaleItem(SaleItem(product))
-        saleItem.storageCenterId = product.storageId;
+        let sI: SaleItem;
+        sI.storageCenterId = product.storageId;
+        sI.productId = product.id;
         if (param) {
             let x = saleItemsList.find(saleItem => saleItem.productId == product.id);
-            if(x){
-              x.quantity = x.quantity + 1;
+            if (x) {
+                x.quantity = x.quantity + 1;
             } else {
-                saleItemsList.push(saleItem);
+                saleItemsList.push(sI);
             }
-            console.log(saleItemsList)
         } else {
             let x = saleItemsList.find(saleItem => saleItem.productId = product.id)
             if (x.quantity > 1) {
@@ -93,8 +96,55 @@ const SellProd = () => {
         }
     }
 
+    const calcInfo = () => {
+        saleItemsList.map((saleItem: SaleItem, index: number) => {
+            setTotalQnt(totalQnt + saleItem.quantity);
+            const prod = products.find((product: ProductDTO) => product.id == saleItem.productId)
+            setFinalValue(finalValue + prod.price);
+            if (discount.id == 0) {
+                setSubtotal(subtotal + (prod.price - prod.price / 100 * discountValue))
+            } else {
+                setSubtotal(subtotal + (prod.price - discountValue))
+            }
+        })
+    }
+
+    const handleNewComponent = () => {
+        const item: SaleItem = {
+            discountType: '',
+            discountValue: 0,
+            productId: undefined,
+            quantity: 0,
+            storageCenterId: undefined
+        };
+        setSalesItemsList([...saleItemsList, item]);
+        calcInfo();
+    }
+
     return (
         <div>
+            <ActionsModal
+                isOpen={open}
+                onClose={() => setOpen(false)}
+                closeLabel="CANCELAR"
+                eventButtons={[
+                    { label: "FINALIZAR", cb: () => handleSubmit }
+                ]}
+                title="FINALIZAR COMPRA"
+            >
+                <InputSelect<Payment>
+                    id="select-payment"
+                    idKey="id"
+                    label="Forma de pagamento"
+                    labelKey="desc"
+                    onValueChange={(p) => setPayment(p)}
+                    options={[
+                        { id: 0, type: "CREDIT_CARD", desc: "CARTÃO DE CRÉDITO" },
+                        { id: 1, type: "DEBIT_CARD", desc: "CARTÃO DE DÉBITO" }
+                    ]}
+                    value={payment ? payment : null}
+                />
+            </ActionsModal>
             <div id="header">
 
                 <InputSelect<Discount>
@@ -108,70 +158,39 @@ const SellProd = () => {
                         { id: 1, type: "DECIMAL", desc: "Decimal" }
                     ]}
                     onValueChange={(discount: Discount) =>
-                      setDiscount(discount)}
+                        setDiscount(discount)}
                 />
 
-                <InputComponent
-                    id="input-value"
-                    label="Valor do desconto"
-                    type="number"
-                    action={(e: React.ChangeEvent<HTMLInputElement>) =>
-                       setDiscountValue(parseInt(e.target.value))} />
-{/* 
-                <InputSelect<StorageCenter>
-                    id="select-storage"
-                    label="Centro de armazenamento"
-                    idKey="id"
-                    labelKey="description"
-                    value={storage ? storage : null}
-                    options={storages}
-                    onValueChange={(storage: StorageCenter) =>
-                        handleChange('storageCenterId', storage.id)}
-                /> */}
+                <ButtonComponent
+                    action={() => handleNewComponent()}
+                    label="ADICIONAR ITEM"
+                    type="button"
+                />
+                <ButtonComponent
+                    action={() => saleItemsList.length = 0}
+                    label="LIMPAR VENDA"
+                    type="button"
+                />
 
             </div>
-            <ActionsModal
-                isOpen={open}
-                onClose={() => setOpen(false)}
-                closeLabel="CANCELAR"
-                eventButtons={[
-                    { label: "FINALIZAR", cb: () => SellProd }
-                ]}
-                title="FINALIZAR COMPRA"
-            >
 
-            </ActionsModal>
-
-            <TableRender<ProductDTO>
-                values={products}
-                count={product.count}
-                headers={[
-                    { gridType: 'FLEX', attributeName: 'id', width: 1, label: 'Código do produto' },
-                    { gridType: 'FLEX', attributeName: 'name', width: 1, label: 'Produto' },
-                    { gridType: 'FLEX', attributeName: 'description', width: 1, label: 'Descrição' },
-                    { gridType: 'FLEX', attributeName: 'barCode', width: 1, label: 'Código de barras' },
-                    { gridType: 'FLEX', attributeName: 'brandDesc', width: 1, label: 'Marca' },
-                    { gridType: 'FLEX', attributeName: 'groupDesc', width: 1, label: 'Grupo' },
-                    { gridType: 'FLEX', attributeName: 'typeDesc', width: 1, label: 'Tipo' },
-                    { gridType: 'FLEX', attributeName: 'muDesc', width: 1, label: 'Unidade de Medida' },
-                    { gridType: 'FLEX', attributeName: 'price', width: 1, label: 'Preço' },
-                    { gridType: 'FLEX', attributeName: 'currentStock', width: 1, label: 'Em estoque' },
-                    { gridType: 'FLEX', attributeName: 'negativeStock', width: 1, label: 'Permite estoque negativo' }
-                ]}
-                productAction={handleAction}
-
+            <SaleItemComponent
+                saleItems={saleItemsList}
+                changeAction={handleChange}
+                discountValueCB={(value) => setDiscountValue(value)}
             />
+
             <div id="footer">
 
                 <ButtonComponent
                     id="sub-sell"
                     label="FINALIZAR VENDA"
                     type="submit"
-                    action={handleSubmit} />
+                    action={() => setOpen(true)} />
 
-                <label className="label-sale"> Subtotal da venda: {subtotal} </label>
-                <label className="label-sale"> Valor final: {finalValue} </label>
                 <label className="label-sale"> Quantidade de itens: {totalQnt} </label>
+                <label className="label-sale"> Valor da venda: {finalValue} </label>
+                <label className="label-sale"> Subtotal: {subtotal} </label>
             </div>
         </div>
     )

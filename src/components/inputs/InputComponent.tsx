@@ -7,6 +7,7 @@ type inputProps = {
     label: string;
     id: string;
     type: inputType;
+    max?: number;
     className?: string;
     labelStyle?: string;
     inputStyle?: string;
@@ -16,7 +17,7 @@ type inputProps = {
     action: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const InputComponent: React.FC<inputProps> = ({ label, id, type, className, labelStyle, inputStyle, value, placeHolder, readonly, action }): JSX.Element => {
+const InputComponent: React.FC<inputProps> = ({ label, id, type, max, className, labelStyle, inputStyle, value, placeHolder, readonly, action }): JSX.Element => {
 
     return (
 
@@ -29,6 +30,7 @@ const InputComponent: React.FC<inputProps> = ({ label, id, type, className, labe
             <input
             readOnly={readonly}
             className={inputStyle}
+            max={max}
                 type={type}
                 value={value}
                 placeholder={placeHolder}
