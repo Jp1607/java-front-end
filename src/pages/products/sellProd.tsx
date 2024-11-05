@@ -28,20 +28,13 @@ const SellProd = () => {
     const [discountValue, setDiscountValue] = React.useState<number>(0);
     const [payment, setPayment] = React.useState<Payment>();
     const [saleItemsList, setSalesItemsList] = React.useState<SaleItem[]>([])
-    const [saleItem, setSaleItem] = React.useState<SaleItem>({
-        discountType: '',
-        discountValue: 0,
-        productId: 0,
-        quantity: 0,
-        storageCenterId: 0
-    });
+    const [newComponent, setNewComponent] = React.useState<boolean>(true);
     const [storage, setStorage] = React.useState<StorageCenter>({
         active: false,
         description: '',
         excluded: false
     })
     const [product, setProduct] = React.useState<ProductDTO>({
-        count: 0,
         active: false,
         brandDesc: '',
         groupDesc: '',
@@ -52,7 +45,7 @@ const SellProd = () => {
         description: '',
         storageId: 0,
         currentStock: 0,
-        negativeStock: '',
+        negativeStock: false,
         price: 0
     });
 
@@ -61,12 +54,20 @@ const SellProd = () => {
         GETStorages().then((response: StorageCenter[]) => setStorages(response));
     }, [])
 
-    const handleChange = <T extends keyof SaleItem>(key: T, newValue: SaleItem[T]) => {
+    const handleChange = <T extends keyof SaleItem>(key: T, index: number, newValue: SaleItem[T]) => {
+        console.log('change', key, index, newValue);
+        const COPY_ITEM: SaleItem[] = Object.assign([], saleItemsList);
+        COPY_ITEM[index][key] = newValue;
 
-        const COPY_ITEM: SaleItem = Object.assign({}, saleItem);
-        COPY_ITEM[key] = newValue;
-        setSaleItem(COPY_ITEM);
-
+        let flag: boolean = true;
+        for (let i = 0; i < COPY_ITEM.length; i++) {
+            for (const VALUE of Object.values(COPY_ITEM[i])) {
+                if (VALUE === undefined || VALUE === '' || VALUE === null) {
+                    flag = false;
+                }
+            }
+        }
+        // setNewComponent(flag);
     }
 
     const handleSubmit = () => {
@@ -100,7 +101,7 @@ const SellProd = () => {
         saleItemsList.map((saleItem: SaleItem, index: number) => {
             setTotalQnt(totalQnt + saleItem.quantity);
             const prod = products.find((product: ProductDTO) => product.id == saleItem.productId)
-            setFinalValue(finalValue + prod.price);
+            setFinalValue(finalValue + (prod ? prod.price : 0));
             if (discount.id == 0) {
                 setSubtotal(subtotal + (prod.price - prod.price / 100 * discountValue))
             } else {
@@ -110,15 +111,18 @@ const SellProd = () => {
     }
 
     const handleNewComponent = () => {
-        const item: SaleItem = {
-            discountType: '',
-            discountValue: 0,
-            productId: undefined,
-            quantity: 0,
-            storageCenterId: undefined
-        };
-        setSalesItemsList([...saleItemsList, item]);
-        calcInfo();
+        if (newComponent) {
+            const item: SaleItem = {
+                discountType: '',
+                discountValue: 0,
+                productId: undefined,
+                quantity: 0,
+                storageCenterId: undefined
+            };
+            setSalesItemsList([...saleItemsList, item]);
+            // calcInfo();
+            // setNewComponent(false);
+        }
     }
 
     return (
@@ -147,27 +151,14 @@ const SellProd = () => {
             </ActionsModal>
             <div id="header">
 
-                <InputSelect<Discount>
-                    id="select-discount"
-                    label="Desconto"
-                    idKey="id"
-                    labelKey="desc"
-                    value={discount ? discount : null}
-                    options={[
-                        { id: 0, type: "PERCENTAGE", desc: "Porcentagem" },
-                        { id: 1, type: "DECIMAL", desc: "Decimal" }
-                    ]}
-                    onValueChange={(discount: Discount) =>
-                        setDiscount(discount)}
-                />
-
                 <ButtonComponent
+                    disable={!newComponent}
                     action={() => handleNewComponent()}
                     label="ADICIONAR ITEM"
                     type="button"
                 />
                 <ButtonComponent
-                    action={() => saleItemsList.length = 0}
+                    action={() => { setSalesItemsList([]); setNewComponent(true) }}
                     label="LIMPAR VENDA"
                     type="button"
                 />

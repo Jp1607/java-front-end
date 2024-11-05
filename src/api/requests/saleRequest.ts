@@ -4,7 +4,7 @@ import DefaultFetch from "../services/DefaultFetch";
 import Discount from "../services/DiscountType";
 
 export function GETStorages(prodId: number): Promise<StorageCenter[]> {
-    return DefaultFetch<StorageCenter[]>('GET', '/sale', undefined, '?prodId=`${prodId}`') as Promise<StorageCenter[]>;
+    return DefaultFetch<StorageCenter[]>('GET', '/sale', undefined, `?prodId=${prodId}`) as Promise<StorageCenter[]>;
 }
 
 export function POSTSell(SaleItem: SaleItem[], payment: string): Promise<String> {

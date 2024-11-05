@@ -28,7 +28,7 @@ const InputComponent: React.FC<inputProps> = ({ label, id, type, max, className,
             </label>
 
             <input
-            readOnly={readonly}
+            disabled={readonly}
             className={inputStyle}
             max={max}
                 type={type}

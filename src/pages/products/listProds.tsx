@@ -52,9 +52,8 @@ const ProductListRender: React.FC = () => {
         muDesc: '',
         storageId: 0,
         currentStock: 0,
-        negativeStock: '',
-        price: 0,
-        count: 0                                                                
+        negativeStock: false,
+        price: 0                                                              
     })
 
     const requestGetData = async () => {

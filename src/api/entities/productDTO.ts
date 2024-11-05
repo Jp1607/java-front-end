@@ -5,7 +5,6 @@ import { Product } from "./product"
 import { Type } from "./type"
 
 export type ProductDTO = {
-    [x: string]: any
     id?: number,
     name: string,
     description: string,
@@ -17,9 +16,8 @@ export type ProductDTO = {
     muDesc: string,
     storageId: number
     currentStock: number,
-    negativeStock: string,
+    negativeStock: boolean,
     price: number,
-    count: number
 }
 
 
