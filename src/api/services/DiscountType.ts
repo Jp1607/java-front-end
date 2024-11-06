@@ -1,4 +1,4 @@
-export interface Discount {
+export type Discount = {
     id: number;
     type: string;
     desc: string

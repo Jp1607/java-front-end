@@ -114,7 +114,7 @@ const MUListRender = () => {
                     id="MUName"
                     label="Uni. de medida: "
                     type="text"
-                    className="search-filter"
+                    classname="search-filter"
                     action={(e: React.ChangeEvent<HTMLInputElement>) =>
                         handleChange('description', e.target.value.toString())} />
 

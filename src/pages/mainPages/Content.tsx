@@ -6,12 +6,9 @@ const Content = () => {
 
         <div id="content-container">
 
-        <div id="default-content">
-
             <Routers />
 
         </div>
-    </div>
     )
 }
 

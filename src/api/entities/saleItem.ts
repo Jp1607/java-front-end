@@ -1,6 +1,6 @@
 import { ProductDTO } from "./productDTO"
 
-export type SaleItem = {
+export type SellItem = {
     quantity: number,
     storageCenterId: number,
     productId: number,
@@ -8,7 +8,7 @@ export type SaleItem = {
      discountValue: number
 }
 
-export function SaleItem(product: ProductDTO): SaleItem {
+export function SellItem(product: ProductDTO): SellItem {
     return ({
         quantity: 0,
         discountType: '',
@@ -16,4 +16,10 @@ export function SaleItem(product: ProductDTO): SaleItem {
         storageCenterId: product.storageId,
         productId: product.id
     })
+}
+
+export type BuyItem = {
+    quantity: number,
+    storageCenterId: number,
+    productId: number
 }

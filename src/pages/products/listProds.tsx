@@ -150,7 +150,7 @@ const ProductListRender: React.FC = () => {
                         id="srcId"
                         label="Código Do Produto: "
                         type="number"
-                        className="search-filter"
+                        classname="search-filter"
                         action={(e: React.ChangeEvent<HTMLInputElement>) =>
                             handleChange("id", parseInt(e.target.value))}
                     />
@@ -159,7 +159,7 @@ const ProductListRender: React.FC = () => {
                         id="srcBarCod"
                         label="Código De Barras: "
                         type="number"
-                        className="search-filter"
+                        classname="search-filter"
                         action={(e: React.ChangeEvent<HTMLInputElement>) =>
                             handleChange("barCode", e.target.value.toString())}
                     />
@@ -168,7 +168,7 @@ const ProductListRender: React.FC = () => {
                         id="srcName"
                         label="Nome: "
                         type="text"
-                        className="search-filter"
+                        classname="search-filter"
                         action={(e: React.ChangeEvent<HTMLInputElement>) =>
                             handleChange("name", e.target.value.toString())}
                     />

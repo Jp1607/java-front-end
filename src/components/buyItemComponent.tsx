@@ -7,14 +7,13 @@ import "./css/saleItem.css"
 import React, { useEffect } from "react";
 import { GETProducts } from "../api/requests/productRequests";
 import { GETStorages } from "../api/requests/saleRequest";
-import { SellItem } from "../api/entities/saleItem";
+import { BuyItem } from "../api/entities/saleItem";
 
-const SaleItemComponent: React.FC<{ saleItems: SellItem[], discountValueCB: (param: number) => void, changeAction: <T extends keyof SellItem>(key: T, index: number, newValue: SellItem[T]) => void }> = ({ saleItems, discountValueCB, changeAction }) => {
+const BuyItemComponent: React.FC<{ buyItems: BuyItem[], changeAction: <T extends keyof BuyItem>(key: T, index: number, newValue: BuyItem[T]) => void }> = ({ buyItems, changeAction }) => {
 
     const [products, setProducts] = React.useState<ProductDTO[]>([]);
     const [productDTO, setProductDTO] = React.useState<Record<number, ProductDTO>>({});
     const [storages, setStorages] = React.useState<StorageCenter[]>([]);
-    const [discount, setDiscount] = React.useState<Record<number, Discount>>({});
     const [storage, setStorage] = React.useState<Record<number, StorageCenter>>({});
 
     useEffect(() => {
@@ -32,15 +31,6 @@ const SaleItemComponent: React.FC<{ saleItems: SellItem[], discountValueCB: (par
         changeAction("productId", index, p.id);
     }
 
-    const setDiscountFunc = async (d: Discount, index: number) => {
-        setDiscount(d);
-        setDiscount({
-            ...discount,
-            [index]: d
-        });
-        changeAction("discountType", index, d.type);
-    }
-
     const setStorageFunc = async (s: StorageCenter, index: number) => {
         setStorage(s);
         setStorage({
@@ -50,11 +40,9 @@ const SaleItemComponent: React.FC<{ saleItems: SellItem[], discountValueCB: (par
         changeAction("storageCenterId", index, s.id);
     }
 
-    console.log(productDTO, storage);
-
     return (
         <div>
-            {saleItems.map((saleItem: SellItem, index: number) => (
+            {buyItems.map((saleItem: BuyItem, index: number) => (
                 <div key={index} id="sale-item-container">
 
                     <InputSelect<ProductDTO>
@@ -69,8 +57,7 @@ const SaleItemComponent: React.FC<{ saleItems: SellItem[], discountValueCB: (par
                     />
 
                     <InputComponent
-
-                    classname="sale-item-input"
+                        classname="sale-item-input"
                         action={(e: React.ChangeEvent<HTMLInputElement>) => changeAction("quantity", index, parseInt(e.target.value))}
                         max={productDTO[index] !== undefined ? productDTO[index].currentStock : null}
                         id="qnt"
@@ -90,34 +77,10 @@ const SaleItemComponent: React.FC<{ saleItems: SellItem[], discountValueCB: (par
                         readonly={productDTO ? false : true}
                     />
 
-                    <InputSelect<Discount>
-                        classname="sale-item-input"
-                        id="select-discount"
-                        idKey="id"
-                        label="Tipo de desconto"
-                        labelKey="desc"
-                        onValueChange={(d) => setDiscountFunc(d, index)}
-                        options={[
-                            { id: 0, type: "PERCENTAGE", desc: "Porcentagem" },
-                            { id: 1, type: "DECIMAL", desc: "Decimal" }
-                        ]}
-                        value={discount[index] ? discount[index] : null}
-                    />
-
-                    <InputComponent
-                    classname="sale-item-input"
-                        id="discount-value"
-                        action={(e) => {
-                            discountValueCB(parseInt(e.target.value))
-                            changeAction("discountValue", index, parseInt(e.target.value))
-                        }}
-                        label="Valor do desconto"
-                        type="number"
-                    />
                 </div>
             ))}
         </div>
     )
 }
 
-export default SaleItemComponent;
+export default BuyItemComponent;

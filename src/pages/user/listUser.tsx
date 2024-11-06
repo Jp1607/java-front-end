@@ -112,7 +112,7 @@ const UserListRender = () => {
                         id="srcName"
                         label="Nome: "
                         type="text"
-                        className="search-filter"
+                        classname="search-filter"
                         action={(e: React.ChangeEvent<HTMLInputElement>) =>
                             handleChange('name', e.target.value.toString())}
                     />

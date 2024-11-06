@@ -114,7 +114,7 @@ const GroupListRender = () => {
                     id="GroupName"
                     label="Grupo: "
                     type="text"
-                    className="search-filter"
+                    classname="search-filter"
                     action={(e: React.ChangeEvent<HTMLInputElement>) =>
                         handleChange('description', e.target.value.toString())} />
 

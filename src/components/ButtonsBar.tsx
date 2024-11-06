@@ -60,7 +60,7 @@ const ButtonsBar: React.FC<ButtonsBarProps> = ({ createPath, editIsPresent, edit
             <ButtonComponent
                 label="EXCLUIR"
                 type="button"
-                style="button"
+                classname="button"
                 action={excludeAction}
             />
 
@@ -68,7 +68,7 @@ const ButtonsBar: React.FC<ButtonsBarProps> = ({ createPath, editIsPresent, edit
                 label="🗘"
                 id="reload"
                 type="button"
-                style="button"
+                classname="button"
                 action={reloadAction}
             />
 

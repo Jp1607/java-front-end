@@ -65,7 +65,7 @@ const ListStockFlow = () => {
 
 
                 <InputComponent
-                    className="search-filter"
+                    classname="search-filter"
                     id="search-storage"
                     label="Centro de armazenamento:"
                     type="number"
@@ -75,7 +75,7 @@ const ListStockFlow = () => {
                 />
 
                 <InputComponent
-                    className="search-filter"
+                    classname="search-filter"
                     id="search-name"
                     label="Data inicial:"
                     type="date"
@@ -84,7 +84,7 @@ const ListStockFlow = () => {
                 />
 
                 <InputComponent
-                    className="search-filter"
+                    classname="search-filter"
                     id="search-name"
                     label="Data final:"
                     type="date"
@@ -93,7 +93,7 @@ const ListStockFlow = () => {
                 />
 
                 <InputComponent
-                    className="search-filter"
+                    classname="search-filter"
                     id="search-type"
                     label="Direção:"
                     type="text"

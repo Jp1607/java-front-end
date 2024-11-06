@@ -10,17 +10,17 @@ type buttonProps = {
     type: buttonType;
     disable?: boolean;
     id?: string;
-    style?: buttonStyle;
+    classname?: buttonStyle | string;
     action: (event: React.FormEvent | React.MouseEvent) => void;
 }
 
-const ButtonComponent: React.FC<buttonProps> = ({ label, type, disable, id, style, action }): JSX.Element => {
+const ButtonComponent: React.FC<buttonProps> = ({ label, type, disable, id, classname, action }): JSX.Element => {
 
     return (
 
         <button
         disabled={disable}
-        className = {style ? style: "button"}
+        className = {classname ? classname: "button"}
             onClick={action}
             id={id}
             type={type}>

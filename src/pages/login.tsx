@@ -82,7 +82,7 @@ const Login = () => {
                     <form onSubmit={handleSubmit} id="login-form">
 
                         <InputComponent
-                            className="input-component"
+                            classname="input-component"
                             inputStyle="input-field"
                             id="userCad"
                             label="USUÁRIO: "
@@ -91,7 +91,7 @@ const Login = () => {
                         />
 
                         <InputComponent
-                            className="input-component"
+                            classname="input-component"
                             inputStyle="input-field"
                             id="passCad"
                             label="SENHA: "

@@ -82,7 +82,7 @@ const ListStorage = () => {
             <form onSubmit={handleSubmit} id="search-filters-container">
 
                 <InputComponent
-                    className="search-filter"
+                    classname="search-filter"
                     id="search-id"
                     label="Código:"
                     type="text"
@@ -91,7 +91,7 @@ const ListStorage = () => {
                 />
 
                 <InputComponent
-                    className="search-filter"
+                    classname="search-filter"
                     id="search-name"
                     label="Name:"
                     type="text"

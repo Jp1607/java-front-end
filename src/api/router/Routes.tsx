@@ -17,6 +17,7 @@ import ListStorage from "../../pages/Storages/listStorage"
 import CreateStorage from "../../pages/Storages/createStorage"
 import ListStockFlow from "../../pages/stockFlowList"
 import SellProd from "../../pages/products/sellProd"
+import BuyProd from "../../pages/products/buyProd"
 
 const Routers = () => {
 
@@ -70,7 +71,7 @@ const Routers = () => {
                 {/* Stock flow endpoints */}
                 <Route path='/listStocksFlow' element={<ListStockFlow />} />
                 <Route path='/sellItem' element={<SellProd />} />
-                <Route path='/buyItem' element={<SellProd />} />
+                <Route path='/buyItem' element={<BuyProd />} />
 
                 <Route path="/*" element={<PageNotFound />} />
             </Route>

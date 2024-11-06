@@ -160,7 +160,7 @@ const TableRender = <T,>({ values, headers, onTableClick, productAction, count }
                                                             <td style={{display: "flex", flexDirection: "row", justifyContent: "space-between"}}>
                                                                 {/* if add, true; if sub, false */}
                                                                 <ButtonComponent
-                                                                    style='add-sub-button'
+                                                                    classname='add-sub-button'
                                                                     type='button'
                                                                     label='-'
                                                                     action={() => productAction(false, r)}
@@ -168,7 +168,7 @@ const TableRender = <T,>({ values, headers, onTableClick, productAction, count }
                                                                 />
                                                                 {count}
                                                                 <ButtonComponent
-                                                                    style='add-sub-button'
+                                                                    classname='add-sub-button'
                                                                     type='button'
                                                                     label='+'
                                                                     action={() => {

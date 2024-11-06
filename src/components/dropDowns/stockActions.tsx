@@ -25,7 +25,7 @@ const StockActionsDropDown = () => {
                     dest="/sellItem"
                     label="Venda" />
                 <LinkButton
-                    dest="/buy"
+                    dest="/buyItem"
                     label="Compra" />
     
             </Collapsible>
