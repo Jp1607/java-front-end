@@ -16,12 +16,14 @@ const SaleItemComponent: React.FC<{ saleItems: SellItem[], discountValueCB: (par
     const [storages, setStorages] = React.useState<StorageCenter[]>([]);
     const [discount, setDiscount] = React.useState<Record<number, Discount>>({});
     const [storage, setStorage] = React.useState<Record<number, StorageCenter>>({});
+    const [productExists, setProductExists] = React.useState<boolean>(false)
 
     useEffect(() => {
         GETProducts().then((response: ProductDTO[]) => setProducts(response)).catch(() => { });
     }, [])
 
     const setProductFunc = async (p: ProductDTO, index: number) => {
+        setProductExists(true);
         setProductDTO(p);
         setProductDTO({
             ...productDTO,
@@ -33,6 +35,7 @@ const SaleItemComponent: React.FC<{ saleItems: SellItem[], discountValueCB: (par
     }
 
     const setDiscountFunc = async (d: Discount, index: number) => {
+        setProductExists(true);
         setDiscount(d);
         setDiscount({
             ...discount,
@@ -42,6 +45,7 @@ const SaleItemComponent: React.FC<{ saleItems: SellItem[], discountValueCB: (par
     }
 
     const setStorageFunc = async (s: StorageCenter, index: number) => {
+        setProductExists(true);
         setStorage(s);
         setStorage({
             ...storage,
@@ -49,8 +53,6 @@ const SaleItemComponent: React.FC<{ saleItems: SellItem[], discountValueCB: (par
         });
         changeAction("storageCenterId", index, s.id);
     }
-
-    console.log(productDTO, storage);
 
     return (
         <div>
@@ -68,16 +70,6 @@ const SaleItemComponent: React.FC<{ saleItems: SellItem[], discountValueCB: (par
                         value={productDTO[index] !== undefined ? productDTO[index] : null}
                     />
 
-                    <InputComponent
-
-                    classname="sale-item-input"
-                        action={(e: React.ChangeEvent<HTMLInputElement>) => changeAction("quantity", index, parseInt(e.target.value))}
-                        max={productDTO[index] !== undefined ? productDTO[index].currentStock : null}
-                        id="qnt"
-                        label="Quantidade"
-                        type="number"
-                    />
-
                     <InputSelect<StorageCenter>
                         classname="sale-item-input"
                         id="select-storage"
@@ -87,7 +79,7 @@ const SaleItemComponent: React.FC<{ saleItems: SellItem[], discountValueCB: (par
                         onValueChange={(s) => setStorageFunc(s, index)}
                         options={storages}
                         value={storage[index] ? storage[index] : null}
-                        readonly={productDTO ? false : true}
+                        readonly={!productExists}
                     />
 
                     <InputSelect<Discount>
@@ -102,10 +94,11 @@ const SaleItemComponent: React.FC<{ saleItems: SellItem[], discountValueCB: (par
                             { id: 1, type: "DECIMAL", desc: "Decimal" }
                         ]}
                         value={discount[index] ? discount[index] : null}
+                        readonly={!productExists}
                     />
 
                     <InputComponent
-                    classname="sale-item-input"
+                        classname="sale-item-input"
                         id="discount-value"
                         action={(e) => {
                             discountValueCB(parseInt(e.target.value))
@@ -113,7 +106,19 @@ const SaleItemComponent: React.FC<{ saleItems: SellItem[], discountValueCB: (par
                         }}
                         label="Valor do desconto"
                         type="number"
+                        readonly={!productExists}
                     />
+
+                            <InputComponent
+        
+                                classname="sale-item-input"
+                                action={(e: React.ChangeEvent<HTMLInputElement>) => changeAction("quantity", index, parseInt(e.target.value))}
+                                max={productDTO[index] !== undefined ? productDTO[index].currentStock : null}
+                                id="qnt"
+                                label="Quantidade"
+                                type="number"
+                                readonly={!productExists}
+                            />
                 </div>
             ))}
         </div>

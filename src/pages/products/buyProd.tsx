@@ -104,9 +104,9 @@ return (
             />
 
         </div>
-        {buyItemList.length >= 1 &&
+       
             <hr/>
-            }
+            
         <div id="body">
 
             <BuyItemComponent
@@ -115,9 +115,9 @@ return (
             />
 
         </div>
-        {buyItemList.length >= 1 &&
+       
             <hr/>
-            }
+            
         <div id="footer">
 
             <label className="label-sale"> Quantidade de itens: {totalQnt} </label>

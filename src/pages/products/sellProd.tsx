@@ -27,41 +27,51 @@ const SellProd = () => {
     }, [])
 
     const handleChange = <T extends keyof SellItem>(key: T, index: number, newValue: SellItem[T]) => {
-        console.log('change', key, index, newValue);
+
         const COPY_ITEM: SellItem[] = Object.assign([], saleItemsList);
         COPY_ITEM[index][key] = newValue;
 
         let flag: boolean = true;
         for (let i = 0; i < COPY_ITEM.length; i++) {
             for (const VALUE of Object.values(COPY_ITEM[i])) {
-                if (VALUE === undefined || VALUE === '' || VALUE === null) {
+                if (VALUE === undefined || VALUE === '' || VALUE === null || VALUE === 0) {
                     flag = false;
                 }
             }
         }
         setNewComponent(flag);
+        calcInfo()
     }
 
     const handleSubmit = () => {
-        console.log(saleItemsList)
         POSTSell(saleItemsList, payment.type).then((response: String) => console.log(response)).catch(() => { })
     }
 
     const calcInfo = () => {
+        let jaoGay: number = 0;
+        let tempDiscount: number = 0;
         saleItemsList.map((saleItem: SellItem, index: number) => {
-            setTotalQnt(totalQnt + saleItem.quantity);
+            if (saleItem.quantity !== null && saleItem.quantity !== undefined && !Number.isNaN(saleItem.quantity)) {
+                jaoGay += saleItem.quantity;
+            }
+            if (saleItem.discountValue !== null && saleItem.discountValue !== undefined && !Number.isNaN(saleItem.discountValue)) {
+                tempDiscount += saleItem.discountValue;
+            }
+
             const prod = products.find((product: ProductDTO) => product.id == saleItem.productId)
             setFinalValue(finalValue + (prod ? prod.price * saleItem.quantity : 0));
             if (saleItem.discountType == "PERCENTAGE") {
-                setSubtotal(subtotal + (prod.price - prod.price / 100 * discountValue) * saleItem.quantity)
+                tempDiscount = (subtotal + (prod.price - prod.price / 100 * discountValue) * saleItem.quantity)
             } else {
-                setSubtotal(subtotal + (prod.price - discountValue) * saleItem.quantity)
+                tempDiscount = (subtotal + (prod.price - discountValue) * saleItem.quantity)
             }
-        })
+        });
+        setTotalQnt(jaoGay);
+        setDiscountValue(tempDiscount);
     }
 
     const handleNewComponent = () => {
-        if (newComponent) {
+        // if (newComponent) {
             const item: SellItem = {
                 discountType: '',
                 discountValue: 0,
@@ -72,7 +82,7 @@ const SellProd = () => {
             setSalesItemsList([...saleItemsList, item]);
             setNewComponent(false);
             calcInfo()
-        }
+       // }
     }
 
     return (
@@ -111,9 +121,9 @@ const SellProd = () => {
 
                 <ButtonComponent
                     classname="header-button"
-                    disable={!newComponent}
+                    // disable={!newComponent}
                     action={() => handleNewComponent()}
-                    label="ADICIONAR ITEM"
+                    label="Adicionar Item"
                     type="button"
                 />
                 <ButtonComponent
@@ -122,14 +132,12 @@ const SellProd = () => {
                         setSalesItemsList([]);
                         setNewComponent(true)
                     }}
-                    label="LIMPAR VENDA"
+                    label="Limpar Venda"
                     type="button"
                 />
 
             </div>
-            {saleItemsList.length >= 1 &&
-            <hr/>
-            }
+            
             <div id="body">
 
                 <SaleItemComponent
@@ -139,9 +147,7 @@ const SellProd = () => {
                 />
 
             </div>
-            {saleItemsList.length >= 1 &&
-            <hr/>
-            }
+            
             <div id="footer">
 
                 <label className="label-sale"> Quantidade de itens: {totalQnt} </label>
@@ -150,8 +156,8 @@ const SellProd = () => {
 
                 <ButtonComponent
                     id="sub-sell"
-                    label="FINALIZAR VENDA"
-                    type="submit"
+                    label="Finalizar Venda"
+                    type="button"
                     action={() => setOpen(true)} />
 
             </div>
